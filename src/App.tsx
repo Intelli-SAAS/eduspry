@@ -4,7 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { AuthProvider } from "@/contexts/AuthContext";
+import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { UserRole } from "@/types";
 
 // Layout
@@ -32,6 +32,25 @@ const PlaceholderPage = () => (
   </div>
 );
 
+// SmartRedirect component to handle role-based redirects
+const SmartRedirect = () => {
+  const { user } = useAuth();
+  
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+  
+  switch(user.role) {
+    case UserRole.TEACHER:
+      return <Navigate to="/teacher/dashboard" replace />;
+    case UserRole.PRINCIPAL:
+      return <Navigate to="/principal/dashboard" replace />;
+    case UserRole.STUDENT:
+    default:
+      return <Navigate to="/dashboard" replace />;
+  }
+};
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -53,8 +72,8 @@ const App = () => (
             <Route path="/login" element={<LoginPage />} />
             <Route path="/unauthorized" element={<UnauthorizedPage />} />
             
-            {/* Redirect root to login or dashboard based on auth */}
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
+            {/* Smart redirect based on user role */}
+            <Route path="/" element={<SmartRedirect />} />
             
             {/* Student Routes */}
             <Route element={<AppLayout requiredRoles={[UserRole.STUDENT]} />}>

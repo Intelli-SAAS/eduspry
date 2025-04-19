@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Outlet, Navigate } from 'react-router-dom';
+import { Outlet, Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import Sidebar from './Sidebar';
 import Header from './Header';
@@ -11,7 +11,8 @@ interface AppLayoutProps {
 }
 
 const AppLayout: React.FC<AppLayoutProps> = ({ requiredRoles = [] }) => {
-  const { isAuthenticated, checkPermission, isLoading } = useAuth();
+  const { isAuthenticated, checkPermission, isLoading, user } = useAuth();
+  const location = useLocation();
 
   // Show loading state
   if (isLoading) {
@@ -24,12 +25,31 @@ const AppLayout: React.FC<AppLayoutProps> = ({ requiredRoles = [] }) => {
 
   // Redirect unauthenticated users
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/login" replace state={{ from: location }} />;
   }
 
   // Check permissions if required roles are specified
   if (requiredRoles.length > 0 && !checkPermission(requiredRoles)) {
     return <Navigate to="/unauthorized" replace />;
+  }
+  
+  // Redirect users to their proper dashboard if they're on the wrong one
+  if (user && requiredRoles.length > 0 && !requiredRoles.includes(user.role)) {
+    // Determine where to redirect based on role
+    let redirectPath = '/';
+    switch(user.role) {
+      case UserRole.TEACHER:
+        redirectPath = '/teacher/dashboard';
+        break;
+      case UserRole.PRINCIPAL:
+        redirectPath = '/principal/dashboard';
+        break;
+      case UserRole.STUDENT:
+        redirectPath = '/dashboard';
+        break;
+    }
+    
+    return <Navigate to={redirectPath} replace />;
   }
 
   return (
