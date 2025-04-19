@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -53,12 +52,11 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Subject colors
         subject: {
-          physics: "#1E88E5",
-          chemistry: "#43A047",
-          mathematics: "#8E24AA",
-          biology: "#E53935",
+          physics: "#2563eb",
+          chemistry: "#16a34a",
+          mathematics: "#9333ea",
+          biology: "#dc2626",
         }
       },
       borderRadius: {
@@ -91,6 +89,14 @@ export default {
           "0%": { transform: "translateX(100%)" },
           "100%": { transform: "translateX(0)" },
         },
+        "scale": {
+          "0%": { transform: "scale(0.95)" },
+          "100%": { transform: "scale(1)" },
+        },
+        "fade-up": {
+          "0%": { opacity: "0", transform: "translateY(10px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -98,6 +104,11 @@ export default {
         "fade-in": "fade-in 0.3s ease-out",
         "fade-out": "fade-out 0.3s ease-out",
         "slide-in-right": "slide-in-right 0.3s ease-out",
+        "scale": "scale 0.2s ease-out",
+        "fade-up": "fade-up 0.3s ease-out",
+      },
+      boxShadow: {
+        'premium': '0 0 0 1px rgba(0, 0, 0, 0.03), 0 2px 4px rgba(0, 0, 0, 0.05), 0 12px 24px rgba(0, 0, 0, 0.05)',
       },
     },
   },

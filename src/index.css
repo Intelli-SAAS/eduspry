@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
 
 @tailwind base;
@@ -68,26 +67,64 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 224.3 76.3% 48%;
   }
-}
 
-@layer base {
   * {
-    @apply border-border;
+    @apply border-border selection:bg-primary/10 selection:text-primary;
   }
+  
   body {
-    @apply bg-background text-foreground font-inter;
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
   }
+
   h1, h2, h3, h4, h5, h6 {
-    @apply font-poppins font-medium;
+    @apply font-poppins font-medium tracking-tight;
   }
+  
   h1 {
     @apply text-3xl md:text-4xl;
   }
+  
   h2 {
     @apply text-2xl md:text-3xl;
   }
+  
   h3 {
     @apply text-xl md:text-2xl;
+  }
+}
+
+@layer components {
+  .card-subject {
+    @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+  }
+  
+  .card-subject.physics {
+    @apply border-l-4 border-blue-500 bg-gradient-to-br from-blue-50 to-transparent dark:from-blue-950/20;
+  }
+  
+  .card-subject.chemistry {
+    @apply border-l-4 border-green-500 bg-gradient-to-br from-green-50 to-transparent dark:from-green-950/20;
+  }
+  
+  .card-subject.mathematics {
+    @apply border-l-4 border-purple-500 bg-gradient-to-br from-purple-50 to-transparent dark:from-purple-950/20;
+  }
+  
+  .card-subject.biology {
+    @apply border-l-4 border-red-500 bg-gradient-to-br from-red-50 to-transparent dark:from-red-950/20;
+  }
+
+  .glass-card {
+    @apply bg-white/70 backdrop-blur-lg shadow-xl ring-1 ring-black/5 rounded-xl;
+  }
+
+  .premium-input {
+    @apply transition-all duration-200 focus:ring-2 focus:ring-primary/20;
+  }
+
+  .premium-button {
+    @apply transition-all duration-200 active:scale-95;
   }
 }
 
@@ -145,6 +182,19 @@
 }
 
 /* Custom animations */
+@keyframes pulse-once {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse-once {
+  animation: pulse-once 2s ease-in-out 1;
+}
+
 @keyframes pulse-once {
   0%, 100% {
     opacity: 1;
