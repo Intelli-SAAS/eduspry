@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -86,12 +85,11 @@ const App = () => (
             
             {/* Teacher Routes */}
             <Route element={<AppLayout requiredRoles={[UserRole.TEACHER]} />}>
-              <Route path="/teacher/dashboard" element={<PlaceholderPage />} />
-              <Route path="/students" element={<PlaceholderPage />} />
+              <Route path="/teacher/dashboard" element={<TeacherDashboard />} />
+              <Route path="/tests/create" element={<CreateTest />} />
               <Route path="/questions/create" element={<PlaceholderPage />} />
               <Route path="/questions/bank" element={<PlaceholderPage />} />
               <Route path="/questions/import" element={<PlaceholderPage />} />
-              <Route path="/tests/create" element={<PlaceholderPage />} />
               <Route path="/tests/manage" element={<PlaceholderPage />} />
               <Route path="/tests/results" element={<PlaceholderPage />} />
               <Route path="/analytics" element={<PlaceholderPage />} />

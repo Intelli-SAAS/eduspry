@@ -39,7 +39,7 @@ const UnauthorizedPage: React.FC = () => {
         
         <CardContent className="text-center">
           <p className="text-muted-foreground text-sm">
-            {user ? `You are logged in as ${user.name} with ${user.role} privileges.` : 'You are not currently logged in.'}
+            {user ? `You are logged in as ${user.firstName} ${user.lastName} with ${user.role} privileges.` : 'You are not currently logged in.'}
           </p>
         </CardContent>
         
