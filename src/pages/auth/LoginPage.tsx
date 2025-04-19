@@ -7,7 +7,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { BookOpen } from 'lucide-react';
+import { BookOpen, InfoIcon } from 'lucide-react';
+import { UserRole } from '@/types';
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -16,8 +17,10 @@ const LoginPage: React.FC = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-    tenantDomain: '',
+    tenantDomain: 'puc-demo',
   });
+
+  const [showDemoInfo, setShowDemoInfo] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -36,6 +39,20 @@ const LoginPage: React.FC = () => {
       // Error is handled in the auth context
       console.error('Login error:', err);
     }
+  };
+
+  const demoAccounts = [
+    { role: UserRole.STUDENT, email: 'student@test.com', password: 'StudentPass123!' },
+    { role: UserRole.TEACHER, email: 'teacher@test.com', password: 'TeacherPass123!' },
+    { role: UserRole.PRINCIPAL, email: 'principal@test.com', password: 'PrincipalPass123!' },
+  ];
+
+  const setDemoAccount = (email: string, password: string) => {
+    setFormData({
+      ...formData,
+      email,
+      password,
+    });
   };
 
   return (
@@ -62,6 +79,48 @@ const LoginPage: React.FC = () => {
                 <Alert variant="destructive">
                   <AlertDescription>{error}</AlertDescription>
                 </Alert>
+              )}
+
+              <div className="mb-4">
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  className="w-full flex justify-between items-center" 
+                  onClick={() => setShowDemoInfo(!showDemoInfo)}
+                >
+                  <span>Demo Account Information</span>
+                  <InfoIcon className="h-4 w-4" />
+                </Button>
+              </div>
+              
+              {showDemoInfo && (
+                <div className="bg-muted p-4 rounded-md mb-4 text-sm">
+                  <h3 className="font-medium mb-2">Available Demo Accounts:</h3>
+                  <div className="space-y-3">
+                    {demoAccounts.map((account, index) => (
+                      <div key={index} className="flex flex-col">
+                        <div className="flex justify-between items-center">
+                          <span className="font-medium">{account.role}:</span>
+                          <Button 
+                            type="button" 
+                            variant="secondary" 
+                            size="sm" 
+                            onClick={() => setDemoAccount(account.email, account.password)}
+                          >
+                            Use This Account
+                          </Button>
+                        </div>
+                        <div className="text-xs text-muted-foreground mt-1">
+                          <p>Email: {account.email}</p>
+                          <p>Password: {account.password}</p>
+                        </div>
+                      </div>
+                    ))}
+                    <p className="text-xs mt-2">
+                      <strong>College/Institution Code:</strong> puc-demo (for all accounts)
+                    </p>
+                  </div>
+                </div>
               )}
               
               <div className="space-y-2">

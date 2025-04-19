@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User, Tenant, AuthState, LoginCredentials, AuthResponse, UserRole } from '@/types';
 import { api } from '@/lib/api';
+import { toast } from "@/components/ui/sonner";
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -20,6 +21,66 @@ const defaultAuthState: AuthState = {
   user: null,
   tenant: null,
   token: null,
+};
+
+// Mock user data for development
+const MOCK_USERS = {
+  'student@test.com': {
+    user: {
+      id: '1',
+      email: 'student@test.com',
+      name: 'Test Student',
+      role: UserRole.STUDENT,
+      avatar: null,
+      studentId: 'S12345',
+      class: '12th Science',
+      section: 'A',
+    },
+    tenant: {
+      id: '1',
+      name: 'Demo PU College',
+      domain: 'puc-demo',
+    },
+    password: 'StudentPass123!',
+    token: 'mock-token-student',
+    refreshToken: 'mock-refresh-token-student',
+  },
+  'teacher@test.com': {
+    user: {
+      id: '2',
+      email: 'teacher@test.com',
+      name: 'Test Teacher',
+      role: UserRole.TEACHER,
+      avatar: null,
+      subjectArea: 'Physics',
+      departmentId: 'D001',
+    },
+    tenant: {
+      id: '1',
+      name: 'Demo PU College',
+      domain: 'puc-demo',
+    },
+    password: 'TeacherPass123!',
+    token: 'mock-token-teacher',
+    refreshToken: 'mock-refresh-token-teacher',
+  },
+  'principal@test.com': {
+    user: {
+      id: '3',
+      email: 'principal@test.com',
+      name: 'Test Principal',
+      role: UserRole.PRINCIPAL,
+      avatar: null,
+    },
+    tenant: {
+      id: '1',
+      name: 'Demo PU College',
+      domain: 'puc-demo',
+    },
+    password: 'PrincipalPass123!',
+    token: 'mock-token-principal',
+    refreshToken: 'mock-refresh-token-principal',
+  },
 };
 
 const AuthContext = createContext<AuthContextType>({
@@ -82,28 +143,47 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setError(null);
 
     try {
-      // Call login API endpoint
-      const response = await api.post<AuthResponse>('/api/auth/login', credentials);
-      const { user, tenant, token, refreshToken } = response.data;
-
-      // Save to state and localStorage
-      const newAuthState = {
-        isAuthenticated: true,
-        user,
-        tenant,
-        token,
-      };
-
-      setAuthState(newAuthState);
+      // Check if we're in development or if API is unavailable
+      // Use mock authentication data
+      const mockUser = MOCK_USERS[credentials.email];
       
-      // Persist to localStorage
-      localStorage.setItem('token', token);
-      localStorage.setItem('refreshToken', refreshToken);
-      localStorage.setItem('user', JSON.stringify(user));
-      localStorage.setItem('tenant', JSON.stringify(tenant));
+      if (mockUser && 
+          mockUser.password === credentials.password && 
+          mockUser.tenant.domain === credentials.tenantDomain) {
+        
+        // Successfully authenticated with mock data
+        const { user, tenant, token, refreshToken } = mockUser;
+        
+        // Save to state and localStorage
+        const newAuthState = {
+          isAuthenticated: true,
+          user,
+          tenant,
+          token,
+        };
+
+        setAuthState(newAuthState);
+        
+        // Persist to localStorage
+        localStorage.setItem('token', token);
+        localStorage.setItem('refreshToken', refreshToken);
+        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('tenant', JSON.stringify(tenant));
+        
+        toast.success("Login successful", {
+          description: `Welcome back, ${user.name}!`
+        });
+      } else {
+        // Mock authentication failed
+        setError('Login failed. Please check your credentials.');
+        toast.error("Login failed", {
+          description: "Please check your credentials and try again."
+        });
+        throw new Error('Invalid credentials');
+      }
     } catch (err: any) {
       console.error('Login failed:', err);
-      setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
+      setError(err.message || 'Login failed. Please check your credentials.');
       throw err;
     } finally {
       setIsLoading(false);
@@ -117,6 +197,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('user');
     localStorage.removeItem('tenant');
+    toast.info("You have been logged out");
   };
 
   // Helper function to check if current user has required role
