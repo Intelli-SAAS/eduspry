@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -20,10 +21,21 @@ import TestTakingPage from "@/pages/student/TestTaking";
 import TestResultPage from "@/pages/student/TestResult";
 import StudentPerformancePage from "@/pages/student/Performance";
 
+// Teacher Pages
+import TeacherDashboard from "@/pages/teacher/Dashboard";
+import CreateTest from "@/pages/teacher/CreateTest";
+
+// Principal Pages
+import PrincipalDashboard from "@/pages/principal/Dashboard";
+import TeachersPage from "@/pages/principal/Teachers";
+import DepartmentsPage from "@/pages/principal/Departments";
+import SchoolAnalytics from "@/pages/principal/SchoolAnalytics";
+import SettingsPage from "@/pages/principal/Settings";
+
 // Common/Shared Pages
 import NotFound from "@/pages/NotFound";
 
-// Placeholder components for teacher and principal pages
+// Placeholder component for pages not yet implemented
 const PlaceholderPage = () => (
   <div className="p-6">
     <h1 className="text-2xl font-bold mb-4">Coming Soon</h1>
@@ -97,11 +109,11 @@ const App = () => (
             
             {/* Principal Routes */}
             <Route element={<AppLayout requiredRoles={[UserRole.PRINCIPAL]} />}>
-              <Route path="/principal/dashboard" element={<PlaceholderPage />} />
-              <Route path="/departments" element={<PlaceholderPage />} />
-              <Route path="/teachers" element={<PlaceholderPage />} />
-              <Route path="/analytics/school" element={<PlaceholderPage />} />
-              <Route path="/settings" element={<PlaceholderPage />} />
+              <Route path="/principal/dashboard" element={<PrincipalDashboard />} />
+              <Route path="/departments" element={<DepartmentsPage />} />
+              <Route path="/teachers" element={<TeachersPage />} />
+              <Route path="/analytics/school" element={<SchoolAnalytics />} />
+              <Route path="/settings" element={<SettingsPage />} />
             </Route>
             
             {/* Catch-all route */}

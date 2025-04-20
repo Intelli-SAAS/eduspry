@@ -28,18 +28,33 @@ const MOCK_USERS = {
   'student@test.com': {
     user: {
       id: '1',
+      tenantId: '1',
       email: 'student@test.com',
-      name: 'Test Student',
+      firstName: 'Test',
+      lastName: 'Student',
       role: UserRole.STUDENT,
       avatar: null,
-      studentId: 'S12345',
-      class: '12th Science',
+      createdAt: '2023-01-01',
+      updatedAt: '2023-01-01',
+      className: '12th Science',
       section: 'A',
+      phoneNumber: '123-456-7890'
     },
     tenant: {
       id: '1',
       name: 'Demo PU College',
       domain: 'puc-demo',
+      createdAt: '2023-01-01',
+      updatedAt: '2023-01-01',
+      settings: {
+        allowRegistration: true,
+        features: {
+          analytics: true,
+          fileUploads: true,
+          questionBank: true,
+          antiCheating: false
+        }
+      }
     },
     password: 'StudentPass123!',
     token: 'mock-token-student',
@@ -48,17 +63,32 @@ const MOCK_USERS = {
   'teacher@test.com': {
     user: {
       id: '2',
+      tenantId: '1',
       email: 'teacher@test.com',
-      name: 'Test Teacher',
+      firstName: 'Test',
+      lastName: 'Teacher',
       role: UserRole.TEACHER,
       avatar: null,
-      subjectArea: 'Physics',
-      departmentId: 'D001',
+      createdAt: '2023-01-01',
+      updatedAt: '2023-01-01',
+      phoneNumber: '123-456-7891',
+      subjects: ['Physics', 'Chemistry']
     },
     tenant: {
       id: '1',
       name: 'Demo PU College',
       domain: 'puc-demo',
+      createdAt: '2023-01-01',
+      updatedAt: '2023-01-01',
+      settings: {
+        allowRegistration: true,
+        features: {
+          analytics: true,
+          fileUploads: true,
+          questionBank: true,
+          antiCheating: false
+        }
+      }
     },
     password: 'TeacherPass123!',
     token: 'mock-token-teacher',
@@ -67,15 +97,31 @@ const MOCK_USERS = {
   'principal@test.com': {
     user: {
       id: '3',
+      tenantId: '1',
       email: 'principal@test.com',
-      name: 'Test Principal',
+      firstName: 'Test',
+      lastName: 'Principal',
       role: UserRole.PRINCIPAL,
       avatar: null,
+      createdAt: '2023-01-01',
+      updatedAt: '2023-01-01',
+      phoneNumber: '123-456-7892'
     },
     tenant: {
       id: '1',
       name: 'Demo PU College',
       domain: 'puc-demo',
+      createdAt: '2023-01-01',
+      updatedAt: '2023-01-01',
+      settings: {
+        allowRegistration: true,
+        features: {
+          analytics: true,
+          fileUploads: true,
+          questionBank: true,
+          antiCheating: false
+        }
+      }
     },
     password: 'PrincipalPass123!',
     token: 'mock-token-principal',
@@ -171,7 +217,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         localStorage.setItem('tenant', JSON.stringify(tenant));
         
         toast.success("Login successful", {
-          description: `Welcome back, ${user.name}!`
+          description: `Welcome back, ${user.firstName} ${user.lastName}!`
         });
       } else {
         // Mock authentication failed
