@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Outlet, Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -53,7 +52,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ requiredRoles = [] }) => {
   }
 
   return (
-    <div className="flex h-screen bg-gradient-to-br from-blue-50/50 via-white to-blue-50/50">
+    <div className="flex h-screen bg-background">
       <Sidebar />
       <div className="flex flex-1 flex-col overflow-hidden">
         <Header />

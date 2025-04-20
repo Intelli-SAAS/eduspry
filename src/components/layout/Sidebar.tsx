@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -18,15 +17,6 @@ import {
   Menu,
   ChevronDown,
 } from 'lucide-react';
-
-const BRAND_ICON = (
-  <img
-    src="/lovable-uploads/af759416-85b9-4136-8827-45ba80f13249.png"
-    className="h-9 w-9 mx-auto"
-    alt="EduSpry Logo"
-    draggable={false}
-  />
-);
 
 interface SidebarLinkProps {
   href: string;
@@ -49,8 +39,8 @@ const SidebarLink: React.FC<SidebarLinkProps> = ({
         variant="ghost"
         className={cn(
           "flex w-full items-center justify-center group transition-all px-2 py-2 rounded-xl",
-          "hover:bg-primary/10 dark:hover:bg-white/10",
-          active && "bg-primary/20 dark:bg-white/20 text-primary font-semibold shadow-md",
+          "hover:bg-secondary/70",
+          active && "bg-secondary text-primary font-semibold",
           collapsed ? "justify-center px-0 py-3 rounded-2xl" : "justify-start px-3",
         )}
         style={{
@@ -58,14 +48,18 @@ const SidebarLink: React.FC<SidebarLinkProps> = ({
           width: "100%",
         }}
       >
-        <span className="flex items-center justify-center">
+        <span className={cn(
+          "flex items-center justify-center",
+          active ? "text-primary" : "text-foreground/70"
+        )}>
           {icon}
         </span>
         {!collapsed && (
           <span
             className={cn(
               "ml-3 text-[1rem] font-medium transition-all whitespace-nowrap",
-              collapsed && "opacity-0 w-0 pointer-events-none"
+              collapsed && "opacity-0 w-0 pointer-events-none",
+              active ? "text-primary" : "text-foreground/90"
             )}
           >
             {label}
@@ -101,7 +95,7 @@ const SidebarSubmenu: React.FC<SidebarSubmenuProps> = ({
           variant="ghost"
           className={cn(
             "flex w-full items-center px-3 py-2 rounded-xl transition-all",
-            active && "bg-primary/10 text-primary font-semibold",
+            active && "bg-secondary text-primary font-semibold",
             collapsed ? "justify-center px-0 py-3 rounded-2xl" : "justify-start px-3"
           )}
           style={{
@@ -109,12 +103,22 @@ const SidebarSubmenu: React.FC<SidebarSubmenuProps> = ({
             width: "100%",
           }}
         >
-          <span className="flex items-center justify-center">{icon}</span>
+          <span className={cn(
+            "flex items-center justify-center",
+            active ? "text-primary" : "text-foreground/70"
+          )}>
+            {icon}
+          </span>
           {!collapsed && (
             <>
-              <span className="ml-3 font-medium">{label}</span>
+              <span className={cn(
+                "ml-3 font-medium",
+                active ? "text-primary" : "text-foreground/90"
+              )}>
+                {label}
+              </span>
               <ChevronDown className={cn(
-                "ml-auto h-4 w-4 transition-transform",
+                "ml-auto h-4 w-4 transition-transform text-foreground/60",
                 isOpen && "rotate-180"
               )} />
             </>
@@ -360,26 +364,25 @@ const Sidebar: React.FC = () => {
   return (
     <aside
       className={cn(
-        "flex flex-col min-h-screen transition-all duration-300 ease-in-out glass-morphism shadow-xl",
+        "flex flex-col min-h-screen transition-all duration-300 ease-in-out shadow-sm",
         collapsed
-          ? "w-[70px] bg-gradient-to-br from-[#23272f] to-[#0a0f18]/80 dark:from-[#1a1a1f] dark:to-[#292834]"
-          : "w-[270px] bg-gradient-to-br from-[#23272f] to-[#23272fa8] dark:from-[#1a1a20] dark:to-[#232334]",
-        "border-r border-white/5 z-20"
+          ? "w-[70px] bg-white"
+          : "w-[270px] bg-white",
+        "border-r border-border z-20"
       )}
       style={{
-        backdropFilter: "blur(16px)",
-        WebkitBackdropFilter: "blur(16px)"
+        backdropFilter: "blur(8px)",
+        WebkitBackdropFilter: "blur(8px)"
       }}
     >
       <div className="flex items-center p-4 pb-0">
         <div className="flex flex-1 flex-col items-center w-full animate-fade-in">
-          {BRAND_ICON}
           {!collapsed && (
-            <div className="w-full ml-1 mt-2">
+            <div className="w-full">
               <span className="text-2xl font-poppins font-bold bg-gradient-to-r from-primary via-blue-500 to-cyan-400 bg-clip-text text-transparent">
                 EduSpry
               </span>
-              <div className="text-xs text-gray-400 font-inter font-medium mt-1">The Competitive Edge for Curious Minds.</div>
+              <div className="text-xs text-gray-500 font-inter font-medium mt-1">The Competitive Edge for Curious Minds.</div>
             </div>
           )}
         </div>
@@ -387,7 +390,7 @@ const Sidebar: React.FC = () => {
 
       <button
         className={cn(
-          "absolute top-4 right-3 z-30 w-8 h-8 p-0 hidden md:flex items-center justify-center rounded-full border border-white/10 bg-white/10 hover:bg-white/20 transition",
+          "absolute top-4 right-3 z-30 w-8 h-8 p-0 hidden md:flex items-center justify-center rounded-full border border-border bg-secondary/50 hover:bg-secondary transition",
           collapsed && "left-2.5 top-4"
         )}
         title={collapsed ? "Expand" : "Collapse"}
@@ -396,7 +399,7 @@ const Sidebar: React.FC = () => {
         tabIndex={0}
         type="button"
       >
-        <Menu className="h-5 w-5 text-gray-300" />
+        <Menu className="h-5 w-5 text-foreground/70" />
       </button>
 
       <nav className={cn(

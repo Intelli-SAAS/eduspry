@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -6,9 +5,13 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { UserRole } from "@/types";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
 // Layout
 import AppLayout from "@/components/layout/AppLayout";
+
+// Public Pages
+import IndexPage from "@/pages/Index";
 
 // Auth Pages
 import LoginPage from "@/pages/auth/LoginPage";
@@ -23,16 +26,22 @@ import StudentPerformancePage from "@/pages/student/Performance";
 
 // Teacher Pages
 import TeacherDashboard from "@/pages/teacher/Dashboard";
+import TeacherStudentsPage from "@/pages/teacher/Students";
+import TeacherQuestionBank from "@/pages/teacher/QuestionBank";
+import TeacherAnalytics from "@/pages/teacher/Analytics";
 import CreateTest from "@/pages/teacher/CreateTest";
+import TestManagement from "@/pages/teacher/TestManagement";
 
 // Principal Pages
 import PrincipalDashboard from "@/pages/principal/Dashboard";
+import PrincipalStudentsPage from "@/pages/principal/Students";
 import TeachersPage from "@/pages/principal/Teachers";
 import DepartmentsPage from "@/pages/principal/Departments";
 import SchoolAnalytics from "@/pages/principal/SchoolAnalytics";
 import SettingsPage from "@/pages/principal/Settings";
 
-// Common/Shared Pages
+// Shared Pages
+import CalendarPage from "@/pages/shared/Calendar";
 import NotFound from "@/pages/NotFound";
 
 // Placeholder component for pages not yet implemented
@@ -72,57 +81,65 @@ const queryClient = new QueryClient({
 });
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            {/* Public routes */}
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/unauthorized" element={<UnauthorizedPage />} />
-            
-            {/* Smart redirect based on user role */}
-            <Route path="/" element={<SmartRedirect />} />
-            
-            {/* Student Routes */}
-            <Route element={<AppLayout requiredRoles={[UserRole.STUDENT]} />}>
-              <Route path="/dashboard" element={<StudentDashboard />} />
-              <Route path="/tests" element={<StudentTestsPage />} />
-              <Route path="/tests/:testId/take" element={<TestTakingPage />} />
-              <Route path="/tests/:testId/result" element={<TestResultPage />} />
-              <Route path="/performance" element={<StudentPerformancePage />} />
-            </Route>
-            
-            {/* Teacher Routes */}
-            <Route element={<AppLayout requiredRoles={[UserRole.TEACHER]} />}>
-              <Route path="/teacher/dashboard" element={<TeacherDashboard />} />
-              <Route path="/tests/create" element={<CreateTest />} />
-              <Route path="/questions/create" element={<PlaceholderPage />} />
-              <Route path="/questions/bank" element={<PlaceholderPage />} />
-              <Route path="/questions/import" element={<PlaceholderPage />} />
-              <Route path="/tests/manage" element={<PlaceholderPage />} />
-              <Route path="/tests/results" element={<PlaceholderPage />} />
-              <Route path="/analytics" element={<PlaceholderPage />} />
-            </Route>
-            
-            {/* Principal Routes */}
-            <Route element={<AppLayout requiredRoles={[UserRole.PRINCIPAL]} />}>
-              <Route path="/principal/dashboard" element={<PrincipalDashboard />} />
-              <Route path="/departments" element={<DepartmentsPage />} />
-              <Route path="/teachers" element={<TeachersPage />} />
-              <Route path="/analytics/school" element={<SchoolAnalytics />} />
-              <Route path="/settings" element={<SettingsPage />} />
-            </Route>
-            
-            {/* Catch-all route */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </AuthProvider>
-  </QueryClientProvider>
+  <ThemeProvider defaultTheme="light">
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              {/* Public routes */}
+              <Route path="/" element={<IndexPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/unauthorized" element={<UnauthorizedPage />} />
+              
+              {/* App entry point - redirects based on user role */}
+              <Route path="/app" element={<SmartRedirect />} />
+              
+              {/* Student Routes */}
+              <Route element={<AppLayout requiredRoles={[UserRole.STUDENT]} />}>
+                <Route path="/dashboard" element={<StudentDashboard />} />
+                <Route path="/tests" element={<StudentTestsPage />} />
+                <Route path="/tests/:testId/take" element={<TestTakingPage />} />
+                <Route path="/tests/:testId/result" element={<TestResultPage />} />
+                <Route path="/performance" element={<StudentPerformancePage />} />
+                <Route path="/calendar" element={<CalendarPage />} />
+              </Route>
+              
+              {/* Teacher Routes */}
+              <Route element={<AppLayout requiredRoles={[UserRole.TEACHER]} />}>
+                <Route path="/teacher/dashboard" element={<TeacherDashboard />} />
+                <Route path="/students" element={<TeacherStudentsPage />} />
+                <Route path="/questions/create" element={<TeacherQuestionBank />} />
+                <Route path="/questions/bank" element={<TeacherQuestionBank />} />
+                <Route path="/questions/import" element={<TeacherQuestionBank />} />
+                <Route path="/tests/create" element={<CreateTest />} />
+                <Route path="/tests/manage" element={<TestManagement />} />
+                <Route path="/tests/results" element={<TestManagement />} />
+                <Route path="/analytics" element={<TeacherAnalytics />} />
+                <Route path="/calendar" element={<CalendarPage />} />
+              </Route>
+              
+              {/* Principal Routes */}
+              <Route element={<AppLayout requiredRoles={[UserRole.PRINCIPAL]} />}>
+                <Route path="/principal/dashboard" element={<PrincipalDashboard />} />
+                <Route path="/departments" element={<DepartmentsPage />} />
+                <Route path="/teachers" element={<TeachersPage />} />
+                <Route path="/students" element={<PrincipalStudentsPage />} />
+                <Route path="/analytics/school" element={<SchoolAnalytics />} />
+                <Route path="/settings" element={<SettingsPage />} />
+                <Route path="/calendar" element={<CalendarPage />} />
+              </Route>
+              
+              {/* Catch-all route */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </AuthProvider>
+    </QueryClientProvider>
+  </ThemeProvider>
 );
 
 export default App;
