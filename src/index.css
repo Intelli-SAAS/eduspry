@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
 
 @tailwind base;
@@ -16,15 +15,16 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    /* Educational blue theme */
-    --primary: 210 79.2% 50.6%; /* #1E88E5 */
+    /* EduSpry blue theme inspired by Perplexity */
+    --primary: 221 83% 53%; /* #3B82F6 */
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 217.9 76.9% 32.9%; /* #0D47A1 - darker blue */
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
 
-    --accent: 25 95% 53%; /* #FF8A24 - Orange for accents */
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Accent color for important actions */
+    --accent: 217 91% 60%; /* #60A5FA */
+    --accent-foreground: 210 40% 98%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
@@ -34,9 +34,9 @@
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
+    --ring: var(--primary);
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
   }
 
   .dark {
@@ -81,18 +81,6 @@
   h1, h2, h3, h4, h5, h6 {
     @apply font-poppins font-medium tracking-tight;
   }
-  
-  h1 {
-    @apply text-3xl md:text-4xl;
-  }
-  
-  h2 {
-    @apply text-2xl md:text-3xl;
-  }
-  
-  h3 {
-    @apply text-xl md:text-2xl;
-  }
 }
 
 /* Perplexity-inspired animation classes */
@@ -107,42 +95,17 @@
 }
 
 @keyframes glow {
-  0% { box-shadow: 0 0 0 0 rgba(66, 153, 225, 0.4); }
-  70% { box-shadow: 0 0 0 10px rgba(66, 153, 225, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(66, 153, 225, 0); }
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.6; }
+  0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
 }
 
 @layer components {
-  .card-subject {
-    @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
-  }
-  
-  .card-subject.physics {
-    @apply border-l-4 border-blue-500 bg-gradient-to-br from-blue-50 to-transparent dark:from-blue-950/20;
-  }
-  
-  .card-subject.chemistry {
-    @apply border-l-4 border-green-500 bg-gradient-to-br from-green-50 to-transparent dark:from-green-950/20;
-  }
-  
-  .card-subject.mathematics {
-    @apply border-l-4 border-purple-500 bg-gradient-to-br from-purple-50 to-transparent dark:from-purple-950/20;
-  }
-  
-  .card-subject.biology {
-    @apply border-l-4 border-red-500 bg-gradient-to-br from-red-50 to-transparent dark:from-red-950/20;
-  }
-
+  /* Perplexity-inspired components */
   .glass-card {
     @apply bg-white/70 backdrop-blur-lg shadow-xl ring-1 ring-black/5 rounded-xl;
   }
 
-  /* Perplexity Inspired Components */
   .perplexity-card {
     @apply rounded-xl border bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-md;
   }
@@ -153,10 +116,6 @@
 
   .perplexity-button {
     @apply rounded-full bg-primary px-4 py-2 text-white hover:bg-primary/90 transition-all active:scale-95;
-  }
-
-  .perplexity-tag {
-    @apply rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-800;
   }
 
   .animate-fade-in {
@@ -170,61 +129,4 @@
   .animate-glow {
     animation: glow 1.5s infinite;
   }
-
-  .animate-pulse-subtle {
-    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  }
-}
-
-/* Custom utility classes for the education platform */
-@layer components {
-  .card-subject {
-    @apply transition-all hover:shadow-md;
-  }
-  .card-subject.physics {
-    @apply border-l-4 border-blue-500;
-  }
-  .card-subject.chemistry {
-    @apply border-l-4 border-green-500;
-  }
-  .card-subject.mathematics {
-    @apply border-l-4 border-purple-500;
-  }
-  .card-subject.biology {
-    @apply border-l-4 border-red-500;
-  }
-}
-
-/* Exam-taking environment styles */
-.exam-environment {
-  @apply fixed inset-0 bg-white z-50 overflow-hidden;
-}
-
-.question-progress {
-  @apply h-1 bg-gray-200 w-full;
-}
-
-.question-progress-inner {
-  @apply h-1 bg-primary transition-all;
-}
-
-.fullscreen-warning {
-  @apply fixed top-4 left-1/2 transform -translate-x-1/2 bg-red-500 text-white py-2 px-4 rounded shadow-lg z-50 animate-bounce;
-}
-
-/* Analytics dashboard */
-.analytics-card {
-  @apply border rounded-lg p-4 hover:shadow-md transition-all;
-}
-
-.score-high {
-  @apply text-green-600;
-}
-
-.score-medium {
-  @apply text-yellow-500;
-}
-
-.score-low {
-  @apply text-red-500;
 }

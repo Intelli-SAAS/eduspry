@@ -286,35 +286,44 @@ const Sidebar: React.FC = () => {
   return (
     <div
       className={cn(
-        "flex h-screen w-64 flex-col border-r bg-white transition-all duration-300",
-        collapsed && "w-16"
+        "flex h-screen transition-all duration-300 ease-in-out",
+        collapsed ? "w-16" : "w-64",
+        "bg-white border-r border-gray-100 shadow-sm"
       )}
     >
-      <div className="flex h-16 items-center border-b px-4">
-        <Button
-          variant="ghost"
-          size="icon"
-          className="mr-2"
-          onClick={() => setCollapsed(!collapsed)}
-        >
-          <Menu className="h-5 w-5" />
-          <span className="sr-only">Toggle Sidebar</span>
-        </Button>
-        {!collapsed && (
-          <div className="font-semibold text-primary">Spark Hub</div>
-        )}
-      </div>
-
-      <nav className="flex-1 space-y-1 px-2 py-4">
-        {renderRoleBasedLinks()}
-      </nav>
-
-      <div className="border-t p-4">
-        {!collapsed && (
-          <div className="text-xs text-gray-500">
-            © {new Date().getFullYear()} Spark Hub
+      <div className="flex h-full w-full flex-col">
+        <div className="flex h-16 items-center justify-between px-4 border-b border-gray-100">
+          <div className={cn("flex items-center gap-2", collapsed && "justify-center")}>
+            {!collapsed && (
+              <>
+                <BookOpen className="h-6 w-6 text-primary" />
+                <span className="font-semibold text-gray-900">EduSpry</span>
+              </>
+            )}
           </div>
-        )}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="hover:bg-gray-100"
+            onClick={() => setCollapsed(!collapsed)}
+          >
+            <Menu className="h-5 w-5 text-gray-500" />
+          </Button>
+        </div>
+
+        <nav className="flex-1 space-y-1 p-2 overflow-y-auto">
+          <div className="space-y-1">
+            {renderRoleBasedLinks()}
+          </div>
+        </nav>
+
+        <div className="border-t border-gray-100 p-4">
+          {!collapsed && (
+            <div className="text-xs text-gray-500 text-center">
+              © {new Date().getFullYear()} EduSpry
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
