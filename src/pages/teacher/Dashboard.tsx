@@ -2,77 +2,140 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuth } from '@/contexts/AuthContext';
-import { SchoolIcon, BookOpen, Users, FileText } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
+import { ArrowRight, BookOpen, Users, FileText, TrendingUp, Clock } from 'lucide-react';
 
 const TeacherDashboard: React.FC = () => {
   const { user } = useAuth();
 
+  // Recent activity data (would come from API in real app)
+  const recentActivity = [
+    { id: 1, type: 'test_created', title: 'Physics Midterm', date: 'Apr 19, 2025' },
+    { id: 2, type: 'test_graded', title: 'Chemistry Quiz #3', date: 'Apr 18, 2025' },
+    { id: 3, type: 'question_added', title: 'Added 12 questions to bank', date: 'Apr 17, 2025' },
+  ];
+
+  // Top performing students
+  const topStudents = [
+    { id: 1, name: 'Emma Wilson', score: 92, subject: 'Chemistry' },
+    { id: 2, name: 'John Davis', score: 87, subject: 'Physics' },
+    { id: 3, name: 'Sophia Martinez', score: 95, subject: 'Chemistry' },
+  ];
+
+  const activityIcon = (type: string) => {
+    switch (type) {
+      case 'test_created': return <FileText className="h-5 w-5 text-blue-500" />;
+      case 'test_graded': return <FileText className="h-5 w-5 text-green-500" />;
+      case 'question_added': return <BookOpen className="h-5 w-5 text-purple-500" />;
+      default: return <Clock className="h-5 w-5 text-gray-500" />;
+    }
+  };
+
+  const getActivityText = (type: string) => {
+    switch (type) {
+      case 'test_created': return 'Created';
+      case 'test_graded': return 'Graded';
+      case 'question_added': return 'Updated';
+      default: return 'Activity';
+    }
+  };
+
   return (
-    <div className="space-y-4">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold tracking-tight">Teacher Dashboard</h1>
-        <div className="text-sm text-muted-foreground">
-          Welcome back, {user?.firstName} {user?.lastName}
+    <div className="space-y-8 animate-fade-up">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-600">
+            Teacher Dashboard
+          </h1>
+          <p className="text-gray-500 mt-1">
+            Welcome back, {user?.firstName} {user?.lastName}
+          </p>
+        </div>
+        <div className="flex gap-3">
+          <Button asChild className="rounded-full shadow-md hover:shadow-lg transition-all duration-300">
+            <Link to="/tests/create">
+              Create New Test
+              <FileText className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
+          <Button variant="outline" asChild className="rounded-full shadow-sm hover:shadow-md transition-all duration-300">
+            <Link to="/questions/bank">
+              Question Bank
+              <BookOpen className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Students</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <Card className="overflow-hidden border-none bg-gradient-to-br from-blue-50 to-indigo-50 shadow-md hover:shadow-lg transition-all duration-300">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-blue-600 flex items-center">
+              <Users className="h-4 w-4 mr-2" />
+              Students
+            </CardTitle>
+            <CardDescription className="text-2xl font-bold text-gray-900">
+              128
+            </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">128</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="text-xs text-blue-600 flex items-center">
+              <TrendingUp className="h-3 w-3 mr-1" />
               +4 enrolled this week
-            </p>
+            </div>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Tests Created</CardTitle>
-            <FileText className="h-4 w-4 text-muted-foreground" />
+        <Card className="overflow-hidden border-none bg-gradient-to-br from-green-50 to-emerald-50 shadow-md hover:shadow-lg transition-all duration-300">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-green-600 flex items-center">
+              <FileText className="h-4 w-4 mr-2" />
+              Tests Created
+            </CardTitle>
+            <CardDescription className="text-2xl font-bold text-gray-900">
+              12
+            </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">12</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="text-xs text-green-600 flex items-center">
+              <Clock className="h-3 w-3 mr-1" />
               3 pending review
-            </p>
+            </div>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Question Bank</CardTitle>
-            <BookOpen className="h-4 w-4 text-muted-foreground" />
+        <Card className="overflow-hidden border-none bg-gradient-to-br from-purple-50 to-fuchsia-50 shadow-md hover:shadow-lg transition-all duration-300">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-purple-600 flex items-center">
+              <BookOpen className="h-4 w-4 mr-2" />
+              Question Bank
+            </CardTitle>
+            <CardDescription className="text-2xl font-bold text-gray-900">
+              247
+            </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">247</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="text-xs text-purple-600 flex items-center">
+              <TrendingUp className="h-3 w-3 mr-1" />
               +18 added this month
-            </p>
+            </div>
           </CardContent>
         </Card>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
-        <Card className="col-span-2">
-          <CardHeader>
-            <CardTitle>Recent Test Submissions</CardTitle>
+      <div className="grid gap-6 md:grid-cols-7">
+        <Card className="md:col-span-4 shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden">
+          <CardHeader className="border-b bg-gray-50/80">
+            <CardTitle className="text-gray-800">
+              Recent Test Submissions
+            </CardTitle>
             <CardDescription>
               View and analyze recent test submissions from your students
             </CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="rounded-md border">
-              <div className="grid grid-cols-4 bg-muted/50 p-3 font-medium">
-                <div>Test</div>
-                <div>Student</div>
-                <div>Score</div>
-                <div>Date</div>
-              </div>
+          <CardContent className="p-0">
+            <div className="divide-y">
               {[
                 { test: "Physics Midterm", student: "John Davis", score: "87/100", date: "Apr 15, 2025" },
                 { test: "Chemistry Quiz #3", student: "Emma Wilson", score: "92/100", date: "Apr 14, 2025" },
@@ -80,16 +143,97 @@ const TeacherDashboard: React.FC = () => {
                 { test: "Chemistry Quiz #3", student: "Sophia Martinez", score: "95/100", date: "Apr 13, 2025" },
                 { test: "Physics Weekly Quiz", student: "David Johnson", score: "85/100", date: "Apr 12, 2025" }
               ].map((item, i) => (
-                <div key={i} className="grid grid-cols-4 border-t p-3">
-                  <div>{item.test}</div>
-                  <div>{item.student}</div>
-                  <div className="font-medium">{item.score}</div>
-                  <div className="text-muted-foreground">{item.date}</div>
+                <div key={i} className="grid grid-cols-4 p-4 hover:bg-gray-50 transition-colors">
+                  <div className="font-medium text-gray-800">{item.test}</div>
+                  <div className="text-gray-600">{item.student}</div>
+                  <div className="font-medium text-gray-800">{item.score}</div>
+                  <div className="text-gray-500">{item.date}</div>
                 </div>
               ))}
             </div>
           </CardContent>
         </Card>
+
+        <Card className="md:col-span-3 shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden">
+          <CardHeader className="border-b bg-gray-50/80">
+            <CardTitle className="text-gray-800">
+              Your Recent Activity
+            </CardTitle>
+            <CardDescription>
+              Track your recent actions and modifications
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="p-0">
+            <div className="divide-y">
+              {recentActivity.map((activity) => (
+                <div key={activity.id} className="flex items-center p-4 hover:bg-gray-50 transition-colors">
+                  <div className="p-2 rounded-full bg-gray-100 mr-4">
+                    {activityIcon(activity.type)}
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-medium text-gray-800">{activity.title}</p>
+                    <p className="text-sm text-gray-500">
+                      {getActivityText(activity.type)} • {activity.date}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="p-4 flex justify-center border-t">
+              <Button variant="ghost" size="sm" className="w-full text-primary" asChild>
+                <Link to="/activity">
+                  View All Activity
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      <Card className="shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden">
+        <CardHeader className="border-b bg-gray-50/80">
+          <CardTitle className="text-gray-800">
+            Top Performing Students
+          </CardTitle>
+          <CardDescription>
+            Students with the highest scores on recent assessments
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="p-0">
+          <div className="divide-y">
+            {topStudents.map((student) => (
+              <div key={student.id} className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors">
+                <div className="flex items-center">
+                  <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary mr-4">
+                    {student.name.split(' ').map(part => part[0]).join('')}
+                  </div>
+                  <div>
+                    <p className="font-medium text-gray-800">{student.name}</p>
+                    <p className="text-sm text-gray-500">{student.subject}</p>
+                  </div>
+                </div>
+                <div className="flex items-center">
+                  <div className="text-green-600 font-medium mr-6">{student.score}%</div>
+                  <Button size="sm" variant="outline" className="rounded-full" asChild>
+                    <Link to={`/students/${student.id}`}>
+                      View Profile
+                    </Link>
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+      
+      <div className="flex justify-center">
+        <Button asChild className="rounded-full shadow-md hover:shadow-lg transition-all duration-300">
+          <Link to="/analytics">
+            View Detailed Analytics
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Link>
+        </Button>
       </div>
     </div>
   );

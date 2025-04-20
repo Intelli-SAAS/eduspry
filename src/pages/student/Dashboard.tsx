@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { SubjectType } from '@/types';
-import { ArrowRight, BookOpen, Calendar, Clock, FileText } from 'lucide-react';
+import { ArrowRight, BookOpen, Calendar, Clock, FileText, TrendingUp, AlertTriangle } from 'lucide-react';
 
 // Placeholder dashboard for student
 const StudentDashboard: React.FC = () => {
@@ -45,10 +45,15 @@ const StudentDashboard: React.FC = () => {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 animate-fade-up">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Welcome, {user?.firstName}</h1>
-        <Button asChild>
+        <div>
+          <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-600">
+            Welcome, {user?.firstName}
+          </h1>
+          <p className="text-gray-500 mt-1">Here's an overview of your academic progress</p>
+        </div>
+        <Button asChild className="rounded-full shadow-md hover:shadow-lg transition-all duration-300">
           <Link to="/tests">
             View Available Tests
             <ArrowRight className="ml-2 h-4 w-4" />
@@ -57,63 +62,70 @@ const StudentDashboard: React.FC = () => {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
+        <Card className="overflow-hidden border-none bg-gradient-to-br from-blue-50 to-indigo-50 shadow-md hover:shadow-lg transition-all duration-300">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle className="text-sm font-medium text-blue-600">
               Upcoming Tests
             </CardTitle>
-            <CardDescription className="text-2xl font-bold">
+            <CardDescription className="text-2xl font-bold text-gray-900">
               {upcomingTests.length}
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="text-xs text-muted-foreground">
+            <div className="text-xs text-blue-600 flex items-center">
+              <Calendar className="h-3 w-3 mr-1" /> 
               Next test in 3 days
             </div>
           </CardContent>
         </Card>
-        <Card>
+        
+        <Card className="overflow-hidden border-none bg-gradient-to-br from-green-50 to-emerald-50 shadow-md hover:shadow-lg transition-all duration-300">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle className="text-sm font-medium text-green-600">
               Tests Completed
             </CardTitle>
-            <CardDescription className="text-2xl font-bold">
+            <CardDescription className="text-2xl font-bold text-gray-900">
               {recentTests.length}
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="text-xs text-muted-foreground">
+            <div className="text-xs text-green-600 flex items-center">
+              <Clock className="h-3 w-3 mr-1" />
               Last test 3 days ago
             </div>
           </CardContent>
         </Card>
-        <Card>
+        
+        <Card className="overflow-hidden border-none bg-gradient-to-br from-purple-50 to-fuchsia-50 shadow-md hover:shadow-lg transition-all duration-300">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle className="text-sm font-medium text-purple-600">
               Average Score
             </CardTitle>
-            <CardDescription className="text-2xl font-bold">
+            <CardDescription className="text-2xl font-bold text-gray-900">
               {Math.round(subjectPerformance.reduce((acc, curr) => acc + curr.score, 0) / 
                 subjectPerformance.length)}%
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="text-xs text-muted-foreground">
+            <div className="text-xs text-purple-600 flex items-center">
+              <TrendingUp className="h-3 w-3 mr-1" />
               Across all subjects
             </div>
           </CardContent>
         </Card>
-        <Card>
+        
+        <Card className="overflow-hidden border-none bg-gradient-to-br from-amber-50 to-orange-50 shadow-md hover:shadow-lg transition-all duration-300">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle className="text-sm font-medium text-amber-600">
               Total Study Time
             </CardTitle>
-            <CardDescription className="text-2xl font-bold">
+            <CardDescription className="text-2xl font-bold text-gray-900">
               42h
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="text-xs text-muted-foreground">
+            <div className="text-xs text-amber-600 flex items-center">
+              <Clock className="h-3 w-3 mr-1" />
               This month
             </div>
           </CardContent>
@@ -121,56 +133,65 @@ const StudentDashboard: React.FC = () => {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center">
-              <Calendar className="mr-2 h-5 w-5" />
+        <Card className="shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden">
+          <CardHeader className="border-b bg-gray-50/80">
+            <CardTitle className="flex items-center text-gray-800">
+              <Calendar className="mr-2 h-5 w-5 text-primary" />
               Upcoming Tests
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-0">
             {upcomingTests.length > 0 ? (
-              <div className="space-y-4">
+              <div>
                 {upcomingTests.map(test => (
-                  <div key={test.id} className="flex items-center justify-between rounded-lg border p-3">
+                  <div 
+                    key={test.id} 
+                    className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors border-b last:border-0"
+                  >
                     <div className="flex items-center">
                       <div className={`mr-3 h-3 w-3 rounded-full ${getSubjectColor(test.subject)}`}></div>
                       <div>
-                        <div className="font-medium">{test.title}</div>
-                        <div className="text-sm text-muted-foreground">
+                        <div className="font-medium text-gray-800">{test.title}</div>
+                        <div className="text-sm text-gray-500">
                           {new Date(test.date).toLocaleDateString()} at {new Date(test.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </div>
                       </div>
                     </div>
-                    <Button size="sm" asChild>
+                    <Button size="sm" className="rounded-full shadow-sm" asChild>
                       <Link to={`/tests/${test.id}`}>Details</Link>
                     </Button>
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="text-center text-muted-foreground">No upcoming tests scheduled.</p>
+              <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
+                <Calendar className="h-12 w-12 text-gray-300 mb-3" />
+                <p className="text-gray-500">No upcoming tests scheduled</p>
+              </div>
             )}
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center">
-              <FileText className="mr-2 h-5 w-5" />
+        <Card className="shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden">
+          <CardHeader className="border-b bg-gray-50/80">
+            <CardTitle className="flex items-center text-gray-800">
+              <FileText className="mr-2 h-5 w-5 text-primary" />
               Recent Test Results
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-0">
             {recentTests.length > 0 ? (
-              <div className="space-y-4">
+              <div>
                 {recentTests.map(test => (
-                  <div key={test.id} className="flex items-center justify-between rounded-lg border p-3">
+                  <div 
+                    key={test.id} 
+                    className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors border-b last:border-0"
+                  >
                     <div className="flex items-center">
                       <div className={`mr-3 h-3 w-3 rounded-full ${getSubjectColor(test.subject)}`}></div>
                       <div>
-                        <div className="font-medium">{test.title}</div>
-                        <div className="text-sm text-muted-foreground">
+                        <div className="font-medium text-gray-800">{test.title}</div>
+                        <div className="text-sm text-gray-500">
                           {new Date(test.date).toLocaleDateString()}
                         </div>
                       </div>
@@ -179,7 +200,7 @@ const StudentDashboard: React.FC = () => {
                       <span className={`mr-4 font-medium ${test.score >= 75 ? 'text-green-600' : test.score >= 60 ? 'text-yellow-600' : 'text-red-600'}`}>
                         {test.score}%
                       </span>
-                      <Button size="sm" variant="outline" asChild>
+                      <Button size="sm" variant="outline" className="rounded-full" asChild>
                         <Link to={`/tests/${test.id}/result`}>View</Link>
                       </Button>
                     </div>
@@ -187,43 +208,49 @@ const StudentDashboard: React.FC = () => {
                 ))}
               </div>
             ) : (
-              <p className="text-center text-muted-foreground">No recent test results.</p>
+              <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
+                <FileText className="h-12 w-12 text-gray-300 mb-3" />
+                <p className="text-gray-500">No recent test results</p>
+              </div>
             )}
           </CardContent>
         </Card>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center">
-            <BookOpen className="mr-2 h-5 w-5" />
+      <Card className="shadow-md hover:shadow-lg transition-all duration-300">
+        <CardHeader className="border-b bg-gray-50/80">
+          <CardTitle className="flex items-center text-gray-800">
+            <BookOpen className="mr-2 h-5 w-5 text-primary" />
             Subject Performance
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
+        <CardContent className="pt-4">
+          <div className="space-y-5">
             {subjectPerformance.map((subject) => (
-              <div key={subject.subject} className="space-y-2">
-                <div className="flex items-center justify-between">
+              <div key={subject.subject} className="relative">
+                <div className="flex items-center justify-between mb-1">
                   <div className="flex items-center">
                     <div className={`mr-2 h-3 w-3 rounded-full ${getSubjectColor(subject.subject)}`}></div>
-                    <span className="font-medium">{subject.subject}</span>
+                    <span className="font-medium text-gray-800">{subject.subject}</span>
                   </div>
-                  <span className="text-sm text-muted-foreground">
-                    {subject.testsCount} tests
-                  </span>
+                  <div className="flex items-center">
+                    <span className="text-sm font-medium">
+                      {subject.score}%
+                    </span>
+                    <span className="text-xs text-gray-500 ml-2">
+                      ({subject.testsCount} tests)
+                    </span>
+                  </div>
                 </div>
                 
-                <div className="flex h-2 w-full overflow-hidden rounded-full bg-gray-100">
+                <div className="h-2 w-full overflow-hidden rounded-full bg-gray-100">
                   <div 
-                    className={`${getSubjectColor(subject.subject)} h-2`}
-                    style={{ width: `${subject.score}%` }}
+                    className={`${getSubjectColor(subject.subject)} h-2 rounded-full`}
+                    style={{ 
+                      width: `${subject.score}%`,
+                      transition: 'width 1s ease-in-out' 
+                    }}
                   ></div>
-                </div>
-                
-                <div className="flex justify-between text-xs">
-                  <span>{subject.score}%</span>
-                  <span>100%</span>
                 </div>
               </div>
             ))}
@@ -232,7 +259,7 @@ const StudentDashboard: React.FC = () => {
       </Card>
 
       <div className="flex justify-center">
-        <Button variant="outline" asChild>
+        <Button variant="outline" className="rounded-full shadow-sm hover:shadow-md transition-all duration-300" asChild>
           <Link to="/performance">
             View Detailed Performance
             <ArrowRight className="ml-2 h-4 w-4" />
