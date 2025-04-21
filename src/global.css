@@ -1,0 +1,14 @@
+@keyframes slideDown {
+  from {
+    height: 0;
+    opacity: 0;
+  }
+  to {
+    height: var(--radix-collapsible-content-height);
+    opacity: 1;
+  }
+}
+
+.animate-slideDown {
+  animation: slideDown 300ms ease-out forwards;
+} 

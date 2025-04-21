@@ -1,10 +1,25 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { ArrowRight, BookOpen, Users, FileText, TrendingUp, Clock } from 'lucide-react';
+import { motion } from 'framer-motion';
+
+// Animation variants
+const fadeIn = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.5 }
+  }
+};
+
+const cardHover = {
+  rest: { scale: 1 },
+  hover: { scale: 1.02, transition: { duration: 0.2 } }
+};
 
 const TeacherDashboard: React.FC = () => {
   const { user } = useAuth();
@@ -25,7 +40,7 @@ const TeacherDashboard: React.FC = () => {
 
   const activityIcon = (type: string) => {
     switch (type) {
-      case 'test_created': return <FileText className="h-5 w-5 text-blue-500" />;
+      case 'test_created': return <FileText className="h-5 w-5 text-[#1a4480]" />;
       case 'test_graded': return <FileText className="h-5 w-5 text-green-500" />;
       case 'question_added': return <BookOpen className="h-5 w-5 text-purple-500" />;
       default: return <Clock className="h-5 w-5 text-gray-500" />;
@@ -42,10 +57,10 @@ const TeacherDashboard: React.FC = () => {
   };
 
   return (
-    <div className="space-y-8 animate-fade-up">
+    <div className="space-y-8">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-600">
+          <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#1a4480] to-[#4d7cc7]">
             Teacher Dashboard
           </h1>
           <p className="text-gray-500 mt-1">
@@ -53,13 +68,13 @@ const TeacherDashboard: React.FC = () => {
           </p>
         </div>
         <div className="flex gap-3">
-          <Button asChild className="rounded-full shadow-md hover:shadow-lg transition-all duration-300">
+          <Button asChild className="rounded-full shadow-md hover:shadow-lg transition-all duration-300 bg-[#1a4480] hover:bg-[#142f59]">
             <Link to="/tests/create">
               Create New Test
               <FileText className="ml-2 h-4 w-4" />
             </Link>
           </Button>
-          <Button variant="outline" asChild className="rounded-full shadow-sm hover:shadow-md transition-all duration-300">
+          <Button variant="outline" asChild className="rounded-full shadow-sm hover:shadow-md transition-all duration-300 text-[#1a4480] border-[#1a4480]">
             <Link to="/questions/bank">
               Question Bank
               <BookOpen className="ml-2 h-4 w-4" />
@@ -69,9 +84,9 @@ const TeacherDashboard: React.FC = () => {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <Card className="overflow-hidden border-none bg-gradient-to-br from-blue-50 to-indigo-50 shadow-md hover:shadow-lg transition-all duration-300">
+        <Card className="overflow-hidden border-none bg-gradient-to-br from-[#e6ebf2] to-[#d0dff5] shadow-md hover:shadow-lg transition-all duration-300">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-blue-600 flex items-center">
+            <CardTitle className="text-sm font-medium text-[#1a4480] flex items-center">
               <Users className="h-4 w-4 mr-2" />
               Students
             </CardTitle>
@@ -80,16 +95,16 @@ const TeacherDashboard: React.FC = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="text-xs text-blue-600 flex items-center">
+            <div className="text-xs text-[#1a4480] flex items-center">
               <TrendingUp className="h-3 w-3 mr-1" />
               +4 enrolled this week
             </div>
           </CardContent>
         </Card>
 
-        <Card className="overflow-hidden border-none bg-gradient-to-br from-green-50 to-emerald-50 shadow-md hover:shadow-lg transition-all duration-300">
+        <Card className="overflow-hidden border-none bg-gradient-to-br from-[#e6ebf2] to-[#d0dff5] shadow-md hover:shadow-lg transition-all duration-300">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-green-600 flex items-center">
+            <CardTitle className="text-sm font-medium text-[#1a4480] flex items-center">
               <FileText className="h-4 w-4 mr-2" />
               Tests Created
             </CardTitle>
@@ -98,16 +113,16 @@ const TeacherDashboard: React.FC = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="text-xs text-green-600 flex items-center">
+            <div className="text-xs text-[#1a4480] flex items-center">
               <Clock className="h-3 w-3 mr-1" />
               3 pending review
             </div>
           </CardContent>
         </Card>
 
-        <Card className="overflow-hidden border-none bg-gradient-to-br from-purple-50 to-fuchsia-50 shadow-md hover:shadow-lg transition-all duration-300">
+        <Card className="overflow-hidden border-none bg-gradient-to-br from-[#e6ebf2] to-[#d0dff5] shadow-md hover:shadow-lg transition-all duration-300">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-purple-600 flex items-center">
+            <CardTitle className="text-sm font-medium text-[#1a4480] flex items-center">
               <BookOpen className="h-4 w-4 mr-2" />
               Question Bank
             </CardTitle>
@@ -116,7 +131,7 @@ const TeacherDashboard: React.FC = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="text-xs text-purple-600 flex items-center">
+            <div className="text-xs text-[#1a4480] flex items-center">
               <TrendingUp className="h-3 w-3 mr-1" />
               +18 added this month
             </div>
@@ -126,8 +141,8 @@ const TeacherDashboard: React.FC = () => {
 
       <div className="grid gap-6 md:grid-cols-7">
         <Card className="md:col-span-4 shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden">
-          <CardHeader className="border-b bg-gray-50/80">
-            <CardTitle className="text-gray-800">
+          <CardHeader className="border-b bg-[#f0f4f9]">
+            <CardTitle className="text-[#1a4480]">
               Recent Test Submissions
             </CardTitle>
             <CardDescription>
@@ -143,7 +158,7 @@ const TeacherDashboard: React.FC = () => {
                 { test: "Chemistry Quiz #3", student: "Sophia Martinez", score: "95/100", date: "Apr 13, 2025" },
                 { test: "Physics Weekly Quiz", student: "David Johnson", score: "85/100", date: "Apr 12, 2025" }
               ].map((item, i) => (
-                <div key={i} className="grid grid-cols-4 p-4 hover:bg-gray-50 transition-colors">
+                <div key={i} className="grid grid-cols-4 p-4 hover:bg-[#f0f4f9] transition-colors">
                   <div className="font-medium text-gray-800">{item.test}</div>
                   <div className="text-gray-600">{item.student}</div>
                   <div className="font-medium text-gray-800">{item.score}</div>
@@ -155,8 +170,8 @@ const TeacherDashboard: React.FC = () => {
         </Card>
 
         <Card className="md:col-span-3 shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden">
-          <CardHeader className="border-b bg-gray-50/80">
-            <CardTitle className="text-gray-800">
+          <CardHeader className="border-b bg-[#f0f4f9]">
+            <CardTitle className="text-[#1a4480]">
               Your Recent Activity
             </CardTitle>
             <CardDescription>
@@ -166,8 +181,8 @@ const TeacherDashboard: React.FC = () => {
           <CardContent className="p-0">
             <div className="divide-y">
               {recentActivity.map((activity) => (
-                <div key={activity.id} className="flex items-center p-4 hover:bg-gray-50 transition-colors">
-                  <div className="p-2 rounded-full bg-gray-100 mr-4">
+                <div key={activity.id} className="flex items-center p-4 hover:bg-[#f0f4f9] transition-colors">
+                  <div className="p-2 rounded-full bg-[#e6ebf2] mr-4">
                     {activityIcon(activity.type)}
                   </div>
                   <div className="flex-1">
@@ -180,7 +195,7 @@ const TeacherDashboard: React.FC = () => {
               ))}
             </div>
             <div className="p-4 flex justify-center border-t">
-              <Button variant="ghost" size="sm" className="w-full text-primary" asChild>
+              <Button variant="ghost" size="sm" className="w-full text-[#1a4480]" asChild>
                 <Link to="/activity">
                   View All Activity
                   <ArrowRight className="ml-2 h-4 w-4" />
@@ -192,8 +207,8 @@ const TeacherDashboard: React.FC = () => {
       </div>
 
       <Card className="shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden">
-        <CardHeader className="border-b bg-gray-50/80">
-          <CardTitle className="text-gray-800">
+        <CardHeader className="border-b bg-[#f0f4f9]">
+          <CardTitle className="text-[#1a4480]">
             Top Performing Students
           </CardTitle>
           <CardDescription>
@@ -203,9 +218,9 @@ const TeacherDashboard: React.FC = () => {
         <CardContent className="p-0">
           <div className="divide-y">
             {topStudents.map((student) => (
-              <div key={student.id} className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors">
+              <div key={student.id} className="flex items-center justify-between p-4 hover:bg-[#f0f4f9] transition-colors">
                 <div className="flex items-center">
-                  <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary mr-4">
+                  <div className="h-10 w-10 rounded-full bg-[#1a4480]/10 flex items-center justify-center text-[#1a4480] mr-4">
                     {student.name.split(' ').map(part => part[0]).join('')}
                   </div>
                   <div>
@@ -215,7 +230,7 @@ const TeacherDashboard: React.FC = () => {
                 </div>
                 <div className="flex items-center">
                   <div className="text-green-600 font-medium mr-6">{student.score}%</div>
-                  <Button size="sm" variant="outline" className="rounded-full" asChild>
+                  <Button size="sm" variant="outline" className="rounded-full text-[#1a4480] border-[#1a4480]" asChild>
                     <Link to={`/students/${student.id}`}>
                       View Profile
                     </Link>
@@ -228,7 +243,7 @@ const TeacherDashboard: React.FC = () => {
       </Card>
       
       <div className="flex justify-center">
-        <Button asChild className="rounded-full shadow-md hover:shadow-lg transition-all duration-300">
+        <Button asChild className="rounded-full shadow-md hover:shadow-lg transition-all duration-300 bg-[#1a4480] hover:bg-[#142f59]">
           <Link to="/analytics">
             View Detailed Analytics
             <ArrowRight className="ml-2 h-4 w-4" />

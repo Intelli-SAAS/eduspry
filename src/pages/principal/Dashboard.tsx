@@ -1,264 +1,335 @@
-
 import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { useAuth } from '@/contexts/AuthContext';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { BarChart, PieChart, LineChart } from '@/components/ui/chart';
 import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
-import { ArrowRight, Users, User, BookOpen, TrendingUp, TrendingDown, BarChart } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ArrowUpRight, Users, UserCheck, Presentation, PieChart as PieChartIcon, Activity } from 'lucide-react';
+
+// Animation variants
+const fadeIn = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.5 }
+  }
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const chartVariants = {
+  hidden: { opacity: 0, scale: 0.95 },
+  visible: { 
+    opacity: 1, 
+    scale: 1,
+    transition: { duration: 0.6, ease: "easeOut" }
+  }
+};
+
+// Sample data for demo
+const departmentPerformance = [
+  {
+    name: 'Math',
+    value: 82,
+  },
+  {
+    name: 'Science',
+    value: 75,
+  },
+  {
+    name: 'English',
+    value: 88,
+  },
+  {
+    name: 'History',
+    value: 79,
+  },
+  {
+    name: 'Arts',
+    value: 91,
+  },
+];
+
+const teacherActivity = [
+  {
+    name: 'Assessments Created',
+    value: 145,
+  },
+  {
+    name: 'Feedback Sessions',
+    value: 89,
+  },
+  {
+    name: 'Professional Development',
+    value: 42,
+  },
+  {
+    name: 'Parent Meetings',
+    value: 76,
+  },
+];
+
+const studentEnrollmentTrend = [
+  {
+    name: 'Jan',
+    students: 520,
+  },
+  {
+    name: 'Feb',
+    students: 528,
+  },
+  {
+    name: 'Mar',
+    students: 545,
+  },
+  {
+    name: 'Apr',
+    students: 559,
+  },
+  {
+    name: 'May',
+    students: 571,
+  },
+  {
+    name: 'Jun',
+    students: 582,
+  },
+  {
+    name: 'Jul',
+    students: 590,
+  },
+  {
+    name: 'Aug',
+    students: 612,
+  },
+  {
+    name: 'Sep',
+    students: 635,
+  },
+  {
+    name: 'Oct',
+    students: 641,
+  },
+  {
+    name: 'Nov',
+    students: 652,
+  },
+  {
+    name: 'Dec',
+    students: 674,
+  },
+];
 
 const PrincipalDashboard: React.FC = () => {
-  const { user } = useAuth();
-
-  // Top departments by performance
-  const departmentPerformance = [
-    { name: "Science", percentage: 88, trend: "up" },
-    { name: "Mathematics", percentage: 92, trend: "up" },
-    { name: "Languages", percentage: 85, trend: "down" },
-    { name: "Humanities", percentage: 82, trend: "stable" },
-    { name: "Computer Science", percentage: 94, trend: "up" }
-  ];
-
-  // Recent teacher activities
-  const teacherActivities = [
-    { teacher: "Sarah Johnson", activity: "Created Physics Test", date: "Apr 18, 2025" },
-    { teacher: "Mark Wilson", activity: "Graded Chemistry Finals", date: "Apr 16, 2025" },
-    { teacher: "Lisa Chen", activity: "Updated Question Bank", date: "Apr 15, 2025" },
-    { teacher: "Robert Miller", activity: "Scheduled Math Quiz", date: "Apr 14, 2025" },
-    { teacher: "Emily Davis", activity: "Submitted Performance Report", date: "Apr 12, 2025" }
-  ];
-
-  // Student enrollment trend data
-  const enrollmentTrend = [
-    { month: "Jan", count: 1180 },
-    { month: "Feb", count: 1195 },
-    { month: "Mar", count: 1210 },
-    { month: "Apr", count: 1248 }
-  ];
-
-  const getTrendIcon = (trend: string) => {
-    switch(trend) {
-      case "up": return <TrendingUp className="h-4 w-4 text-green-500" />;
-      case "down": return <TrendingDown className="h-4 w-4 text-red-500" />;
-      default: return null;
-    }
-  };
-
   return (
-    <div className="space-y-8 animate-fade-up">
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-600">
-            Principal Dashboard
-          </h1>
-          <p className="text-gray-500 mt-1">
-            Welcome back, {user?.firstName} {user?.lastName}
-          </p>
-        </div>
-        <div className="flex gap-3">
-          <Button asChild className="rounded-full shadow-md hover:shadow-lg transition-all duration-300">
-            <Link to="/analytics/school">
-              School Analytics
-              <BarChart className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
-          <Button variant="outline" asChild className="rounded-full shadow-sm hover:shadow-md transition-all duration-300">
-            <Link to="/settings">
-              School Settings
-            </Link>
-          </Button>
-        </div>
+    <motion.div 
+      className="space-y-6 p-6 pb-16"
+      initial="hidden"
+      animate="visible"
+      variants={staggerContainer}
+    >
+      <div className="flex flex-col space-y-4">
+        <motion.h1 
+          className="text-3xl font-bold tracking-tight text-[#1a4480]"
+          variants={fadeIn}
+        >
+          Principal Dashboard
+        </motion.h1>
+        <motion.p 
+          className="text-gray-500"
+          variants={fadeIn}
+        >
+          View and analyze school performance metrics and faculty data.
+        </motion.p>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="overflow-hidden border-none bg-gradient-to-br from-blue-50 to-indigo-50 shadow-md hover:shadow-lg transition-all duration-300">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-blue-600 flex items-center">
-              <Users className="h-4 w-4 mr-2" />
-              Students
-            </CardTitle>
-            <CardDescription className="text-2xl font-bold text-gray-900">
-              1,248
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="text-xs text-blue-600 flex items-center">
-              <TrendingUp className="h-3 w-3 mr-1" />
-              +32 enrolled this month
-            </div>
-          </CardContent>
-        </Card>
+      <Separator />
 
-        <Card className="overflow-hidden border-none bg-gradient-to-br from-green-50 to-emerald-50 shadow-md hover:shadow-lg transition-all duration-300">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-green-600 flex items-center">
-              <User className="h-4 w-4 mr-2" />
-              Teachers
-            </CardTitle>
-            <CardDescription className="text-2xl font-bold text-gray-900">
-              42
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="text-xs text-green-600 flex items-center">
-              <TrendingUp className="h-3 w-3 mr-1" />
-              2 new this semester
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="overflow-hidden border-none bg-gradient-to-br from-purple-50 to-fuchsia-50 shadow-md hover:shadow-lg transition-all duration-300">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-purple-600 flex items-center">
-              <BookOpen className="h-4 w-4 mr-2" />
-              Departments
-            </CardTitle>
-            <CardDescription className="text-2xl font-bold text-gray-900">
-              8
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="text-xs text-purple-600">
-              All departments active
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="overflow-hidden border-none bg-gradient-to-br from-amber-50 to-orange-50 shadow-md hover:shadow-lg transition-all duration-300">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-amber-600 flex items-center">
-              <BarChart className="h-4 w-4 mr-2" />
-              Performance
-            </CardTitle>
-            <CardDescription className="text-2xl font-bold text-gray-900">
-              87%
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="text-xs text-amber-600 flex items-center">
-              <TrendingUp className="h-3 w-3 mr-1" />
-              +2.4% from last semester
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      <div className="grid gap-6 md:grid-cols-2">
-        <Card className="shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden">
-          <CardHeader className="border-b bg-gray-50/80">
-            <CardTitle className="text-gray-800">
-              Department Performance
-            </CardTitle>
-            <CardDescription>
-              Average scores across departments
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="pt-6">
-            <div className="space-y-5">
-              {departmentPerformance.map((dept) => (
-                <div key={dept.name} className="relative">
-                  <div className="flex items-center justify-between mb-1">
-                    <div className="flex items-center">
-                      <span className="font-medium text-gray-800">{dept.name}</span>
-                    </div>
-                    <div className="flex items-center">
-                      <span className="text-sm font-medium mr-2">
-                        {dept.percentage}%
-                      </span>
-                      {getTrendIcon(dept.trend)}
-                    </div>
-                  </div>
-                  
-                  <div className="h-2 w-full overflow-hidden rounded-full bg-gray-100">
-                    <div 
-                      className={`bg-primary h-2 rounded-full`}
-                      style={{ 
-                        width: `${dept.percentage}%`,
-                        transition: 'width 1s ease-in-out' 
-                      }}
-                    ></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="mt-6 flex justify-center">
-              <Button variant="ghost" size="sm" className="text-primary" asChild>
-                <Link to="/departments">
-                  View All Departments
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+      <motion.div 
+        className="grid gap-4 md:grid-cols-2 lg:grid-cols-4"
+        variants={staggerContainer}
+      >
+        <motion.div variants={fadeIn}>
+          <Card className="hover:shadow-lg transition-all duration-200 hover:border-[#1a4480]/50">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium text-gray-500">Total Students</CardTitle>
+              <Users className="h-4 w-4 text-[#1a4480]" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-[#1a4480]">674</div>
+              <p className="text-xs text-gray-500">+3.4% from last month</p>
+            </CardContent>
+          </Card>
+        </motion.div>
         
-        <Card className="shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden">
-          <CardHeader className="border-b bg-gray-50/80">
-            <CardTitle className="text-gray-800">
-              Recent Teacher Activities
-            </CardTitle>
-            <CardDescription>Track teacher engagement and test creation</CardDescription>
-          </CardHeader>
-          <CardContent className="p-0">
-            <div className="divide-y">
-              {teacherActivities.map((item, i) => (
-                <div key={i} className="grid grid-cols-3 p-4 hover:bg-gray-50 transition-colors">
-                  <div className="font-medium text-gray-800">{item.teacher}</div>
-                  <div className="text-gray-600">{item.activity}</div>
-                  <div className="text-gray-500">{item.date}</div>
-                </div>
-              ))}
-            </div>
-            <div className="p-4 flex justify-center border-t">
-              <Button variant="ghost" size="sm" className="w-full text-primary" asChild>
-                <Link to="/teachers">
-                  View All Teachers
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-      
-      <Card className="shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden">
-        <CardHeader className="border-b bg-gray-50/80">
-          <CardTitle className="text-gray-800">
-            Student Enrollment Trends
-          </CardTitle>
-          <CardDescription>
-            Monthly enrollment statistics
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="pt-6">
-          <div className="h-64 flex items-end justify-between px-2">
-            {enrollmentTrend.map((month, idx) => (
-              <div key={idx} className="flex flex-col items-center">
-                <div 
-                  className="w-16 bg-primary rounded-t-lg transition-all duration-700"
-                  style={{ 
-                    height: `${(month.count / 1300) * 100}%`,
-                    opacity: idx === enrollmentTrend.length - 1 ? 1 : 0.7
-                  }}
-                ></div>
-                <div className="mt-2 text-sm">
-                  <div className="font-medium text-gray-800">{month.month}</div>
-                  <div className="text-gray-500 text-center">{month.count}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-      
-      <div className="flex justify-center">
-        <Button asChild className="rounded-full shadow-md hover:shadow-lg transition-all duration-300">
-          <Link to="/analytics/school">
-            View Comprehensive Analytics
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Link>
-        </Button>
-      </div>
-    </div>
+        <motion.div variants={fadeIn}>
+          <Card className="hover:shadow-lg transition-all duration-200 hover:border-[#1a4480]/50">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium text-gray-500">Faculty Members</CardTitle>
+              <UserCheck className="h-4 w-4 text-[#1a4480]" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-[#1a4480]">42</div>
+              <p className="text-xs text-gray-500">2 new hires this semester</p>
+            </CardContent>
+          </Card>
+        </motion.div>
+        
+        <motion.div variants={fadeIn}>
+          <Card className="hover:shadow-lg transition-all duration-200 hover:border-[#1a4480]/50">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium text-gray-500">Average GPA</CardTitle>
+              <Presentation className="h-4 w-4 text-[#1a4480]" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-[#1a4480]">3.4</div>
+              <p className="text-xs text-gray-500">+0.2 from previous year</p>
+            </CardContent>
+          </Card>
+        </motion.div>
+        
+        <motion.div variants={fadeIn}>
+          <Card className="hover:shadow-lg transition-all duration-200 hover:border-[#1a4480]/50">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium text-gray-500">Attendance Rate</CardTitle>
+              <Activity className="h-4 w-4 text-[#1a4480]" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-[#1a4480]">94.2%</div>
+              <p className="text-xs text-gray-500">+1.8% from last semester</p>
+            </CardContent>
+          </Card>
+        </motion.div>
+      </motion.div>
+
+      <motion.div 
+        className="grid gap-4 md:grid-cols-2 lg:grid-cols-7"
+        variants={staggerContainer}
+      >
+        <motion.div 
+          className="col-span-4"
+          variants={chartVariants}
+        >
+          <Card className="hover:shadow-lg transition-all duration-300 hover:border-[#1a4480]/30">
+            <CardHeader>
+              <CardTitle className="text-[#1a4480]">School Enrollment Trend</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <LineChart
+                data={studentEnrollmentTrend}
+                categories={['students']}
+                colors={['#1a4480']}
+                index="name"
+                yAxisWidth={40}
+                showAnimation={true}
+              />
+            </CardContent>
+          </Card>
+        </motion.div>
+        
+        <motion.div 
+          className="col-span-3"
+          variants={chartVariants}
+        >
+          <Card className="hover:shadow-lg transition-all duration-300 hover:border-[#1a4480]/30 h-full">
+            <CardHeader>
+              <CardTitle className="text-[#1a4480]">Department Performance</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <BarChart
+                data={departmentPerformance}
+                categories={['value']}
+                colors={['#1a4480']}
+                index="name"
+                yAxisWidth={40}
+                showAnimation={true}
+              />
+            </CardContent>
+          </Card>
+        </motion.div>
+      </motion.div>
+
+      <motion.div 
+        className="grid gap-4 md:grid-cols-2"
+        variants={staggerContainer}
+      >
+        <motion.div variants={chartVariants}>
+          <Card className="hover:shadow-lg transition-all duration-300 hover:border-[#1a4480]/30">
+            <CardHeader>
+              <CardTitle className="text-[#1a4480]">Faculty Activity Distribution</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <PieChart
+                data={teacherActivity}
+                category="value"
+                index="name"
+                colors={['#1a4480', '#4a76c4', '#89a7e0', '#ccdaf2']}
+                valueFormatter={(value) => `${value} activities`}
+                showAnimation={true}
+              />
+            </CardContent>
+          </Card>
+        </motion.div>
+        
+        <motion.div variants={fadeIn}>
+          <Card className="hover:shadow-lg transition-all duration-300 hover:border-[#1a4480]/30 h-full">
+            <CardHeader>
+              <CardTitle className="text-[#1a4480]">Recent Announcements</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <motion.div 
+                className="space-y-2 border-l-4 border-[#1a4480] pl-4"
+                whileHover={{ x: 5, transition: { duration: 0.2 } }}
+              >
+                <h3 className="font-semibold text-gray-900">Teacher Professional Development Day</h3>
+                <p className="text-sm text-gray-500">Scheduled for November 15th. All teachers must attend.</p>
+                <p className="text-xs text-gray-400">Posted 2 days ago</p>
+              </motion.div>
+              
+              <motion.div 
+                className="space-y-2 border-l-4 border-[#1a4480] pl-4"
+                whileHover={{ x: 5, transition: { duration: 0.2 } }}
+              >
+                <h3 className="font-semibold text-gray-900">End of Semester Reports Due</h3>
+                <p className="text-sm text-gray-500">All faculty must submit reports by December 10th.</p>
+                <p className="text-xs text-gray-400">Posted 5 days ago</p>
+              </motion.div>
+              
+              <motion.div 
+                className="space-y-2 border-l-4 border-[#1a4480] pl-4"
+                whileHover={{ x: 5, transition: { duration: 0.2 } }}
+              >
+                <h3 className="font-semibold text-gray-900">Winter Break Schedule</h3>
+                <p className="text-sm text-gray-500">School will be closed from December 20th to January 5th.</p>
+                <p className="text-xs text-gray-400">Posted 1 week ago</p>
+              </motion.div>
+              
+              <motion.div 
+                className="flex justify-end"
+                whileHover={{ scale: 1.05 }}
+              >
+                <Button 
+                  size="sm" 
+                  className="bg-[#1a4480] hover:bg-[#0d2d5a] text-white flex items-center gap-1"
+                >
+                  View All <ArrowUpRight className="h-3 w-3" />
+                </Button>
+              </motion.div>
+            </CardContent>
+          </Card>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 };
 

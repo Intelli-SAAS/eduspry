@@ -6,11 +6,11 @@
 
 @layer base {
   :root {
-    /* Perplexity Enterprise-inspired theme */
+    /* USA.gov inspired theme */
     --background: 0 0% 100%;
     --foreground: 222 47% 11%;
     
-    --primary: 213 94% 48%;    /* Perplexity blue accent #0369E1 */
+    --primary: 215 64% 30%;    /* USA.gov blue #1a4480 */
     --primary-foreground: 210 40% 98%;
     
     --card: 0 0% 100%;
@@ -19,7 +19,7 @@
     --secondary: 210 20% 98%;  /* Light gray for hover states */
     --secondary-foreground: 222 47% 11%;
     
-    --accent: 213 94% 68%;
+    --accent: 215 64% 40%;
     --accent-foreground: 210 40% 98%;
     
     --muted: 220 14% 96%;
@@ -30,7 +30,7 @@
     
     --border: 220 13% 91%;
     --input: 220 13% 91%;
-    --ring: 213 94% 48%;
+    --ring: 215 64% 30%;
     
     --radius: 0.5rem;
   }

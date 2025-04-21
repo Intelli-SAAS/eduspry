@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -17,59 +18,7 @@ import {
   Menu,
   ChevronDown,
 } from 'lucide-react';
-
-interface SidebarLinkProps {
-  href: string;
-  icon: React.ReactNode;
-  label: string;
-  active?: boolean;
-  collapsed?: boolean;
-}
-
-const SidebarLink: React.FC<SidebarLinkProps> = ({
-  href,
-  icon,
-  label,
-  active = false,
-  collapsed = false,
-}) => {
-  return (
-    <Link to={href}>
-      <Button
-        variant="ghost"
-        className={cn(
-          "flex w-full items-center justify-center group transition-all px-2 py-2 rounded-xl",
-          "hover:bg-secondary/70",
-          active && "bg-secondary text-primary font-semibold",
-          collapsed ? "justify-center px-0 py-3 rounded-2xl" : "justify-start px-3",
-        )}
-        style={{
-          minHeight: collapsed ? 48 : 42,
-          width: "100%",
-        }}
-      >
-        <span className={cn(
-          "flex items-center justify-center",
-          active ? "text-primary" : "text-foreground/70"
-        )}>
-          {icon}
-        </span>
-        {!collapsed && (
-          <span
-            className={cn(
-              "ml-3 text-[1rem] font-medium transition-all whitespace-nowrap",
-              collapsed && "opacity-0 w-0 pointer-events-none",
-              active ? "text-primary" : "text-foreground/90"
-            )}
-          >
-            {label}
-          </span>
-        )}
-      </Button>
-    </Link>
-  );
-};
-
+import SidebarLink from './SidebarLink';
 
 interface SidebarSubmenuProps {
   label: string;
@@ -91,53 +40,79 @@ const SidebarSubmenu: React.FC<SidebarSubmenuProps> = ({
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen} className="w-full">
       <CollapsibleTrigger asChild>
-        <Button
-          variant="ghost"
+        <div
           className={cn(
-            "flex w-full items-center px-3 py-2 rounded-xl transition-all",
-            active && "bg-secondary text-primary font-semibold",
-            collapsed ? "justify-center px-0 py-3 rounded-2xl" : "justify-start px-3"
+            "transition-all duration-200 hover:scale-[1.02]",
+            collapsed ? "hover:translate-x-0" : "hover:translate-x-[3px]"
           )}
-          style={{
-            minHeight: collapsed ? 48 : 42,
-            width: "100%",
-          }}
         >
-          <span className={cn(
-            "flex items-center justify-center",
-            active ? "text-primary" : "text-foreground/70"
-          )}>
-            {icon}
-          </span>
-          {!collapsed && (
-            <>
-              <span className={cn(
-                "ml-3 font-medium",
-                active ? "text-primary" : "text-foreground/90"
-              )}>
-                {label}
-              </span>
-              <ChevronDown className={cn(
-                "ml-auto h-4 w-4 transition-transform text-foreground/60",
-                isOpen && "rotate-180"
-              )} />
-            </>
-          )}
-        </Button>
+          <Button
+            variant="ghost"
+            className={cn(
+              "flex w-full items-center px-3 py-2 rounded-xl transition-all text-[1rem]",
+              "hover:bg-[#1a4480]/10",
+              active && "bg-[#1a4480]/15 text-[#1a4480] font-semibold",
+              collapsed ? "justify-center px-0 py-3 rounded-2xl" : "justify-start px-3"
+            )}
+            style={{
+              minHeight: collapsed ? 48 : 42,
+              width: "100%",
+            }}
+          >
+            <span className={cn(
+              "flex items-center justify-center",
+              active ? "text-[#1a4480]" : "text-foreground/70",
+              collapsed && "mx-auto"
+            )}>
+              {icon}
+            </span>
+            {!collapsed && (
+              <>
+                <span
+                  className={cn(
+                    "ml-3 font-medium whitespace-nowrap",
+                    active ? "text-[#1a4480]" : "text-foreground/90"
+                  )}
+                >
+                  {label}
+                </span>
+                <div
+                  className="transform transition-transform duration-300"
+                  style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                >
+                  <ChevronDown className="ml-auto h-4 w-4 text-foreground/60" />
+                </div>
+              </>
+            )}
+          </Button>
+        </div>
       </CollapsibleTrigger>
-      {!collapsed && (
-        <CollapsibleContent className="pl-7 pt-1 space-y-1">
-          {children}
+      {!collapsed && isOpen && (
+        <CollapsibleContent forceMount>
+          <div className="pl-7 pt-1 space-y-1 animate-slideDown">
+            {children}
+          </div>
         </CollapsibleContent>
       )}
     </Collapsible>
   );
 };
 
-const Sidebar: React.FC = () => {
+interface SidebarProps {
+  onCollapseChange?: (collapsed: boolean) => void;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ onCollapseChange }) => {
   const { pathname } = useLocation();
   const { user } = useAuth();
   const [collapsed, setCollapsed] = useState(false);
+
+  // Notify parent component when collapse state changes
+  useEffect(() => {
+    if (onCollapseChange) {
+      onCollapseChange(collapsed);
+    }
+  }, [collapsed, onCollapseChange]);
 
   // Role Based Navigation
   const renderRoleBasedLinks = () => {
@@ -147,21 +122,21 @@ const Sidebar: React.FC = () => {
           <>
             <SidebarLink
               href="/dashboard"
-              icon={<Home className="h-6 w-6" />}
+              icon={<Home className="h-5 w-5" />}
               label="Home"
               active={pathname === '/dashboard'}
               collapsed={collapsed}
             />
             <SidebarLink
               href="/tests"
-              icon={<FileText className="h-6 w-6" />}
+              icon={<FileText className="h-5 w-5" />}
               label="Tests"
               active={pathname.startsWith('/tests')}
               collapsed={collapsed}
             />
             <SidebarSubmenu
               label="Subjects"
-              icon={<BookOpen className="h-6 w-6" />}
+              icon={<BookOpen className="h-5 w-5" />}
               active={pathname.startsWith('/subjects')}
               collapsed={collapsed}
             >
@@ -196,14 +171,14 @@ const Sidebar: React.FC = () => {
             </SidebarSubmenu>
             <SidebarLink
               href="/performance"
-              icon={<LayoutDashboard className="h-6 w-6" />}
+              icon={<LayoutDashboard className="h-5 w-5" />}
               label="My Performance"
               active={pathname.startsWith('/performance')}
               collapsed={collapsed}
             />
             <SidebarLink
               href="/calendar"
-              icon={<Calendar className="h-6 w-6" />}
+              icon={<Calendar className="h-5 w-5" />}
               label="Calendar"
               active={pathname.startsWith('/calendar')}
               collapsed={collapsed}
@@ -215,21 +190,21 @@ const Sidebar: React.FC = () => {
           <>
             <SidebarLink
               href="/dashboard"
-              icon={<Home className="h-6 w-6" />}
+              icon={<Home className="h-5 w-5" />}
               label="Dashboard"
               active={pathname === '/dashboard'}
               collapsed={collapsed}
             />
             <SidebarLink
               href="/students"
-              icon={<Users className="h-6 w-6" />}
+              icon={<Users className="h-5 w-5" />}
               label="Students"
               active={pathname.startsWith('/students')}
               collapsed={collapsed}
             />
             <SidebarSubmenu
               label="Questions"
-              icon={<BookOpen className="h-6 w-6" />}
+              icon={<BookOpen className="h-5 w-5" />}
               active={pathname.startsWith('/questions')}
               collapsed={collapsed}
             >
@@ -237,27 +212,27 @@ const Sidebar: React.FC = () => {
                 href="/questions/create"
                 label="Create"
                 active={pathname === '/questions/create'}
-                icon={<div className="h-3 w-3 rounded-full bg-primary" />}
+                icon={<div className="h-3 w-3 rounded-full bg-[#1a4480]" />}
                 collapsed={collapsed}
               />
               <SidebarLink
                 href="/questions/bank"
                 label="Bank"
                 active={pathname === '/questions/bank'}
-                icon={<div className="h-3 w-3 rounded-full bg-primary" />}
+                icon={<div className="h-3 w-3 rounded-full bg-[#1a4480]" />}
                 collapsed={collapsed}
               />
               <SidebarLink
                 href="/questions/import"
                 label="Import"
                 active={pathname === '/questions/import'}
-                icon={<div className="h-3 w-3 rounded-full bg-primary" />}
+                icon={<div className="h-3 w-3 rounded-full bg-[#1a4480]" />}
                 collapsed={collapsed}
               />
             </SidebarSubmenu>
             <SidebarSubmenu
               label="Tests"
-              icon={<FileText className="h-6 w-6" />}
+              icon={<FileText className="h-5 w-5" />}
               active={pathname.startsWith('/tests')}
               collapsed={collapsed}
             >
@@ -265,34 +240,34 @@ const Sidebar: React.FC = () => {
                 href="/tests/create"
                 label="Create"
                 active={pathname === '/tests/create'}
-                icon={<div className="h-3 w-3 rounded-full bg-primary" />}
+                icon={<div className="h-3 w-3 rounded-full bg-[#1a4480]" />}
                 collapsed={collapsed}
               />
               <SidebarLink
                 href="/tests/manage"
                 label="Manage"
                 active={pathname === '/tests/manage'}
-                icon={<div className="h-3 w-3 rounded-full bg-primary" />}
+                icon={<div className="h-3 w-3 rounded-full bg-[#1a4480]" />}
                 collapsed={collapsed}
               />
               <SidebarLink
                 href="/tests/results"
                 label="Results"
                 active={pathname === '/tests/results'}
-                icon={<div className="h-3 w-3 rounded-full bg-primary" />}
+                icon={<div className="h-3 w-3 rounded-full bg-[#1a4480]" />}
                 collapsed={collapsed}
               />
             </SidebarSubmenu>
             <SidebarLink
               href="/analytics"
-              icon={<LayoutDashboard className="h-6 w-6" />}
+              icon={<LayoutDashboard className="h-5 w-5" />}
               label="Analytics"
               active={pathname.startsWith('/analytics')}
               collapsed={collapsed}
             />
             <SidebarLink
               href="/calendar"
-              icon={<Calendar className="h-6 w-6" />}
+              icon={<Calendar className="h-5 w-5" />}
               label="Calendar"
               active={pathname.startsWith('/calendar')}
               collapsed={collapsed}
@@ -304,42 +279,42 @@ const Sidebar: React.FC = () => {
           <>
             <SidebarLink
               href="/dashboard"
-              icon={<Home className="h-6 w-6" />}
+              icon={<Home className="h-5 w-5" />}
               label="Dashboard"
               active={pathname === '/dashboard'}
               collapsed={collapsed}
             />
             <SidebarLink
               href="/departments"
-              icon={<LayoutDashboard className="h-6 w-6" />}
+              icon={<LayoutDashboard className="h-5 w-5" />}
               label="Departments"
               active={pathname.startsWith('/departments')}
               collapsed={collapsed}
             />
             <SidebarLink
               href="/teachers"
-              icon={<User className="h-6 w-6" />}
+              icon={<User className="h-5 w-5" />}
               label="Teachers"
               active={pathname.startsWith('/teachers')}
               collapsed={collapsed}
             />
             <SidebarLink
               href="/students"
-              icon={<Users className="h-6 w-6" />}
+              icon={<Users className="h-5 w-5" />}
               label="Students"
               active={pathname.startsWith('/students')}
               collapsed={collapsed}
             />
             <SidebarLink
               href="/analytics"
-              icon={<LayoutDashboard className="h-6 w-6" />}
+              icon={<LayoutDashboard className="h-5 w-5" />}
               label="Analytics"
               active={pathname.startsWith('/analytics')}
               collapsed={collapsed}
             />
             <SidebarLink
               href="/settings"
-              icon={<Settings className="h-6 w-6" />}
+              icon={<Settings className="h-5 w-5" />}
               label="Settings"
               active={pathname.startsWith('/settings')}
               collapsed={collapsed}
@@ -350,7 +325,7 @@ const Sidebar: React.FC = () => {
         return (
           <SidebarLink
             href="/dashboard"
-            icon={<Home className="h-6 w-6" />}
+            icon={<Home className="h-5 w-5" />}
             label="Dashboard"
             active={pathname === '/dashboard'}
             collapsed={collapsed}
@@ -359,63 +334,59 @@ const Sidebar: React.FC = () => {
     }
   };
 
+  const toggleCollapsed = () => {
+    setCollapsed(!collapsed);
+  };
 
-  // MAIN SIDEBAR COMPONENT
   return (
-    <aside
+    <div
       className={cn(
-        "flex flex-col min-h-screen transition-all duration-300 ease-in-out shadow-sm",
-        collapsed
-          ? "w-[70px] bg-white"
-          : "w-[270px] bg-white",
-        "border-r border-border z-20"
+        "fixed left-0 top-0 z-20 flex flex-col bg-white/90 backdrop-blur-sm border-r border-border/40 h-screen shadow-md transition-all duration-300",
+        collapsed ? "w-[72px] items-center py-4 pr-0 pl-0" : "w-[280px] py-4 pr-2 pl-4"
       )}
-      style={{
-        backdropFilter: "blur(8px)",
-        WebkitBackdropFilter: "blur(8px)"
-      }}
     >
-      <div className="flex items-center p-4 pb-0">
-        <div className="flex flex-1 flex-col items-center w-full animate-fade-in">
+      <div className={cn(
+        "flex w-full items-center justify-between mb-6 pt-2 px-4",
+        collapsed ? "justify-center" : ""
+      )}>
+        <div className={cn(
+          "flex items-center",
+          collapsed ? "justify-center w-full" : ""
+        )}>
+          <BookOpen className="h-7 w-7 text-[#1a4480]" />
           {!collapsed && (
-            <div className="w-full">
-              <span className="text-2xl font-poppins font-bold bg-gradient-to-r from-primary via-blue-500 to-cyan-400 bg-clip-text text-transparent">
-                EduSpry
-              </span>
-              <div className="text-xs text-gray-500 font-inter font-medium mt-1">The Competitive Edge for Curious Minds.</div>
-            </div>
+            <span className="font-bold text-xl text-[#1a4480] ml-3">EduSpry</span>
           )}
         </div>
+        
+        {!collapsed && (
+          <button
+            onClick={toggleCollapsed}
+            className="flex h-9 w-9 items-center justify-center rounded-full hover:bg-[#1a4480]/10 transition-all duration-200 hover:scale-110 active:scale-95"
+          >
+            <Menu className="h-5 w-5 text-foreground/70" />
+          </button>
+        )}
       </div>
 
-      <button
-        className={cn(
-          "absolute top-4 right-3 z-30 w-8 h-8 p-0 hidden md:flex items-center justify-center rounded-full border border-border bg-secondary/50 hover:bg-secondary transition",
-          collapsed && "left-2.5 top-4"
-        )}
-        title={collapsed ? "Expand" : "Collapse"}
-        aria-label="Toggle sidebar"
-        onClick={() => setCollapsed((v) => !v)}
-        tabIndex={0}
-        type="button"
-      >
-        <Menu className="h-5 w-5 text-foreground/70" />
-      </button>
+      {collapsed && (
+        <button
+          onClick={toggleCollapsed}
+          className="flex h-9 w-9 items-center justify-center rounded-full hover:bg-[#1a4480]/10 transition-all duration-200 hover:scale-110 active:scale-95 mb-4 mx-auto"
+        >
+          <Menu className="h-5 w-5 text-foreground/70" />
+        </button>
+      )}
 
-      <nav className={cn(
-        "flex-1 px-2 py-6 transition-all duration-300 overflow-y-auto",
-        collapsed ? "space-y-2" : "space-y-1"
-      )}>
+      <nav 
+        className="flex w-full flex-col space-y-1 overflow-y-auto px-1"
+        style={{
+          maxHeight: "calc(100vh - 8rem)",
+        }}
+      >
         {renderRoleBasedLinks()}
       </nav>
-
-      {/* Footer for copyright */}
-      <div className="mt-auto pb-7 px-2 text-xs text-gray-500 w-full text-center opacity-80">
-        {!collapsed && (
-          <>© {new Date().getFullYear()} EduSpry</>
-        )}
-      </div>
-    </aside>
+    </div>
   );
 };
 

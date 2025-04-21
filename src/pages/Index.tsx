@@ -54,7 +54,7 @@ const Header = () => {
   return (
     <motion.header
       className={`fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 lg:px-8 transition-all duration-300 ${
-        isScrolled ? 'bg-white py-2 shadow-md' : 'bg-transparent py-4'
+        isScrolled ? 'bg-[#1a4480] py-2 shadow-md' : 'bg-[#1a4480] py-4'
       }`}
       initial="hidden"
       animate="visible"
@@ -67,8 +67,8 @@ const Header = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <BookOpen className={`h-8 w-8 ${isScrolled ? 'text-[#1a4480]' : 'text-[#1a4480]'}`} />
-            <span className={`ml-2 text-xl font-bold ${isScrolled ? 'text-gray-900' : 'text-gray-900'}`}>
+            <BookOpen className="h-8 w-8 text-white" />
+            <span className="ml-2 text-xl font-bold text-white">
               EduSpry
             </span>
           </motion.div>
@@ -78,9 +78,7 @@ const Header = () => {
               <a 
                 key={item} 
                 href={`#${item.toLowerCase()}`}
-                className={`text-sm font-medium ${
-                  isScrolled ? 'text-gray-700 hover:text-[#1a4480]' : 'text-gray-700 hover:text-[#1a4480]'
-                } transition-colors`}
+                className="text-sm font-medium text-white hover:text-blue-100 transition-colors"
               >
                 {item}
               </a>
@@ -90,16 +88,16 @@ const Header = () => {
 
         <div className="flex items-center space-x-4">
           <div className="hidden md:block">
-            <Button asChild variant="outline" size="sm" className="mr-2 rounded-md">
+            <Button asChild variant="outline" size="sm" className="mr-2 rounded-md border-white text-white hover:bg-white/10">
               <Link to="/login">Log in</Link>
             </Button>
-            <Button asChild size="sm" className="rounded-md bg-[#1a4480] text-white hover:bg-[#0f2b50]">
+            <Button asChild size="sm" className="rounded-md bg-white text-[#1a4480] hover:bg-blue-50">
               <Link to="/signup">Sign up free</Link>
             </Button>
           </div>
 
           <button 
-            className="md:hidden text-gray-700"
+            className="md:hidden text-white"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -109,7 +107,7 @@ const Header = () => {
 
       {/* Mobile menu */}
       <motion.div 
-        className="md:hidden absolute top-full left-0 right-0 bg-white shadow-lg flex flex-col"
+        className="md:hidden absolute top-full left-0 right-0 bg-[#1a4480] shadow-lg flex flex-col"
         initial="closed"
         animate={isMobileMenuOpen ? "open" : "closed"}
         variants={menuVariants}
@@ -119,17 +117,17 @@ const Header = () => {
             <a 
               key={item} 
               href={`#${item.toLowerCase()}`}
-              className="block text-sm font-medium text-gray-700 hover:text-[#1a4480]"
+              className="block text-sm font-medium text-white hover:text-blue-100"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {item}
             </a>
           ))}
           <div className="pt-4 flex flex-col space-y-2">
-            <Button asChild variant="outline" size="sm" className="w-full justify-center rounded-md">
+            <Button asChild variant="outline" size="sm" className="w-full justify-center rounded-md border-white text-white hover:bg-white/10">
               <Link to="/login">Log in</Link>
             </Button>
-            <Button asChild size="sm" className="w-full justify-center rounded-md bg-[#1a4480] text-white hover:bg-[#0f2b50]">
+            <Button asChild size="sm" className="w-full justify-center rounded-md bg-white text-[#1a4480] hover:bg-blue-50">
               <Link to="/signup">Sign up free</Link>
             </Button>
           </div>
@@ -587,7 +585,7 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-white border-t">
+      <footer className="bg-[#1a4480] text-white border-t border-blue-900">
         <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
           <div className="xl:grid xl:grid-cols-3 xl:gap-8">
             <div className="space-y-8 xl:col-span-1">
@@ -596,10 +594,10 @@ const Index = () => {
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.2 }}
               >
-                <BookOpen className="h-8 w-8 text-[#1a4480]" />
-                <span className="ml-2 text-xl font-bold text-gray-900">EduSpry</span>
+                <BookOpen className="h-8 w-8 text-white" />
+                <span className="ml-2 text-xl font-bold text-white">EduSpry</span>
               </motion.div>
-              <p className="text-gray-500 text-base">
+              <p className="text-blue-100 text-base">
                 Transforming education through data-driven insights and analytics.
               </p>
               <div className="flex space-x-6">
@@ -609,13 +607,13 @@ const Index = () => {
             <div className="mt-12 grid grid-cols-2 gap-8 xl:mt-0 xl:col-span-2">
               <div className="md:grid md:grid-cols-2 md:gap-8">
                 <div>
-                  <h3 className="text-sm font-semibold text-gray-500 tracking-wider uppercase">Solutions</h3>
+                  <h3 className="text-sm font-semibold text-white tracking-wider uppercase">Solutions</h3>
                   <ul className="mt-4 space-y-4">
                     {['For Students', 'For Teachers', 'For Administrators', 'For Parents'].map((item) => (
                       <li key={item}>
                         <motion.a 
                           href="#" 
-                          className="text-base text-gray-600 hover:text-[#1a4480]"
+                          className="text-base text-blue-100 hover:text-white"
                           whileHover={{ x: 3 }}
                           transition={{ duration: 0.2 }}
                         >
@@ -626,13 +624,13 @@ const Index = () => {
                   </ul>
                 </div>
                 <div className="mt-12 md:mt-0">
-                  <h3 className="text-sm font-semibold text-gray-500 tracking-wider uppercase">Support</h3>
+                  <h3 className="text-sm font-semibold text-white tracking-wider uppercase">Support</h3>
                   <ul className="mt-4 space-y-4">
                     {['Documentation', 'Guides', 'API Status', 'Help Center'].map((item) => (
                       <li key={item}>
                         <motion.a 
                           href="#" 
-                          className="text-base text-gray-600 hover:text-[#1a4480]"
+                          className="text-base text-blue-100 hover:text-white"
                           whileHover={{ x: 3 }}
                           transition={{ duration: 0.2 }}
                         >
@@ -645,13 +643,13 @@ const Index = () => {
               </div>
               <div className="md:grid md:grid-cols-2 md:gap-8">
                 <div>
-                  <h3 className="text-sm font-semibold text-gray-500 tracking-wider uppercase">Company</h3>
+                  <h3 className="text-sm font-semibold text-white tracking-wider uppercase">Company</h3>
                   <ul className="mt-4 space-y-4">
                     {['About', 'Blog', 'Careers', 'Press'].map((item) => (
                       <li key={item}>
                         <motion.a 
                           href="#" 
-                          className="text-base text-gray-600 hover:text-[#1a4480]"
+                          className="text-base text-blue-100 hover:text-white"
                           whileHover={{ x: 3 }}
                           transition={{ duration: 0.2 }}
                         >
@@ -662,13 +660,13 @@ const Index = () => {
                   </ul>
                 </div>
                 <div className="mt-12 md:mt-0">
-                  <h3 className="text-sm font-semibold text-gray-500 tracking-wider uppercase">Legal</h3>
+                  <h3 className="text-sm font-semibold text-white tracking-wider uppercase">Legal</h3>
                   <ul className="mt-4 space-y-4">
                     {['Privacy', 'Terms', 'GDPR', 'Educational Policy'].map((item) => (
                       <li key={item}>
                         <motion.a 
                           href="#" 
-                          className="text-base text-gray-600 hover:text-[#1a4480]"
+                          className="text-base text-blue-100 hover:text-white"
                           whileHover={{ x: 3 }}
                           transition={{ duration: 0.2 }}
                         >
@@ -681,8 +679,8 @@ const Index = () => {
               </div>
             </div>
           </div>
-          <div className="mt-12 border-t border-gray-200 pt-8">
-            <p className="text-base text-gray-500 text-center">
+          <div className="mt-12 border-t border-blue-900 pt-8">
+            <p className="text-base text-blue-100 text-center">
               &copy; {new Date().getFullYear()} EduSpry. All rights reserved.
             </p>
           </div>
