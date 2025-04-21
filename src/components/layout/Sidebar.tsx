@@ -17,6 +17,7 @@ import {
   Settings,
   Menu,
   ChevronDown,
+  Sparkles,
 } from 'lucide-react';
 import SidebarLink from './SidebarLink';
 
@@ -200,6 +201,13 @@ const Sidebar: React.FC<SidebarProps> = ({ onCollapseChange }) => {
               icon={<Users className="h-5 w-5" />}
               label="Students"
               active={pathname.startsWith('/students')}
+              collapsed={collapsed}
+            />
+            <SidebarLink
+              href="/ai-assistant"
+              icon={<Sparkles className="h-5 w-5" />}
+              label="AI Assistant"
+              active={pathname.startsWith('/ai-assistant')}
               collapsed={collapsed}
             />
             <SidebarSubmenu

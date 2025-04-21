@@ -31,6 +31,7 @@ import TeacherQuestionBank from "@/pages/teacher/QuestionBank";
 import TeacherAnalytics from "@/pages/teacher/Analytics";
 import CreateTest from "@/pages/teacher/CreateTest";
 import TestManagement from "@/pages/teacher/TestManagement";
+import AIAssistant from '@/pages/teacher/AIAssistant';
 
 // Principal Pages
 import PrincipalDashboard from "@/pages/principal/Dashboard";
@@ -118,6 +119,7 @@ const App = () => (
                 <Route path="/tests/manage" element={<TestManagement />} />
                 <Route path="/tests/results" element={<TestManagement />} />
                 <Route path="/analytics" element={<TeacherAnalytics />} />
+                <Route path="/ai-assistant" element={<AIAssistant />} />
                 <Route path="/calendar" element={<CalendarPage />} />
               </Route>
               
