@@ -361,3 +361,36 @@ export {
   ChartLegendContent,
   ChartStyle,
 }
+
+export const LineChart = ({ children, className, ...props }: React.ComponentProps<typeof RechartsPrimitive.LineChart>) => (
+  <RechartsPrimitive.LineChart className={cn(className)} {...props}>
+    {children}
+  </RechartsPrimitive.LineChart>
+)
+LineChart.displayName = "LineChart"
+
+export const BarChart = ({ children, className, ...props }: React.ComponentProps<typeof RechartsPrimitive.BarChart>) => (
+  <RechartsPrimitive.BarChart className={cn(className)} {...props}>
+    {children}
+  </RechartsPrimitive.BarChart>
+)
+BarChart.displayName = "BarChart"
+
+export const PieChart = ({ children, className, ...props }: React.ComponentProps<typeof RechartsPrimitive.PieChart>) => (
+  <RechartsPrimitive.PieChart className={cn(className)} {...props}>
+    {children}
+  </RechartsPrimitive.PieChart>
+)
+PieChart.displayName = "PieChart"
+
+// Export other Recharts components that might be needed
+export const Area = RechartsPrimitive.Area
+export const Bar = RechartsPrimitive.Bar
+export const Line = RechartsPrimitive.Line
+export const Pie = RechartsPrimitive.Pie
+export const XAxis = RechartsPrimitive.XAxis
+export const YAxis = RechartsPrimitive.YAxis
+export const CartesianGrid = RechartsPrimitive.CartesianGrid
+export const Legend = RechartsPrimitive.Legend
+export const ResponsiveContainer = RechartsPrimitive.ResponsiveContainer
+export const Tooltip = RechartsPrimitive.Tooltip

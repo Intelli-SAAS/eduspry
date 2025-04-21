@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
 
 @tailwind base;
@@ -7,55 +6,33 @@
 
 @layer base {
   :root {
-    /* Perplexity-inspired glass dark background & premium blue accents (light defaults) */
-    --background: 228 13% 10%;
-    --foreground: 213 7% 85%;
-
-    --primary: 199 96% 57%;    /* Perplexity cyan-blue accent #20baff */
+    /* USA.gov inspired theme */
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+    
+    --primary: 215 64% 30%;    /* USA.gov blue #1a4480 */
     --primary-foreground: 210 40% 98%;
-
-    --card: 227 15% 16%;
-    --card-foreground: 213 9% 88%;
-
-    --secondary: 227 10% 13%;
-    --secondary-foreground: 213 7% 85%;
-
-    --accent: 197 100% 74%;
-    --accent-foreground: 228 13% 10%;
-
-    --muted: 225 16% 20%;
-    --muted-foreground: 213 9% 70%;
-
+    
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    
+    --secondary: 210 20% 98%;  /* Light gray for hover states */
+    --secondary-foreground: 222 47% 11%;
+    
+    --accent: 215 64% 40%;
+    --accent-foreground: 210 40% 98%;
+    
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;
+    
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
-
-    --border: 215 28% 19%;
-    --input: 215 28% 19%;
-    --ring: 199 96% 57%;
-
-    --radius: 1.1rem;
-  }
-
-  .dark {
-    --background: 228 13% 10%;
-    --foreground: 213 7% 85%;
-    --primary: 199 96% 57%;
-    --primary-foreground: 210 40% 98%;
-    --card: 227 14% 13%;
-    --card-foreground: 213 9% 88%;
-    --popover: 227 16% 7%;
-    --popover-foreground: 213 9% 88%;
-    --secondary: 227 10% 13%;
-    --secondary-foreground: 213 7% 85%;
-    --accent: 197 100% 74%;
-    --accent-foreground: 228 13% 10%;
-    --muted: 225 16% 20%;
-    --muted-foreground: 213 9% 70%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 215 28% 19%;
-    --input: 215 28% 19%;
-    --ring: 199 96% 57%;
+    
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 215 64% 30%;
+    
+    --radius: 0.5rem;
   }
 
   * {
@@ -66,7 +43,6 @@
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
     scroll-behavior: smooth;
-    transition: background 0.3s, color 0.3s;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -77,23 +53,24 @@
 /* Glassmorphism and Card styling */
 @layer components {
   .glass-morphism {
-    @apply bg-white/10 dark:bg-white/5 backdrop-blur-2xl border border-white/10 shadow-[0_4px_24px_-3px_rgba(32,186,255,0.10)] rounded-2xl;
+    @apply bg-white/80 backdrop-blur-md border border-border shadow-sm rounded-xl;
   }
+  
   .perplexity-card {
-    @apply rounded-2xl border-0 bg-card shadow-lg px-5 py-4 transition-all duration-250 hover:shadow-xl;
+    @apply rounded-xl border border-border bg-card shadow-sm px-5 py-4 transition-all duration-250 hover:shadow-md;
   }
+  
   .perplexity-input {
-    @apply rounded-[2rem] border-2 border-gray-700 bg-transparent px-4 py-3 focus:border-primary focus:ring-2 focus:ring-primary/10 focus:outline-none text-base text-foreground/90 transition-all duration-200;
+    @apply rounded-lg border border-input bg-transparent px-4 py-2 focus:border-primary focus:ring-1 focus:ring-primary/20 focus:outline-none text-base text-foreground/90 transition-all duration-200;
   }
+  
   .perplexity-button {
-    @apply rounded-full bg-primary px-5 py-2 text-white hover:bg-primary/90 transition-all active:scale-98 font-semibold text-base shadow shadow-primary/10;
+    @apply rounded-lg bg-primary px-5 py-2 text-white hover:bg-primary/90 transition-all active:scale-95 font-semibold text-base shadow-sm;
   }
 }
 
-/* Sidebar animation */
+/* Animation */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
-
-/* ... keep existing code (rest of the file) the same ... */
