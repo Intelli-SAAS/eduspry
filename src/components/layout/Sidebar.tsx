@@ -340,7 +340,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onCollapseChange }) => {
     <div
       className={cn(
         "fixed left-0 top-0 z-20 flex h-screen flex-col transition-all duration-300",
-        "bg-gradient-to-b from-[#9b87f5] to-[#7E69AB]",
+        "bg-gradient-to-b from-[#1a4480] to-[#0d2240]",
         "border-r border-white/10 shadow-xl backdrop-blur-sm",
         collapsed ? "w-[72px] items-center py-4 px-0" : "w-[280px] py-4 px-4"
       )}

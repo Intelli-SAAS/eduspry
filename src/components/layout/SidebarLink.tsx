@@ -31,12 +31,13 @@ const SidebarLink: React.FC<SidebarLinkProps> = ({
           className={cn(
             "flex w-full items-center transition-all px-2 py-2 rounded-xl text-[1rem]",
             "text-white/70 hover:text-white hover:bg-white/10",
-            active && "bg-white/15 text-white font-semibold backdrop-blur-md",
+            active && "bg-white/15 text-white font-semibold",
             collapsed ? "justify-center px-0 py-3 rounded-2xl" : "justify-start px-3",
           )}
           style={{
             minHeight: collapsed ? 48 : 42,
             width: "100%",
+            backdropFilter: active ? "blur(8px)" : "none",
           }}
         >
           <span className={cn(
