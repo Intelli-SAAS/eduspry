@@ -30,8 +30,8 @@ const SidebarLink: React.FC<SidebarLinkProps> = ({
           variant="ghost"
           className={cn(
             "flex w-full items-center transition-all px-2 py-2 rounded-xl text-[1rem]",
-            "text-white/70 hover:text-white hover:bg-white/10",
-            active && "bg-white/15 text-white font-semibold",
+            "hover:bg-[#1a4480]/10 hover:text-[#1a4480]",
+            active && "bg-[#1a4480]/15 text-[#1a4480] font-semibold",
             collapsed ? "justify-center px-0 py-3 rounded-2xl" : "justify-start px-3",
           )}
           style={{
@@ -42,7 +42,7 @@ const SidebarLink: React.FC<SidebarLinkProps> = ({
         >
           <span className={cn(
             "flex items-center justify-center",
-            active ? "text-white" : "text-white/70",
+            active ? "text-[#1a4480]" : "text-foreground/70",
             collapsed && "mx-auto"
           )}>
             {icon}
@@ -51,7 +51,7 @@ const SidebarLink: React.FC<SidebarLinkProps> = ({
             <span
               className={cn(
                 "ml-3 font-medium whitespace-nowrap",
-                active ? "text-white" : "text-white/90"
+                active ? "text-[#1a4480]" : "text-foreground/90"
               )}
             >
               {label}
@@ -63,4 +63,4 @@ const SidebarLink: React.FC<SidebarLinkProps> = ({
   );
 };
 
-export default SidebarLink;
+export default SidebarLink; 

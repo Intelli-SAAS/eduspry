@@ -6,24 +6,21 @@
 
 @layer base {
   :root {
-    /* EduSpry theme - Enhanced with premium colors */
+    /* USA.gov inspired theme */
     --background: 0 0% 100%;
     --foreground: 222 47% 11%;
     
-    --primary: 215 64% 30%;    /* EduSpry blue #1a4480 */
+    --primary: 215 64% 30%;    /* USA.gov blue #1a4480 */
     --primary-foreground: 210 40% 98%;
     
     --card: 0 0% 100%;
     --card-foreground: 222 47% 11%;
     
-    --secondary: 210 20% 98%;
+    --secondary: 210 20% 98%;  /* Light gray for hover states */
     --secondary-foreground: 222 47% 11%;
     
     --accent: 215 64% 40%;
     --accent-foreground: 210 40% 98%;
-    
-    --sidebar: 215 64% 18%;    /* Darker blue for sidebar */
-    --sidebar-hover: 215 64% 22%;
     
     --muted: 220 14% 96%;
     --muted-foreground: 220 9% 46%;
@@ -36,14 +33,6 @@
     --ring: 215 64% 30%;
     
     --radius: 0.5rem;
-  }
-
-  .dark {
-    --background: 222 47% 11%;
-    --foreground: 210 40% 98%;
-    
-    --sidebar: 215 64% 12%;
-    --sidebar-hover: 215 64% 16%;
   }
 
   * {

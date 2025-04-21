@@ -107,12 +107,14 @@ const Sidebar: React.FC<SidebarProps> = ({ onCollapseChange }) => {
   const { user } = useAuth();
   const [collapsed, setCollapsed] = useState(false);
 
+  // Notify parent component when collapse state changes
   useEffect(() => {
     if (onCollapseChange) {
       onCollapseChange(collapsed);
     }
   }, [collapsed, onCollapseChange]);
 
+  // Role Based Navigation
   const renderRoleBasedLinks = () => {
     switch (user?.role) {
       case UserRole.STUDENT:
@@ -339,36 +341,30 @@ const Sidebar: React.FC<SidebarProps> = ({ onCollapseChange }) => {
   return (
     <div
       className={cn(
-        "fixed left-0 top-0 z-20 flex h-screen flex-col transition-all duration-300",
-        "bg-gradient-to-b from-[#1a4480] to-[#0d2240]",
-        "border-r border-white/10 shadow-xl backdrop-blur-sm",
-        collapsed ? "w-[72px] items-center py-4 px-0" : "w-[280px] py-4 px-4"
+        "fixed left-0 top-0 z-20 flex flex-col bg-white/90 backdrop-blur-sm border-r border-border/40 h-screen shadow-md transition-all duration-300",
+        collapsed ? "w-[72px] items-center py-4 pr-0 pl-0" : "w-[280px] py-4 pr-2 pl-4"
       )}
     >
       <div className={cn(
-        "flex w-full items-center justify-between mb-6 pt-2",
-        collapsed ? "justify-center" : "px-4"
+        "flex w-full items-center justify-between mb-6 pt-2 px-4",
+        collapsed ? "justify-center" : ""
       )}>
         <div className={cn(
-          "flex items-center gap-3",
+          "flex items-center",
           collapsed ? "justify-center w-full" : ""
         )}>
-          <BookOpen className="h-7 w-7 text-white" />
+          <BookOpen className="h-7 w-7 text-[#1a4480]" />
           {!collapsed && (
-            <span className="font-bold text-xl bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
-              EduSpry
-            </span>
+            <span className="font-bold text-xl text-[#1a4480] ml-3">EduSpry</span>
           )}
         </div>
         
         {!collapsed && (
           <button
             onClick={toggleCollapsed}
-            className="flex h-9 w-9 items-center justify-center rounded-full 
-                     hover:bg-white/10 transition-all duration-200 
-                     hover:scale-110 active:scale-95"
+            className="flex h-9 w-9 items-center justify-center rounded-full hover:bg-[#1a4480]/10 transition-all duration-200 hover:scale-110 active:scale-95"
           >
-            <Menu className="h-5 w-5 text-white/70" />
+            <Menu className="h-5 w-5 text-foreground/70" />
           </button>
         )}
       </div>
@@ -376,18 +372,14 @@ const Sidebar: React.FC<SidebarProps> = ({ onCollapseChange }) => {
       {collapsed && (
         <button
           onClick={toggleCollapsed}
-          className="flex h-9 w-9 items-center justify-center rounded-full 
-                   hover:bg-white/10 transition-all duration-200 
-                   hover:scale-110 active:scale-95 mb-4 mx-auto"
+          className="flex h-9 w-9 items-center justify-center rounded-full hover:bg-[#1a4480]/10 transition-all duration-200 hover:scale-110 active:scale-95 mb-4 mx-auto"
         >
-          <Menu className="h-5 w-5 text-white/70" />
+          <Menu className="h-5 w-5 text-foreground/70" />
         </button>
       )}
 
       <nav 
-        className="flex w-full flex-col space-y-1 overflow-y-auto px-1 
-                   scrollbar-thin scrollbar-track-transparent 
-                   scrollbar-thumb-white/10 hover:scrollbar-thumb-white/20"
+        className="flex w-full flex-col space-y-1 overflow-y-auto px-1"
         style={{
           maxHeight: "calc(100vh - 8rem)",
         }}
@@ -399,3 +391,4 @@ const Sidebar: React.FC<SidebarProps> = ({ onCollapseChange }) => {
 };
 
 export default Sidebar;
+
