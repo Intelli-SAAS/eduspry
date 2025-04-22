@@ -1,3 +1,4 @@
+import React from 'react';
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -12,9 +13,13 @@ import AppLayout from "@/components/layout/AppLayout";
 
 // Public Pages
 import IndexPage from "@/pages/Index";
+import LoginPage from "@/pages/auth/LoginPage";
+import RegisterPage from "@/pages/auth/RegisterPage";
+import ForgotPasswordPage from "@/pages/auth/ForgotPasswordPage";
+import ResetPasswordPage from "@/pages/auth/ResetPasswordPage";
+import LandingPage from "@/pages/LandingPage";
 
 // Auth Pages
-import LoginPage from "@/pages/auth/LoginPage";
 import UnauthorizedPage from "@/pages/auth/UnauthorizedPage";
 
 // Student Pages
@@ -83,7 +88,7 @@ const queryClient = new QueryClient({
 });
 
 const App = () => (
-  <ThemeProvider defaultTheme="light">
+  <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <TooltipProvider>
@@ -94,6 +99,9 @@ const App = () => (
               {/* Public routes */}
               <Route path="/" element={<IndexPage />} />
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+              <Route path="/reset-password" element={<ResetPasswordPage />} />
               <Route path="/unauthorized" element={<UnauthorizedPage />} />
               
               {/* App entry point - redirects based on user role */}

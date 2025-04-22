@@ -441,11 +441,11 @@ const VoiceAssistant: React.FC<VoiceAssistantProps> = ({
   }
   
   return (
-    <div className={`fixed bottom-8 right-8 z-50 ${className}`}>
+    <div className={`fixed bottom-10 left-10 z-50 ${className}`}>
       {/* Vectal.ai-style floating chat bubble */}
       <div 
         className={`
-          absolute bottom-20 right-0
+          absolute bottom-20 left-0
           w-80 rounded-2xl overflow-hidden
           shadow-lg border transition-all duration-300
           ${theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}
@@ -506,7 +506,7 @@ const VoiceAssistant: React.FC<VoiceAssistantProps> = ({
         </div>
       </div>
       
-      {/* Voice assistant floating button - Vectal.ai style */}
+      {/* Voice assistant floating button */}
       <div className="relative">
         <Button 
           size="icon" 
@@ -514,22 +514,23 @@ const VoiceAssistant: React.FC<VoiceAssistantProps> = ({
           onClick={toggleListening}
           disabled={processing}
           title={isListening ? "Stop listening" : "Use voice to chat"}
-          className="h-12 w-12 rounded-full shadow-lg"
+          className="h-14 w-14 rounded-full shadow-lg"
         >
           {isListening ? (
-            <MicOff className="h-5 w-5" />
+            <MicOff className="h-6 w-6" />
           ) : processing ? (
-            <Loader2 className="h-5 w-5 animate-spin" />
+            <Loader2 className="h-6 w-6 animate-spin" />
           ) : isSpeaking ? (
-            <Volume2 className="h-5 w-5 animate-pulse" />
+            <Volume2 className="h-6 w-6 animate-pulse" />
           ) : (
-            <Mic className="h-5 w-5" />
+            <Mic className="h-6 w-6" />
           )}
         </Button>
         
-        {/* Small floating label - Vectal.ai style */}
-        <div className="absolute -top-10 left-1/2 -translate-x-1/2 text-sm bg-gradient-to-r from-[#1a4480] to-[#2c5aa0] text-white px-4 py-2 rounded-lg whitespace-nowrap shadow-md">
+        {/* Small floating label - updated style */}
+        <div className="absolute -top-12 left-1/2 -translate-x-1/2 text-sm bg-white text-[#1a4480] px-4 py-2.5 rounded-lg whitespace-nowrap shadow-md border border-[#1a4480]/10 font-medium">
           {isListening ? "Listening..." : "Use voice to chat"}
+          <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-white rotate-45 border-b border-r border-[#1a4480]/10"></div>
         </div>
       </div>
     </div>
