@@ -178,6 +178,13 @@ const Sidebar: React.FC<SidebarProps> = ({ onCollapseChange }) => {
               collapsed={collapsed}
             />
             <SidebarLink
+              href="/study-tools"
+              icon={<Sparkles className="h-5 w-5" />}
+              label="AI Study Tools"
+              active={pathname.startsWith('/study-tools')}
+              collapsed={collapsed}
+            />
+            <SidebarLink
               href="/calendar"
               icon={<Calendar className="h-5 w-5" />}
               label="Calendar"

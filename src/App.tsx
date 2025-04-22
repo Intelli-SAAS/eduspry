@@ -23,6 +23,7 @@ import StudentTestsPage from "@/pages/student/Tests";
 import TestTakingPage from "@/pages/student/TestTaking";
 import TestResultPage from "@/pages/student/TestResult";
 import StudentPerformancePage from "@/pages/student/Performance";
+import AIStudyTools from "@/pages/student/AIStudyTools";
 
 // Teacher Pages
 import TeacherDashboard from "@/pages/teacher/Dashboard";
@@ -105,6 +106,7 @@ const App = () => (
                 <Route path="/tests/:testId/take" element={<TestTakingPage />} />
                 <Route path="/tests/:testId/result" element={<TestResultPage />} />
                 <Route path="/performance" element={<StudentPerformancePage />} />
+                <Route path="/study-tools" element={<AIStudyTools />} />
                 <Route path="/calendar" element={<CalendarPage />} />
               </Route>
               

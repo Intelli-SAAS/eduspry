@@ -839,6 +839,90 @@ ${params.topics.map((topic, i) => `${i+1}. **${topic}**
     }
   };
 
+  // Helper function to call the flashcards API
+  const callFlashcardsAPI = async (modelId: string, params: {
+    subject: string;
+    topics: string[];
+    includeFormulas: boolean;
+    apiKey: string;
+  }): Promise<string> => {
+    try {
+      // Create the prompt for the LLM
+      const prompt = llmService.createFlashcardsPrompt(
+        params.subject,
+        params.topics,
+        params.includeFormulas
+      );
+      
+      // In development or without API key, return mock content
+      if (process.env.NODE_ENV === 'development' || !params.apiKey) {
+        // Simulate API call delay
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        // Generate topic-specific content
+        const topicContent = params.topics.length > 0 
+          ? params.topics.map(topic => `## ${topic} Flashcards\n\n1. **Question**: What is the definition of ${topic}?\n   **Answer**: This is a key concept in ${params.subject}.\n\n2. **Question**: What are the applications of ${topic}?\n   **Answer**: ${topic} is applied in various scenarios.\n\n`).join('\n')
+          : `## ${params.subject} Flashcards\n\n1. **Question**: What is an important concept in ${params.subject}?\n   **Answer**: This is a foundational concept.\n\n2. **Question**: How do we apply ${params.subject} principles?\n   **Answer**: Through careful analysis and application.\n\n`;
+        
+        // Add formula sheet if requested
+        let formulaSheet = '';
+        if (params.includeFormulas) {
+          formulaSheet = `\n\n# ${params.subject} Formula Sheet\n\n`;
+          formulaSheet += `## Key Formulas\n\n`;
+          formulaSheet += `1. E = mc²\n`;
+          formulaSheet += `2. F = ma\n`;
+          formulaSheet += `3. PV = nRT\n\n`;
+          formulaSheet += `*This is a sample formula sheet. In a real implementation, formulas would be specific to the selected subject and topics.*`;
+        }
+        
+        return `# ${params.subject} Study Materials\n\n${topicContent}${formulaSheet}`;
+      }
+      
+      // Call the appropriate LLM API
+      const result = await llmService.callLLM(modelId, prompt, params.apiKey, {
+        temperature: 0.5,
+        maxTokens: 2000
+      });
+      
+      return result.content;
+    } catch (error) {
+      console.error("Error calling flashcards API:", error);
+      return "Error generating flashcards. Please check your API key and try again.";
+    }
+  };
+
+  // Handle export with download
+  const handleExport = (format: 'txt' | 'md' = 'txt') => {
+    if (!generatedContent) return;
+    
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    let fileType = 'Export';
+    
+    // Determine file type based on active tab
+    if (activeTab === 'test-creator') fileType = 'Test';
+    else if (activeTab === 'notes') fileType = 'Notes';
+    else if (activeTab === 'mcq-creator') fileType = 'MCQs';
+    else if (activeTab === 'doubts') fileType = 'Solution';
+    else if (activeTab === 'planner') fileType = 'StudyPlan';
+    else if (activeTab === 'past-paper') fileType = 'Analysis';
+    else if (activeTab === 'flashcards') fileType = 'Flashcards';
+    else if (activeTab === 'practice-quiz') fileType = 'Quiz';
+    else if (activeTab === 'rank-predictor') fileType = 'RankPrediction';
+    else if (activeTab === 'revision') fileType = 'RevisionSheet';
+    else if (activeTab === 'performance') fileType = 'Dashboard';
+    
+    const fileName = `${fileType}_${timestamp}.${format}`;
+    
+    // Create file and trigger download
+    downloadFile(generatedContent, fileName, format === 'md' ? 'text/markdown' : 'text/plain');
+  };
+
+  // Reset flashcards state
+  const handleResetFlashcards = () => {
+    setFlashcardsGenerated(false);
+    setGeneratedContent('');
+  };
+
   return (
     <motion.div 
       initial="hidden"
@@ -855,11 +939,13 @@ ${params.topics.map((topic, i) => `${i+1}. **${topic}**
             <h1 className="text-3xl font-bold tracking-tight text-[#1a4480]">AI Teaching Assistant</h1>
             <p className="text-gray-500">Leverage AI to create teaching materials, generate assessments, and help students.</p>
           </div>
-          <ModelSelector 
-            models={AVAILABLE_MODELS} 
-            selectedModel={selectedModel} 
-            onSelectModel={setSelectedModel} 
-          />
+          <div>
+            <ModelSelector
+              models={AVAILABLE_MODELS}
+              selectedModel={selectedModel}
+              onSelectModel={setSelectedModel} 
+            />
+          </div>
         </div>
       </motion.div>
 
@@ -868,35 +954,17 @@ ${params.topics.map((topic, i) => `${i+1}. **${topic}**
           <TabsTrigger value="test-creator" className="data-[state=active]:bg-[#1a4480] data-[state=active]:text-white">
             Test Creator
           </TabsTrigger>
-          <TabsTrigger value="notes" className="data-[state=active]:bg-[#1a4480] data-[state=active]:text-white">
-            Notes Generator
+          <TabsTrigger value="lesson-plan" className="data-[state=active]:bg-[#1a4480] data-[state=active]:text-white">
+            Lesson Plans
           </TabsTrigger>
-          <TabsTrigger value="mcq-creator" className="data-[state=active]:bg-[#1a4480] data-[state=active]:text-white">
-            MCQ Creator
+          <TabsTrigger value="assignment-creator" className="data-[state=active]:bg-[#1a4480] data-[state=active]:text-white">
+            Assignment Creator
           </TabsTrigger>
-          <TabsTrigger value="doubts" className="data-[state=active]:bg-[#1a4480] data-[state=active]:text-white">
-            Doubts Clearing
-          </TabsTrigger>
-          <TabsTrigger value="planner" className="data-[state=active]:bg-[#1a4480] data-[state=active]:text-white">
-            Study Planner
-          </TabsTrigger>
-          <TabsTrigger value="past-paper" className="data-[state=active]:bg-[#1a4480] data-[state=active]:text-white">
-            Past-Paper Analyzer
+          <TabsTrigger value="performance" className="data-[state=active]:bg-[#1a4480] data-[state=active]:text-white">
+            Performance Analytics
           </TabsTrigger>
           <TabsTrigger value="flashcards" className="data-[state=active]:bg-[#1a4480] data-[state=active]:text-white">
             Flashcards & Formulas
-          </TabsTrigger>
-          <TabsTrigger value="practice-quiz" className="data-[state=active]:bg-[#1a4480] data-[state=active]:text-white">
-            Practice Quiz
-          </TabsTrigger>
-          <TabsTrigger value="rank-predictor" className="data-[state=active]:bg-[#1a4480] data-[state=active]:text-white">
-            Rank Predictor
-          </TabsTrigger>
-          <TabsTrigger value="revision" className="data-[state=active]:bg-[#1a4480] data-[state=active]:text-white">
-            Revision Cheat-Sheet
-          </TabsTrigger>
-          <TabsTrigger value="performance" className="data-[state=active]:bg-[#1a4480] data-[state=active]:text-white">
-            Performance Dashboard
           </TabsTrigger>
         </TabsList>
 

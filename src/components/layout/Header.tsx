@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import {
@@ -10,10 +10,14 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Bell, Search, LogOut, Settings, User as UserIcon } from 'lucide-react';
+import { Bell, Search, LogOut, Settings, User as UserIcon, X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Header: React.FC = () => {
   const { user, logout, tenant } = useAuth();
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
 
   const getInitials = (name: string) => {
     return name
@@ -21,6 +25,17 @@ const Header: React.FC = () => {
       .map((n) => n[0])
       .join('')
       .toUpperCase();
+  };
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+    }
+  };
+
+  const clearSearch = () => {
+    setSearchQuery('');
   };
 
   return (
@@ -34,15 +49,30 @@ const Header: React.FC = () => {
       <div className="flex h-16 items-center justify-between px-4 md:px-6 relative z-10">
         <div className="w-1/3"></div>
 
-        <div className="relative hidden w-1/3 md:block">
-          <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
-          <input
-            className="h-9 w-full rounded-lg border-0 bg-white/90 pl-8 text-sm focus:outline-none focus:ring-2 focus:ring-white/30 transition-all"
-            placeholder="Search..."
-          />
+        <div className="relative w-full max-w-md md:w-2/5">
+          <form onSubmit={handleSearch} className="relative">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
+            <input
+              className={`h-10 w-full rounded-lg border-0 bg-white/90 pl-10 pr-10 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-white/30 transition-all ${isSearchFocused ? 'ring-2 ring-white/30' : ''}`}
+              placeholder="Search for lessons, tests, resources..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onFocus={() => setIsSearchFocused(true)}
+              onBlur={() => setIsSearchFocused(false)}
+            />
+            {searchQuery && (
+              <button 
+                type="button"
+                onClick={clearSearch}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            )}
+          </form>
         </div>
 
-        <div className="flex items-center gap-3 ml-auto">
+        <div className="flex items-center gap-3 ml-4">
           <div className="hover:scale-110 active:scale-95 transition-transform">
             <Button variant="ghost" size="icon" className="rounded-full text-white hover:text-white hover:bg-white/10 transition-colors">
               <Bell className="h-5 w-5" />
