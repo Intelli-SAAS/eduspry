@@ -185,6 +185,13 @@ const Sidebar: React.FC<SidebarProps> = ({ onCollapseChange }) => {
               collapsed={collapsed}
             />
             <SidebarLink
+              href="/classroom/default-class"
+              icon={<Users className="h-5 w-5" />}
+              label="Virtual Classroom"
+              active={pathname.startsWith('/classroom')}
+              collapsed={collapsed}
+            />
+            <SidebarLink
               href="/calendar"
               icon={<Calendar className="h-5 w-5" />}
               label="Calendar"
@@ -285,6 +292,13 @@ const Sidebar: React.FC<SidebarProps> = ({ onCollapseChange }) => {
               icon={<Calendar className="h-5 w-5" />}
               label="Calendar"
               active={pathname.startsWith('/calendar')}
+              collapsed={collapsed}
+            />
+            <SidebarLink
+              href="/classroom/default-class"
+              icon={<Users className="h-5 w-5" />}
+              label="Virtual Classroom"
+              active={pathname.startsWith('/classroom')}
               collapsed={collapsed}
             />
           </>

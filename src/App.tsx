@@ -50,6 +50,7 @@ import SettingsPage from "@/pages/principal/Settings";
 // Shared Pages
 import CalendarPage from "@/pages/shared/Calendar";
 import NotFound from "@/pages/NotFound";
+import VirtualClassroom from "@/pages/VirtualClassroom";
 
 // Placeholder component for pages not yet implemented
 const PlaceholderPage = () => (
@@ -116,6 +117,7 @@ const App = () => (
                 <Route path="/performance" element={<StudentPerformancePage />} />
                 <Route path="/study-tools" element={<AIStudyTools />} />
                 <Route path="/calendar" element={<CalendarPage />} />
+                <Route path="/classroom/:classId" element={<VirtualClassroom />} />
               </Route>
               
               {/* Teacher Routes */}
@@ -131,6 +133,7 @@ const App = () => (
                 <Route path="/analytics" element={<TeacherAnalytics />} />
                 <Route path="/ai-assistant" element={<AIAssistant />} />
                 <Route path="/calendar" element={<CalendarPage />} />
+                <Route path="/classroom/:classId" element={<VirtualClassroom />} />
               </Route>
               
               {/* Principal Routes */}
