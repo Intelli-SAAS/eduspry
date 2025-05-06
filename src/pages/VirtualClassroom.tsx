@@ -21,7 +21,7 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 // Components
-import VideoConference from '@/components/classroom/VideoConference';
+import EnhancedVideoConference from '@/components/classroom/EnhancedVideoConference';
 import InteractiveWhiteboard from '@/components/classroom/InteractiveWhiteboard';
 import BreakoutRooms from '@/components/classroom/BreakoutRooms';
 import LivePoll from '@/components/classroom/LivePoll';
@@ -30,6 +30,9 @@ import ManualAttendance from '@/components/classroom/ManualAttendance';
 import QRCodeAttendance from '@/components/classroom/QRCodeAttendance';
 import BiometricAttendance from '@/components/classroom/BiometricAttendance';
 import FacialRecognitionAttendance from '@/components/classroom/FacialRecognitionAttendance';
+
+// Services
+import VideoConferenceService from '@/services/videoConference';
 
 // Mock API key - In production, this would be from an environment variable
 const AGORA_APP_ID = 'bd8d0d649a6f40caabe31c357ed0e74d';
@@ -51,10 +54,10 @@ const VirtualClassroom: React.FC = () => {
   // State
   const [activeTab, setActiveTab] = useState('video');
   const [isRecording, setIsRecording] = useState(false);
-  const [recordingData, setRecordingData] = useState<Blob | null>(null);
   const [showSettings, setShowSettings] = useState(false);
   const [isTeacher, setIsTeacher] = useState(false);
   const [attendanceMethod, setAttendanceMethod] = useState('manual');
+  const [sessionData, setSessionData] = useState<any>(null);
   const [classroomData, setClassroomData] = useState({
     title: 'Physics Class',
     description: 'Advanced concepts in quantum mechanics',
@@ -72,58 +75,52 @@ const VirtualClassroom: React.FC = () => {
   
   // Load classroom data
   useEffect(() => {
-    // In a real app, you would fetch this data from an API
-    console.log(`Loading class data for class ID: ${classId}`);
+    if (!classId) return;
     
-    // Simulate API call delay
-    const timer = setTimeout(() => {
-      toast({
-        title: 'Classroom Ready',
-        description: 'You have joined the virtual classroom successfully',
-      });
-    }, 1000);
+    // First, try to find a scheduled video conference session
+    const fetchSessionData = async () => {
+      try {
+        // In a real implementation, this would fetch the session by channel ID
+        // For now, we're just getting user sessions and filtering
+        const userSessions = await VideoConferenceService.getUserSessions(user?.id || '');
+        const session = userSessions.find(s => s.channel === classId);
+        
+        if (session) {
+          setSessionData(session);
+          setClassroomData({
+            title: session.title,
+            description: session.description || '',
+            teacher: session.hostName,
+            startTime: session.startTime,
+            endTime: session.endTime,
+            id: session.channel,
+            students: MOCK_STUDENTS
+          });
+          
+          setIsRecording(session.isRecording);
+          
+          // Update session status if needed
+          if (session.status === 'scheduled') {
+            await VideoConferenceService.startSession(session.id);
+          }
+        }
+        
+        toast({
+          title: 'Classroom Ready',
+          description: 'You have joined the virtual classroom successfully',
+        });
+      } catch (error) {
+        console.error('Error fetching session data:', error);
+        toast({
+          title: 'Error',
+          description: 'Failed to load classroom data',
+          variant: 'destructive',
+        });
+      }
+    };
     
-    return () => clearTimeout(timer);
-  }, [classId]);
-  
-  // Toggle recording state
-  const toggleRecording = () => {
-    if (isRecording) {
-      // Stop recording
-      setIsRecording(false);
-      
-      // In a real app, you would save the recording to storage
-      toast({
-        title: 'Recording Stopped',
-        description: 'Your class recording has been saved',
-      });
-      
-      // Mock setting recording data
-      setRecordingData(new Blob());
-    } else {
-      // Start recording
-      setIsRecording(true);
-      
-      toast({
-        title: 'Recording Started',
-        description: 'This classroom session is now being recorded',
-      });
-    }
-  };
-  
-  // Download recording
-  const downloadRecording = () => {
-    if (!recordingData) return;
-    
-    // Mock download functionality
-    const url = URL.createObjectURL(recordingData);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `class-recording-${new Date().toISOString()}.webm`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  };
+    fetchSessionData();
+  }, [classId, user?.id]);
   
   // Handle attendance marked
   const handleAttendanceMarked = (record: any) => {
@@ -157,8 +154,15 @@ const VirtualClassroom: React.FC = () => {
   };
   
   // End the class (teacher only)
-  const endClass = () => {
-    // In a real app, this would end the class for all participants
+  const endClass = async () => {
+    if (sessionData?.id && isTeacher) {
+      try {
+        await VideoConferenceService.endSession(sessionData.id);
+      } catch (error) {
+        console.error('Error ending session:', error);
+      }
+    }
+    
     toast({
       title: 'Class Ended',
       description: 'The virtual classroom has been closed',
@@ -170,10 +174,23 @@ const VirtualClassroom: React.FC = () => {
     }, 1500);
   };
   
+  const handleSessionEnd = () => {
+    endClass();
+  };
+  
   const renderActiveTab = () => {
     switch (activeTab) {
       case 'video':
-        return <VideoConference className="w-full h-full" appId={AGORA_APP_ID} channel={classroomData?.id || 'classroom'} isHost={isTeacher} />;
+        return (
+          <EnhancedVideoConference
+            sessionId={sessionData?.id}
+            channel={classId || 'default-channel'}
+            appId={AGORA_APP_ID}
+            className="w-full h-full"
+            isHost={isTeacher}
+            onSessionEnd={handleSessionEnd}
+          />
+        );
       case 'whiteboard':
         return <InteractiveWhiteboard className="w-full h-full" readOnly={!isTeacher} />;
       case 'breakout':
@@ -218,7 +235,16 @@ const VirtualClassroom: React.FC = () => {
       case 'chat':
         return <div className="flex items-center justify-center h-full">Chat functionality coming soon...</div>;
       default:
-        return <VideoConference className="w-full h-full" appId={AGORA_APP_ID} channel={classroomData?.id || 'classroom'} isHost={isTeacher} />;
+        return (
+          <EnhancedVideoConference
+            sessionId={sessionData?.id}
+            channel={classId || 'default-channel'}
+            appId={AGORA_APP_ID}
+            className="w-full h-full"
+            isHost={isTeacher}
+            onSessionEnd={handleSessionEnd}
+          />
+        );
     }
   };
   
@@ -233,124 +259,64 @@ const VirtualClassroom: React.FC = () => {
           </div>
           
           <div className="flex items-center mt-4 md:mt-0 space-x-4">
-            {/* Recording controls */}
-            <div className="flex items-center">
-              {isRecording && (
-                <div className="flex items-center mr-2">
-                  <div className="h-2 w-2 rounded-full bg-red-500 animate-pulse mr-1"></div>
-                  <span className="text-sm text-red-500">Recording</span>
-                </div>
-              )}
-              
-              <Button
-                variant={isRecording ? "destructive" : "outline"}
-                size="sm"
-                onClick={toggleRecording}
-              >
-                {isRecording ? 'Stop Recording' : 'Record Session'}
-              </Button>
-              
-              {recordingData && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={downloadRecording}
-                  className="ml-2"
-                >
-                  Download Recording
-                </Button>
-              )}
-            </div>
-            
-            {/* End class button (teacher only) */}
-            {isTeacher && (
-              <Button
-                variant="destructive"
-                size="sm"
-                onClick={endClass}
-              >
-                End Class
-              </Button>
-            )}
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={endClass}
+            >
+              End Session
+            </Button>
           </div>
         </div>
       </header>
       
       {/* Main content */}
-      <div className="flex-1 container mx-auto p-4 overflow-hidden flex flex-col">
-        <Tabs
-          defaultValue="video"
-          value={activeTab}
-          onValueChange={setActiveTab}
-          className="flex-1 flex flex-col"
-        >
-          <div className="border-b mb-4">
-            <TabsList className="w-full justify-start">
-              <TabsTrigger value="video" className="flex items-center gap-1">
-                <Video className="h-4 w-4" />
-                <span>Video</span>
+      <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
+        {/* Sidebar */}
+        <div className="w-full md:w-16 bg-gray-100 dark:bg-gray-800 border-r md:flex md:flex-col md:items-center py-4">
+          <Tabs
+            value={activeTab}
+            onValueChange={setActiveTab}
+            orientation="vertical"
+            className="w-full"
+          >
+            <TabsList className="w-full md:flex md:flex-col md:h-auto md:bg-transparent md:space-y-2">
+              <TabsTrigger value="video" className="w-full md:w-12 h-12 flex flex-col items-center justify-center">
+                <Video className="h-5 w-5" />
+                <span className="text-xs mt-1 hidden md:inline-block">Video</span>
               </TabsTrigger>
-              <TabsTrigger value="whiteboard" className="flex items-center gap-1">
-                <BookOpen className="h-4 w-4" />
-                <span>Whiteboard</span>
-              </TabsTrigger>
-              <TabsTrigger value="breakout" className="flex items-center gap-1">
-                <Users className="h-4 w-4" />
-                <span>Breakout Rooms</span>
-              </TabsTrigger>
-              <TabsTrigger value="poll" className="flex items-center gap-1">
-                <BarChart className="h-4 w-4" />
-                <span>Polls & Quizzes</span>
-              </TabsTrigger>
-              <TabsTrigger value="attendance" className="flex items-center gap-1">
-                <UserCheck className="h-4 w-4" />
-                <span>Attendance</span>
-              </TabsTrigger>
-              <TabsTrigger value="chat" className="flex items-center gap-1">
-                <MessageSquare className="h-4 w-4" />
-                <span>Chat</span>
-              </TabsTrigger>
+              {sessionData?.features?.whiteboard && (
+                <TabsTrigger value="whiteboard" className="w-full md:w-12 h-12 flex flex-col items-center justify-center">
+                  <BookOpen className="h-5 w-5" />
+                  <span className="text-xs mt-1 hidden md:inline-block">Board</span>
+                </TabsTrigger>
+              )}
+              {isTeacher && sessionData?.features?.breakoutRooms && (
+                <TabsTrigger value="breakout" className="w-full md:w-12 h-12 flex flex-col items-center justify-center">
+                  <Users className="h-5 w-5" />
+                  <span className="text-xs mt-1 hidden md:inline-block">Rooms</span>
+                </TabsTrigger>
+              )}
+              {isTeacher && sessionData?.features?.polls && (
+                <TabsTrigger value="poll" className="w-full md:w-12 h-12 flex flex-col items-center justify-center">
+                  <BarChart className="h-5 w-5" />
+                  <span className="text-xs mt-1 hidden md:inline-block">Polls</span>
+                </TabsTrigger>
+              )}
+              {isTeacher && (
+                <TabsTrigger value="attendance" className="w-full md:w-12 h-12 flex flex-col items-center justify-center">
+                  <UserCheck className="h-5 w-5" />
+                  <span className="text-xs mt-1 hidden md:inline-block">Attendance</span>
+                </TabsTrigger>
+              )}
             </TabsList>
-          </div>
-          
-          <div className="flex-1 overflow-hidden">
-            <TabsContent value="video" className="m-0 h-full">
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border overflow-hidden h-full">
-                {renderActiveTab()}
-              </div>
-            </TabsContent>
-            
-            <TabsContent value="whiteboard" className="m-0 h-full">
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border overflow-hidden h-full">
-                {renderActiveTab()}
-              </div>
-            </TabsContent>
-            
-            <TabsContent value="breakout" className="m-0 h-full">
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border overflow-hidden h-full">
-                {renderActiveTab()}
-              </div>
-            </TabsContent>
-            
-            <TabsContent value="poll" className="m-0 h-full">
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border overflow-hidden h-full">
-                {renderActiveTab()}
-              </div>
-            </TabsContent>
-            
-            <TabsContent value="attendance" className="m-0 h-full">
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border overflow-hidden h-full">
-                {renderActiveTab()}
-              </div>
-            </TabsContent>
-            
-            <TabsContent value="chat" className="m-0 h-full">
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border overflow-hidden h-full p-4">
-                {renderActiveTab()}
-              </div>
-            </TabsContent>
-          </div>
-        </Tabs>
+          </Tabs>
+        </div>
+        
+        {/* Main content area */}
+        <div className="flex-1 overflow-hidden">
+          {renderActiveTab()}
+        </div>
       </div>
     </div>
   );

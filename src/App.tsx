@@ -38,6 +38,7 @@ import TeacherAnalytics from "@/pages/teacher/Analytics";
 import CreateTest from "@/pages/teacher/CreateTest";
 import TestManagement from "@/pages/teacher/TestManagement";
 import AIAssistant from '@/pages/teacher/AIAssistant';
+import CreateVideoConference from "@/pages/teacher/CreateVideoConference";
 
 // Principal Pages
 import PrincipalDashboard from "@/pages/principal/Dashboard";
@@ -116,8 +117,6 @@ const App = () => (
                 <Route path="/tests/:testId/result" element={<TestResultPage />} />
                 <Route path="/performance" element={<StudentPerformancePage />} />
                 <Route path="/study-tools" element={<AIStudyTools />} />
-                <Route path="/calendar" element={<CalendarPage />} />
-                <Route path="/classroom/:classId" element={<VirtualClassroom />} />
               </Route>
               
               {/* Teacher Routes */}
@@ -132,8 +131,7 @@ const App = () => (
                 <Route path="/tests/results" element={<TestManagement />} />
                 <Route path="/analytics" element={<TeacherAnalytics />} />
                 <Route path="/ai-assistant" element={<AIAssistant />} />
-                <Route path="/calendar" element={<CalendarPage />} />
-                <Route path="/classroom/:classId" element={<VirtualClassroom />} />
+                <Route path="/video-conference/create" element={<CreateVideoConference />} />
               </Route>
               
               {/* Principal Routes */}
@@ -144,7 +142,18 @@ const App = () => (
                 <Route path="/students" element={<PrincipalStudentsPage />} />
                 <Route path="/analytics/school" element={<SchoolAnalytics />} />
                 <Route path="/settings" element={<SettingsPage />} />
+              </Route>
+              
+              {/* Shared Routes (accessible to both teacher and student) */}
+              <Route element={<AppLayout requiredRoles={[UserRole.TEACHER, UserRole.STUDENT]} />}>
                 <Route path="/calendar" element={<CalendarPage />} />
+                <Route path="/classroom/:classId" element={<VirtualClassroom />} />
+              </Route>
+              
+              {/* Shared Routes (accessible to all roles including Principal) */}
+              <Route element={<AppLayout requiredRoles={[UserRole.TEACHER, UserRole.STUDENT, UserRole.PRINCIPAL]} />}>
+                <Route path="/teacher/calendar" element={<CalendarPage />} />
+                <Route path="/principal/calendar" element={<CalendarPage />} />
               </Route>
               
               {/* Catch-all route */}
