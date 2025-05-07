@@ -376,3 +376,5 @@ export interface DisciplinaryRecord {
   createdAt: string;
   updatedAt: string;
 }
+
+export * from './course';

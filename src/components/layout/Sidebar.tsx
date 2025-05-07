@@ -18,6 +18,7 @@ import {
   Menu,
   ChevronDown,
   Sparkles,
+  GraduationCap,
 } from 'lucide-react';
 import SidebarLink from './SidebarLink';
 
@@ -135,6 +136,13 @@ const Sidebar: React.FC<SidebarProps> = ({ onCollapseChange }) => {
               active={pathname.startsWith('/tests')}
               collapsed={collapsed}
             />
+            <SidebarLink
+              href="/courses"
+              icon={<GraduationCap className="h-5 w-5" />}
+              label="Courses"
+              active={pathname.startsWith('/courses')}
+              collapsed={collapsed}
+            />
             <SidebarSubmenu
               label="Subjects"
               icon={<BookOpen className="h-5 w-5" />}
@@ -215,6 +223,13 @@ const Sidebar: React.FC<SidebarProps> = ({ onCollapseChange }) => {
               icon={<Users className="h-5 w-5" />}
               label="Students"
               active={pathname.startsWith('/students')}
+              collapsed={collapsed}
+            />
+            <SidebarLink
+              href="/courses"
+              icon={<GraduationCap className="h-5 w-5" />}
+              label="Courses"
+              active={pathname.startsWith('/courses')}
               collapsed={collapsed}
             />
             <SidebarLink

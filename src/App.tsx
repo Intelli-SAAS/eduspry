@@ -52,6 +52,8 @@ import SettingsPage from "@/pages/principal/Settings";
 import CalendarPage from "@/pages/shared/Calendar";
 import NotFound from "@/pages/NotFound";
 import VirtualClassroom from "@/pages/VirtualClassroom";
+import CoursesList from "@/pages/shared/CoursesList";
+import CourseDetail from "@/pages/shared/CourseDetail";
 
 // Placeholder component for pages not yet implemented
 const PlaceholderPage = () => (
@@ -148,6 +150,8 @@ const App = () => (
               <Route element={<AppLayout requiredRoles={[UserRole.TEACHER, UserRole.STUDENT]} />}>
                 <Route path="/calendar" element={<CalendarPage />} />
                 <Route path="/classroom/:classId" element={<VirtualClassroom />} />
+                <Route path="/courses" element={<CoursesList />} />
+                <Route path="/courses/:courseId" element={<CourseDetail />} />
               </Route>
               
               {/* Shared Routes (accessible to all roles including Principal) */}
