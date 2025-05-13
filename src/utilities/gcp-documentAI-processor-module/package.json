@@ -1,0 +1,30 @@
+{
+  "name": "gcp-documentai-processor",
+  "version": "1.0.0",
+  "description": "Google Cloud Document AI Processor for EduSpry",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "ts-node example.ts"
+  },
+  "keywords": [
+    "document-ai",
+    "gcp",
+    "google-cloud",
+    "ocr",
+    "pdf"
+  ],
+  "author": "EduSpry",
+  "license": "MIT",
+  "dependencies": {
+    "child_process": "^1.0.2",
+    "fs": "0.0.1-security",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.31",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.4"
+  }
+} 
