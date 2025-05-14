@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { SubjectType } from '@/types';
-import { ArrowRight, BookOpen, Calendar, Clock, FileText, TrendingUp, AlertTriangle } from 'lucide-react';
+import { ArrowRight, BookOpen, Calendar, Clock, FileText, TrendingUp, AlertTriangle, VideoIcon, PlayCircle } from 'lucide-react';
+import { format } from 'date-fns';
+import VideoConferenceService from '@/services/videoConference';
 
 // Fade in animation variants
 const fadeIn = {
@@ -24,6 +26,11 @@ const fadeIn = {
 // Placeholder dashboard for student
 const StudentDashboard: React.FC = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
+  
+  // State for video conferences
+  const [upcomingConferences, setUpcomingConferences] = useState<any[]>([]);
+  const [isLoadingConferences, setIsLoadingConferences] = useState(true);
 
   // Sample data - in a real app, these would come from API calls
   const upcomingTests = [
@@ -56,6 +63,62 @@ const StudentDashboard: React.FC = () => {
       case SubjectType.BIOLOGY: return 'bg-subject-biology';
       default: return 'bg-gray-500';
     }
+  };
+
+  // Add this after other useEffects
+  // Fetch upcoming video conferences
+  useEffect(() => {
+    const fetchUpcomingConferences = async () => {
+      if (!user) return;
+      
+      try {
+        setIsLoadingConferences(true);
+        const sessions = await VideoConferenceService.getUserSessions(user.id);
+        
+        // Filter for sessions that are scheduled or active
+        const activeOrUpcoming = sessions.filter(
+          session => ['scheduled', 'active'].includes(session.status)
+        );
+        
+        // Sort by start time (ascending)
+        activeOrUpcoming.sort((a, b) => a.startTime.getTime() - b.startTime.getTime());
+        
+        setUpcomingConferences(activeOrUpcoming);
+      } catch (error) {
+        console.error('Error fetching video conferences:', error);
+      } finally {
+        setIsLoadingConferences(false);
+      }
+    };
+    
+    fetchUpcomingConferences();
+  }, [user]);
+  
+  // Helper functions
+  // Format date for display
+  const formatDateTime = (date: Date) => {
+    return format(date, 'MMM dd, yyyy - h:mm a');
+  };
+  
+  // Calculate time until conference
+  const getTimeUntil = (date: Date) => {
+    const now = new Date();
+    const diff = date.getTime() - now.getTime();
+    
+    if (diff <= 0) return 'Now';
+    
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    
+    if (days > 0) return `${days}d ${hours}h`;
+    if (hours > 0) return `${hours}h ${minutes}m`;
+    return `${minutes}m`;
+  };
+  
+  // Join a video conference
+  const joinConference = (channel: string) => {
+    navigate(`/classroom/${channel}`);
   };
 
   return (
@@ -288,6 +351,77 @@ const StudentDashboard: React.FC = () => {
           </CardContent>
         </Card>
       </motion.div>
+
+      {/* Add this section for upcoming video conferences */}
+      <div className="space-y-4">
+        <h2 className="text-2xl font-bold">Upcoming Classes</h2>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {isLoadingConferences ? (
+            <Card>
+              <CardContent className="pt-6">
+                <p className="text-muted-foreground">Loading classes...</p>
+              </CardContent>
+            </Card>
+          ) : upcomingConferences.length === 0 ? (
+            <Card>
+              <CardContent className="pt-6">
+                <div className="py-8 text-center">
+                  <VideoIcon className="h-12 w-12 mx-auto text-gray-300 mb-4" />
+                  <h3 className="text-lg font-medium">No Upcoming Classes</h3>
+                  <p className="text-muted-foreground mt-2">
+                    There are currently no scheduled online classes.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          ) : (
+            upcomingConferences.map(conference => (
+              <Card key={conference.id} className="overflow-hidden">
+                <CardHeader className="pb-3">
+                  <CardTitle className="flex justify-between items-center">
+                    <span className="truncate">{conference.title}</span>
+                    {conference.status === 'active' && (
+                      <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">Live</span>
+                    )}
+                  </CardTitle>
+                  <CardDescription className="flex items-center">
+                    <Clock className="h-4 w-4 mr-1" />
+                    {conference.status === 'active' 
+                      ? 'Started at ' + formatDateTime(conference.startTime)
+                      : formatDateTime(conference.startTime)
+                    }
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="pb-3">
+                  {conference.description && (
+                    <p className="text-sm text-gray-500 line-clamp-2">{conference.description}</p>
+                  )}
+                  <p className="text-sm font-medium mt-2">Host: {conference.hostName}</p>
+                </CardContent>
+                <CardFooter className="border-t pt-3 pb-3">
+                  {conference.status === 'active' ? (
+                    <Button className="w-full" onClick={() => joinConference(conference.channel)}>
+                      <PlayCircle className="mr-2 h-4 w-4" />
+                      Join Now
+                    </Button>
+                  ) : (
+                    <div className="w-full flex justify-between items-center">
+                      <div className="flex items-center">
+                        <Clock className="h-4 w-4 mr-1 text-amber-500" />
+                        <span className="text-sm">Starts in {getTimeUntil(conference.startTime)}</span>
+                      </div>
+                      <Button variant="outline" size="sm" onClick={() => joinConference(conference.channel)}>
+                        View Details
+                      </Button>
+                    </div>
+                  )}
+                </CardFooter>
+              </Card>
+            ))
+          )}
+        </div>
+      </div>
     </motion.div>
   );
 };

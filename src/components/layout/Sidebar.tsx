@@ -17,6 +17,8 @@ import {
   Settings,
   Menu,
   ChevronDown,
+  Sparkles,
+  GraduationCap,
 } from 'lucide-react';
 import SidebarLink from './SidebarLink';
 
@@ -134,6 +136,13 @@ const Sidebar: React.FC<SidebarProps> = ({ onCollapseChange }) => {
               active={pathname.startsWith('/tests')}
               collapsed={collapsed}
             />
+            <SidebarLink
+              href="/courses"
+              icon={<GraduationCap className="h-5 w-5" />}
+              label="Courses"
+              active={pathname.startsWith('/courses')}
+              collapsed={collapsed}
+            />
             <SidebarSubmenu
               label="Subjects"
               icon={<BookOpen className="h-5 w-5" />}
@@ -177,6 +186,20 @@ const Sidebar: React.FC<SidebarProps> = ({ onCollapseChange }) => {
               collapsed={collapsed}
             />
             <SidebarLink
+              href="/study-tools"
+              icon={<Sparkles className="h-5 w-5" />}
+              label="AI Study Tools"
+              active={pathname.startsWith('/study-tools')}
+              collapsed={collapsed}
+            />
+            <SidebarLink
+              href="/classroom/live-class"
+              icon={<Users className="h-5 w-5" />}
+              label="Virtual Classroom"
+              active={pathname.startsWith('/classroom')}
+              collapsed={collapsed}
+            />
+            <SidebarLink
               href="/calendar"
               icon={<Calendar className="h-5 w-5" />}
               label="Calendar"
@@ -189,10 +212,10 @@ const Sidebar: React.FC<SidebarProps> = ({ onCollapseChange }) => {
         return (
           <>
             <SidebarLink
-              href="/dashboard"
+              href="/teacher/dashboard"
               icon={<Home className="h-5 w-5" />}
               label="Dashboard"
-              active={pathname === '/dashboard'}
+              active={pathname === '/teacher/dashboard'}
               collapsed={collapsed}
             />
             <SidebarLink
@@ -200,6 +223,20 @@ const Sidebar: React.FC<SidebarProps> = ({ onCollapseChange }) => {
               icon={<Users className="h-5 w-5" />}
               label="Students"
               active={pathname.startsWith('/students')}
+              collapsed={collapsed}
+            />
+            <SidebarLink
+              href="/courses"
+              icon={<GraduationCap className="h-5 w-5" />}
+              label="Courses"
+              active={pathname.startsWith('/courses')}
+              collapsed={collapsed}
+            />
+            <SidebarLink
+              href="/ai-assistant"
+              icon={<Sparkles className="h-5 w-5" />}
+              label="AI Assistant"
+              active={pathname.startsWith('/ai-assistant')}
               collapsed={collapsed}
             />
             <SidebarSubmenu
@@ -266,6 +303,13 @@ const Sidebar: React.FC<SidebarProps> = ({ onCollapseChange }) => {
               collapsed={collapsed}
             />
             <SidebarLink
+              href="/video-conference/create"
+              icon={<Users className="h-5 w-5" />}
+              label="Virtual Classroom"
+              active={pathname.startsWith('/video-conference') || pathname.startsWith('/classroom')}
+              collapsed={collapsed}
+            />
+            <SidebarLink
               href="/calendar"
               icon={<Calendar className="h-5 w-5" />}
               label="Calendar"
@@ -278,10 +322,10 @@ const Sidebar: React.FC<SidebarProps> = ({ onCollapseChange }) => {
         return (
           <>
             <SidebarLink
-              href="/dashboard"
+              href="/principal/dashboard"
               icon={<Home className="h-5 w-5" />}
               label="Dashboard"
-              active={pathname === '/dashboard'}
+              active={pathname === '/principal/dashboard'}
               collapsed={collapsed}
             />
             <SidebarLink
@@ -306,7 +350,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onCollapseChange }) => {
               collapsed={collapsed}
             />
             <SidebarLink
-              href="/analytics"
+              href="/analytics/school"
               icon={<LayoutDashboard className="h-5 w-5" />}
               label="Analytics"
               active={pathname.startsWith('/analytics')}
@@ -317,6 +361,13 @@ const Sidebar: React.FC<SidebarProps> = ({ onCollapseChange }) => {
               icon={<Settings className="h-5 w-5" />}
               label="Settings"
               active={pathname.startsWith('/settings')}
+              collapsed={collapsed}
+            />
+            <SidebarLink
+              href="/calendar"
+              icon={<Calendar className="h-5 w-5" />}
+              label="Calendar"
+              active={pathname.startsWith('/calendar')}
               collapsed={collapsed}
             />
           </>

@@ -1,4 +1,3 @@
-
 // Tenant types
 export interface Tenant {
   id: string;
@@ -268,3 +267,114 @@ export interface QueryParams {
   search?: string;
   filters?: Record<string, any>;
 }
+
+// Attendance & Student Lifecycle Management
+
+export enum AttendanceSource {
+  MANUAL = "MANUAL",
+  BIOMETRIC = "BIOMETRIC",
+  RFID = "RFID",
+  FACIAL_RECOGNITION = "FACIAL_RECOGNITION",
+  QR_CODE = "QR_CODE"
+}
+
+export enum AttendanceStatus {
+  PRESENT = "PRESENT",
+  ABSENT = "ABSENT",
+  LATE = "LATE",
+  EXCUSED = "EXCUSED"
+}
+
+export interface BiometricData {
+  id: string;
+  userId: string;
+  tenantId: string;
+  deviceId: string;
+  templateData: string; // Base64 encoded biometric template
+  type: "FINGERPRINT" | "RFID" | "FACE";
+  createdAt: string;
+  updatedAt: string;
+  isActive: boolean;
+}
+
+export interface AttendanceRecord {
+  id: string;
+  userId: string;
+  tenantId: string;
+  classId?: string;
+  date: string;
+  timeIn?: string;
+  timeOut?: string;
+  status: AttendanceStatus;
+  source: AttendanceSource;
+  deviceId?: string;
+  notes?: string;
+  createdBy: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export enum LeaveType {
+  SICK = "SICK",
+  PERSONAL = "PERSONAL",
+  FAMILY = "FAMILY",
+  VACATION = "VACATION",
+  OTHER = "OTHER"
+}
+
+export enum LeaveStatus {
+  PENDING = "PENDING",
+  APPROVED = "APPROVED",
+  REJECTED = "REJECTED",
+  CANCELLED = "CANCELLED"
+}
+
+export interface LeaveRequest {
+  id: string;
+  userId: string;
+  tenantId: string;
+  startDate: string;
+  endDate: string;
+  type: LeaveType;
+  reason: string;
+  status: LeaveStatus;
+  approvedBy?: string;
+  approvalDate?: string;
+  rejectionReason?: string;
+  attachmentUrl?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export enum DisciplinaryType {
+  TARDY = "TARDY",
+  ABSENCE = "ABSENCE",
+  BEHAVIOR = "BEHAVIOR",
+  ACADEMIC = "ACADEMIC",
+  OTHER = "OTHER"
+}
+
+export enum DisciplinarySeverity {
+  LOW = "LOW",
+  MEDIUM = "MEDIUM",
+  HIGH = "HIGH",
+  CRITICAL = "CRITICAL"
+}
+
+export interface DisciplinaryRecord {
+  id: string;
+  userId: string;
+  tenantId: string;
+  date: string;
+  type: DisciplinaryType;
+  severity: DisciplinarySeverity;
+  description: string;
+  actionTaken?: string;
+  parentNotified: boolean;
+  parentNotificationDate?: string;
+  createdBy: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export * from './course';

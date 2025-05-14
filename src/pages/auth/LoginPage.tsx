@@ -44,7 +44,7 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
     
     try {
-      await login(formData);
+      await login(formData.email, formData.password);
       navigate('/dashboard');
     } catch (err) {
       // Error is handled in the auth context

@@ -259,3 +259,61 @@ Content Delivery: Consider integrating a Content Delivery Network (CDN) for serv
 
 If your project requires backend functionality for multi-tenancy, user roles, database schema, and authentication, use the Supabase menu on the top right to connect your project to Supabase.
 
+## Virtual Classroom Features
+
+The application now includes a comprehensive virtual classroom with the following features:
+
+### 1. Interactive Whiteboard
+- Annotation tools for drawing, highlighting, and text
+- Formula/equation support using LaTeX syntax
+- Screen sharing capability
+- Session recording and playback
+
+### 2. Breakout Rooms
+- Create and manage multiple breakout rooms
+- Drag-and-drop interface for assigning students
+- Teacher monitoring capabilities
+- Auto-assign feature for quick group creation
+
+### 3. Live Polls/Quizzes
+- Create polls with multiple-choice options
+- Set time limits for responses
+- Mark correct answers for quiz functionality
+- Real-time results display with charts
+
+### 4. Recording & Replay
+- Record classroom sessions
+- Automatic saving for offline access
+- Download recordings in standard format
+- Replay sessions with synchronized whiteboard content
+
+### 5. Attendance Automation
+- Facial recognition-based attendance tracking
+- QR code attendance option
+- Manual attendance management
+- Export attendance reports to CSV
+
+## Technical Implementation
+
+The virtual classroom features are implemented using:
+
+- **Video Conferencing**: Agora.io SDK for low-latency video streaming
+- **Interactive Whiteboard**: Excalidraw for the collaborative drawing canvas
+- **LaTeX Support**: KaTeX for rendering mathematical equations
+- **Facial Recognition**: face-api.js for browser-based face detection
+- **UI Components**: React with Tailwind CSS and shadcn/ui
+
+## Setup Instructions
+
+To use the facial recognition feature, you need to download the face-api.js models:
+
+1. Download the models from: https://github.com/justadudewhohacks/face-api.js/tree/master/weights
+2. Place the models in the `/public/models` directory of the project
+
+For Agora.io video conferencing:
+
+1. Sign up for an Agora.io account at https://www.agora.io/
+2. Create a new project in the Agora Console
+3. Copy your App ID to the `AGORA_APP_ID` constant in the VirtualClassroom component
+4. For production, generate and use a token from the Agora server
+

@@ -1,0 +1,11 @@
+{
+  "python.defaultInterpreterPath": "${workspaceFolder}/docai-env/bin/python",
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}/docai-env/lib/python3.8/site-packages",
+    "${workspaceFolder}/docai-env/lib/python3.9/site-packages"
+  ],
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": true,
+  "python.analysis.diagnosticMode": "workspace",
+  "python.analysis.typeCheckingMode": "basic"
+}

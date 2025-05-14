@@ -13,7 +13,7 @@ const fadeIn = {
   visible: { 
     opacity: 1, 
     y: 0,
-    transition: { duration: 0.5 }
+    transition: { duration: 0.4, ease: "easeOut" }
   }
 };
 
@@ -22,7 +22,7 @@ const staggerContainer = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1
+      staggerChildren: 0.08
     }
   }
 };
@@ -32,7 +32,17 @@ const chartVariants = {
   visible: { 
     opacity: 1, 
     scale: 1,
-    transition: { duration: 0.6, ease: "easeOut" }
+    transition: { duration: 0.6, ease: "easeOut", delay: 0.1 }
+  }
+};
+
+const cardHover = {
+  rest: { scale: 1 },
+  hover: { 
+    scale: 1.02,
+    boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+    borderColor: "rgba(26, 68, 128, 0.5)",
+    transition: { duration: 0.3, ease: "easeInOut" }
   }
 };
 
@@ -142,12 +152,18 @@ const PrincipalDashboard: React.FC = () => {
         <motion.h1 
           className="text-3xl font-bold tracking-tight text-[#1a4480]"
           variants={fadeIn}
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
         >
           Principal Dashboard
         </motion.h1>
         <motion.p 
           className="text-gray-500"
           variants={fadeIn}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
         >
           View and analyze school performance metrics and faculty data.
         </motion.p>
@@ -159,56 +175,92 @@ const PrincipalDashboard: React.FC = () => {
         className="grid gap-4 md:grid-cols-2 lg:grid-cols-4"
         variants={staggerContainer}
       >
-        <motion.div variants={fadeIn}>
-          <Card className="hover:shadow-lg transition-all duration-200 hover:border-[#1a4480]/50">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-gray-500">Total Students</CardTitle>
-              <Users className="h-4 w-4 text-[#1a4480]" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-[#1a4480]">674</div>
-              <p className="text-xs text-gray-500">+3.4% from last month</p>
-            </CardContent>
-          </Card>
+        <motion.div 
+          variants={fadeIn}
+          whileHover="hover"
+          initial="rest"
+          animate="rest"
+        >
+          <motion.div variants={cardHover}>
+            <Card className="transition-all duration-200">
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-sm font-medium text-gray-500">Total Students</CardTitle>
+                <motion.div whileHover={{ rotate: 15 }} transition={{ duration: 0.2 }}>
+                  <Users className="h-4 w-4 text-[#1a4480]" />
+                </motion.div>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-[#1a4480]">674</div>
+                <p className="text-xs text-gray-500">+3.4% from last month</p>
+              </CardContent>
+            </Card>
+          </motion.div>
         </motion.div>
         
-        <motion.div variants={fadeIn}>
-          <Card className="hover:shadow-lg transition-all duration-200 hover:border-[#1a4480]/50">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-gray-500">Faculty Members</CardTitle>
-              <UserCheck className="h-4 w-4 text-[#1a4480]" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-[#1a4480]">42</div>
-              <p className="text-xs text-gray-500">2 new hires this semester</p>
-            </CardContent>
-          </Card>
+        <motion.div 
+          variants={fadeIn}
+          whileHover="hover"
+          initial="rest"
+          animate="rest"
+        >
+          <motion.div variants={cardHover}>
+            <Card className="transition-all duration-200">
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-sm font-medium text-gray-500">Faculty Members</CardTitle>
+                <motion.div whileHover={{ rotate: 15 }} transition={{ duration: 0.2 }}>
+                  <UserCheck className="h-4 w-4 text-[#1a4480]" />
+                </motion.div>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-[#1a4480]">42</div>
+                <p className="text-xs text-gray-500">2 new hires this semester</p>
+              </CardContent>
+            </Card>
+          </motion.div>
         </motion.div>
         
-        <motion.div variants={fadeIn}>
-          <Card className="hover:shadow-lg transition-all duration-200 hover:border-[#1a4480]/50">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-gray-500">Average GPA</CardTitle>
-              <Presentation className="h-4 w-4 text-[#1a4480]" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-[#1a4480]">3.4</div>
-              <p className="text-xs text-gray-500">+0.2 from previous year</p>
-            </CardContent>
-          </Card>
+        <motion.div 
+          variants={fadeIn}
+          whileHover="hover"
+          initial="rest"
+          animate="rest"
+        >
+          <motion.div variants={cardHover}>
+            <Card className="transition-all duration-200">
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-sm font-medium text-gray-500">Average GPA</CardTitle>
+                <motion.div whileHover={{ rotate: 15 }} transition={{ duration: 0.2 }}>
+                  <Presentation className="h-4 w-4 text-[#1a4480]" />
+                </motion.div>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-[#1a4480]">3.4</div>
+                <p className="text-xs text-gray-500">+0.2 from previous year</p>
+              </CardContent>
+            </Card>
+          </motion.div>
         </motion.div>
         
-        <motion.div variants={fadeIn}>
-          <Card className="hover:shadow-lg transition-all duration-200 hover:border-[#1a4480]/50">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-gray-500">Attendance Rate</CardTitle>
-              <Activity className="h-4 w-4 text-[#1a4480]" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-[#1a4480]">94.2%</div>
-              <p className="text-xs text-gray-500">+1.8% from last semester</p>
-            </CardContent>
-          </Card>
+        <motion.div 
+          variants={fadeIn}
+          whileHover="hover"
+          initial="rest"
+          animate="rest"
+        >
+          <motion.div variants={cardHover}>
+            <Card className="transition-all duration-200">
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-sm font-medium text-gray-500">Attendance Rate</CardTitle>
+                <motion.div whileHover={{ rotate: 15 }} transition={{ duration: 0.2 }}>
+                  <Activity className="h-4 w-4 text-[#1a4480]" />
+                </motion.div>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-[#1a4480]">94.2%</div>
+                <p className="text-xs text-gray-500">+1.8% from last semester</p>
+              </CardContent>
+            </Card>
+          </motion.div>
         </motion.div>
       </motion.div>
 
@@ -219,8 +271,10 @@ const PrincipalDashboard: React.FC = () => {
         <motion.div 
           className="col-span-4"
           variants={chartVariants}
+          whileHover={{ y: -5 }}
+          transition={{ duration: 0.3 }}
         >
-          <Card className="hover:shadow-lg transition-all duration-300 hover:border-[#1a4480]/30">
+          <Card className="transition-all duration-300 h-full">
             <CardHeader>
               <CardTitle className="text-[#1a4480]">School Enrollment Trend</CardTitle>
             </CardHeader>
@@ -240,8 +294,10 @@ const PrincipalDashboard: React.FC = () => {
         <motion.div 
           className="col-span-3"
           variants={chartVariants}
+          whileHover={{ y: -5 }}
+          transition={{ duration: 0.3 }}
         >
-          <Card className="hover:shadow-lg transition-all duration-300 hover:border-[#1a4480]/30 h-full">
+          <Card className="transition-all duration-300 h-full">
             <CardHeader>
               <CardTitle className="text-[#1a4480]">Department Performance</CardTitle>
             </CardHeader>
@@ -263,8 +319,12 @@ const PrincipalDashboard: React.FC = () => {
         className="grid gap-4 md:grid-cols-2"
         variants={staggerContainer}
       >
-        <motion.div variants={chartVariants}>
-          <Card className="hover:shadow-lg transition-all duration-300 hover:border-[#1a4480]/30">
+        <motion.div 
+          variants={chartVariants}
+          whileHover={{ y: -5 }}
+          transition={{ duration: 0.3 }}
+        >
+          <Card className="transition-all duration-300 h-full">
             <CardHeader>
               <CardTitle className="text-[#1a4480]">Faculty Activity Distribution</CardTitle>
             </CardHeader>
@@ -282,14 +342,15 @@ const PrincipalDashboard: React.FC = () => {
         </motion.div>
         
         <motion.div variants={fadeIn}>
-          <Card className="hover:shadow-lg transition-all duration-300 hover:border-[#1a4480]/30 h-full">
+          <Card className="transition-all duration-300 h-full">
             <CardHeader>
               <CardTitle className="text-[#1a4480]">Recent Announcements</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <motion.div 
                 className="space-y-2 border-l-4 border-[#1a4480] pl-4"
-                whileHover={{ x: 5, transition: { duration: 0.2 } }}
+                whileHover={{ x: 8, backgroundColor: "rgba(26, 68, 128, 0.05)" }}
+                transition={{ duration: 0.2 }}
               >
                 <h3 className="font-semibold text-gray-900">Teacher Professional Development Day</h3>
                 <p className="text-sm text-gray-500">Scheduled for November 15th. All teachers must attend.</p>
@@ -298,7 +359,8 @@ const PrincipalDashboard: React.FC = () => {
               
               <motion.div 
                 className="space-y-2 border-l-4 border-[#1a4480] pl-4"
-                whileHover={{ x: 5, transition: { duration: 0.2 } }}
+                whileHover={{ x: 8, backgroundColor: "rgba(26, 68, 128, 0.05)" }}
+                transition={{ duration: 0.2 }}
               >
                 <h3 className="font-semibold text-gray-900">End of Semester Reports Due</h3>
                 <p className="text-sm text-gray-500">All faculty must submit reports by December 10th.</p>
@@ -307,7 +369,8 @@ const PrincipalDashboard: React.FC = () => {
               
               <motion.div 
                 className="space-y-2 border-l-4 border-[#1a4480] pl-4"
-                whileHover={{ x: 5, transition: { duration: 0.2 } }}
+                whileHover={{ x: 8, backgroundColor: "rgba(26, 68, 128, 0.05)" }}
+                transition={{ duration: 0.2 }}
               >
                 <h3 className="font-semibold text-gray-900">Winter Break Schedule</h3>
                 <p className="text-sm text-gray-500">School will be closed from December 20th to January 5th.</p>
@@ -322,7 +385,19 @@ const PrincipalDashboard: React.FC = () => {
                   size="sm" 
                   className="bg-[#1a4480] hover:bg-[#0d2d5a] text-white flex items-center gap-1"
                 >
-                  View All <ArrowUpRight className="h-3 w-3" />
+                  <motion.span 
+                    initial={{ x: 0 }}
+                    whileHover={{ x: -2 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    View All
+                  </motion.span> 
+                  <motion.div 
+                    whileHover={{ x: 2 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <ArrowUpRight className="h-3 w-3" />
+                  </motion.div>
                 </Button>
               </motion.div>
             </CardContent>

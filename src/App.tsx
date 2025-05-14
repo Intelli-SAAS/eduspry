@@ -1,3 +1,4 @@
+import React from 'react';
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -12,9 +13,13 @@ import AppLayout from "@/components/layout/AppLayout";
 
 // Public Pages
 import IndexPage from "@/pages/Index";
+import LoginPage from "@/pages/auth/LoginPage";
+import RegisterPage from "@/pages/auth/RegisterPage";
+import ForgotPasswordPage from "@/pages/auth/ForgotPasswordPage";
+import ResetPasswordPage from "@/pages/auth/ResetPasswordPage";
+import LandingPage from "@/pages/LandingPage";
 
 // Auth Pages
-import LoginPage from "@/pages/auth/LoginPage";
 import UnauthorizedPage from "@/pages/auth/UnauthorizedPage";
 
 // Student Pages
@@ -23,6 +28,7 @@ import StudentTestsPage from "@/pages/student/Tests";
 import TestTakingPage from "@/pages/student/TestTaking";
 import TestResultPage from "@/pages/student/TestResult";
 import StudentPerformancePage from "@/pages/student/Performance";
+import AIStudyTools from "@/pages/student/AIStudyTools";
 
 // Teacher Pages
 import TeacherDashboard from "@/pages/teacher/Dashboard";
@@ -31,6 +37,8 @@ import TeacherQuestionBank from "@/pages/teacher/QuestionBank";
 import TeacherAnalytics from "@/pages/teacher/Analytics";
 import CreateTest from "@/pages/teacher/CreateTest";
 import TestManagement from "@/pages/teacher/TestManagement";
+import AIAssistant from '@/pages/teacher/AIAssistant';
+import CreateVideoConference from "@/pages/teacher/CreateVideoConference";
 
 // Principal Pages
 import PrincipalDashboard from "@/pages/principal/Dashboard";
@@ -43,6 +51,9 @@ import SettingsPage from "@/pages/principal/Settings";
 // Shared Pages
 import CalendarPage from "@/pages/shared/Calendar";
 import NotFound from "@/pages/NotFound";
+import VirtualClassroom from "@/pages/VirtualClassroom";
+import CoursesList from "@/pages/shared/CoursesList";
+import CourseDetail from "@/pages/shared/CourseDetail";
 
 // Placeholder component for pages not yet implemented
 const PlaceholderPage = () => (
@@ -81,7 +92,7 @@ const queryClient = new QueryClient({
 });
 
 const App = () => (
-  <ThemeProvider defaultTheme="light">
+  <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <TooltipProvider>
@@ -92,6 +103,9 @@ const App = () => (
               {/* Public routes */}
               <Route path="/" element={<IndexPage />} />
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+              <Route path="/reset-password" element={<ResetPasswordPage />} />
               <Route path="/unauthorized" element={<UnauthorizedPage />} />
               
               {/* App entry point - redirects based on user role */}
@@ -104,7 +118,7 @@ const App = () => (
                 <Route path="/tests/:testId/take" element={<TestTakingPage />} />
                 <Route path="/tests/:testId/result" element={<TestResultPage />} />
                 <Route path="/performance" element={<StudentPerformancePage />} />
-                <Route path="/calendar" element={<CalendarPage />} />
+                <Route path="/study-tools" element={<AIStudyTools />} />
               </Route>
               
               {/* Teacher Routes */}
@@ -118,7 +132,8 @@ const App = () => (
                 <Route path="/tests/manage" element={<TestManagement />} />
                 <Route path="/tests/results" element={<TestManagement />} />
                 <Route path="/analytics" element={<TeacherAnalytics />} />
-                <Route path="/calendar" element={<CalendarPage />} />
+                <Route path="/ai-assistant" element={<AIAssistant />} />
+                <Route path="/video-conference/create" element={<CreateVideoConference />} />
               </Route>
               
               {/* Principal Routes */}
@@ -129,7 +144,20 @@ const App = () => (
                 <Route path="/students" element={<PrincipalStudentsPage />} />
                 <Route path="/analytics/school" element={<SchoolAnalytics />} />
                 <Route path="/settings" element={<SettingsPage />} />
+              </Route>
+              
+              {/* Shared Routes (accessible to both teacher and student) */}
+              <Route element={<AppLayout requiredRoles={[UserRole.TEACHER, UserRole.STUDENT]} />}>
                 <Route path="/calendar" element={<CalendarPage />} />
+                <Route path="/classroom/:classId" element={<VirtualClassroom />} />
+                <Route path="/courses" element={<CoursesList />} />
+                <Route path="/courses/:courseId" element={<CourseDetail />} />
+              </Route>
+              
+              {/* Shared Routes (accessible to all roles including Principal) */}
+              <Route element={<AppLayout requiredRoles={[UserRole.TEACHER, UserRole.STUDENT, UserRole.PRINCIPAL]} />}>
+                <Route path="/teacher/calendar" element={<CalendarPage />} />
+                <Route path="/principal/calendar" element={<CalendarPage />} />
               </Route>
               
               {/* Catch-all route */}

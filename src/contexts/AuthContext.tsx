@@ -1,19 +1,31 @@
-
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { User, Tenant, AuthState, LoginCredentials, AuthResponse, UserRole } from '@/types';
 import { api } from '@/lib/api';
 import { toast } from "@/components/ui/sonner";
 
+// Auth context interface
 interface AuthContextType {
-  isAuthenticated: boolean;
   user: User | null;
-  tenant: Tenant | null;
-  token: string | null;
-  login: (credentials: LoginCredentials) => Promise<void>;
-  logout: () => void;
+  isAuthenticated: boolean;
   isLoading: boolean;
+  tenant: Tenant | null;
   error: string | null;
-  checkPermission: (requiredRoles: UserRole[]) => boolean;
+  
+  // Authentication methods
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => void;
+  register: (userData: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    role: UserRole;
+  }) => Promise<void>;
+  requestPasswordReset: (email: string) => Promise<void>;
+  resetPassword: (token: string, newPassword: string) => Promise<void>;
+  
+  // Permissions
+  checkPermission: (roles: UserRole[]) => boolean;
 }
 
 const defaultAuthState: AuthState = {
@@ -129,18 +141,16 @@ const MOCK_USERS = {
   },
 };
 
-const AuthContext = createContext<AuthContextType>({
-  ...defaultAuthState,
-  login: async () => {},
-  logout: () => {},
-  isLoading: false,
-  error: null,
-  checkPermission: () => false,
-});
+// Create the context
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const useAuth = () => useContext(AuthContext);
+// Auth provider props
+interface AuthProviderProps {
+  children: ReactNode;
+}
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+// Auth provider component
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [authState, setAuthState] = useState<AuthState>(defaultAuthState);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -184,19 +194,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, [authState.token]);
 
-  const login = async (credentials: LoginCredentials) => {
+  // Login function
+  const login = async (email: string, password: string) => {
     setIsLoading(true);
     setError(null);
 
     try {
       // Check if we're in development or if API is unavailable
       // Use mock authentication data
-      const mockUser = MOCK_USERS[credentials.email];
+      const mockUser = MOCK_USERS[email];
       
-      if (mockUser && 
-          mockUser.password === credentials.password && 
-          mockUser.tenant.domain === credentials.tenantDomain) {
-        
+      if (mockUser && mockUser.password === password) {
         // Successfully authenticated with mock data
         const { user, tenant, token, refreshToken } = mockUser;
         
@@ -236,6 +244,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  // Logout function
   const logout = () => {
     // Clear state and localStorage
     setAuthState(defaultAuthState);
@@ -246,26 +255,102 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     toast.info("You have been logged out");
   };
 
-  // Helper function to check if current user has required role
-  const checkPermission = (requiredRoles: UserRole[]) => {
+  // Register function
+  const register = async (userData: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    role: UserRole;
+  }) => {
+    setIsLoading(true);
+    
+    try {
+      // In a real app, this would be an API call
+      // Simulate API call delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // For demo purposes, we'll just create a user without actually storing it
+      // In a real app, you would create the user in your database
+      
+      // We don't auto-login after registration to force email verification
+      // in a real application
+    } catch (error) {
+      console.error('Registration error:', error);
+      throw new Error('Registration failed');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Request password reset function
+  const requestPasswordReset = async (email: string) => {
+    setIsLoading(true);
+    
+    try {
+      // In a real app, this would be an API call to send a reset email
+      // Simulate API call delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // For demo purposes, we'll just pretend we sent an email
+      console.log(`Password reset requested for: ${email}`);
+    } catch (error) {
+      console.error('Password reset request error:', error);
+      throw new Error('Failed to send reset email');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Reset password function
+  const resetPassword = async (token: string, newPassword: string) => {
+    setIsLoading(true);
+    
+    try {
+      // In a real app, this would be an API call to verify the token and set the new password
+      // Simulate API call delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // For demo purposes, we'll just pretend we reset the password
+      console.log(`Password reset with token: ${token}`);
+    } catch (error) {
+      console.error('Password reset error:', error);
+      throw new Error('Failed to reset password');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Check if user has required role
+  const checkPermission = (roles: UserRole[]) => {
     if (!authState.isAuthenticated || !authState.user) {
       return false;
     }
-    
-    return requiredRoles.includes(authState.user.role);
+    return roles.includes(authState.user.role);
   };
 
   const value = {
-    isAuthenticated: authState.isAuthenticated,
     user: authState.user,
+    isAuthenticated: authState.isAuthenticated,
+    isLoading,
     tenant: authState.tenant,
-    token: authState.token,
+    error,
     login,
     logout,
-    isLoading,
-    error,
+    register,
+    requestPasswordReset,
+    resetPassword,
     checkPermission,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
+
+// Custom hook to use auth context
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
 };
