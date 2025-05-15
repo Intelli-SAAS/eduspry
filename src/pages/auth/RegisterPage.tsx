@@ -68,13 +68,14 @@ const RegisterPage: React.FC = () => {
         password: values.password,
         role: values.role,
       });
-      
+
       toast({
         title: 'Account created successfully',
-        description: 'You can now log in with your credentials',
+        description: 'You can now set up your account',
       });
-      
-      navigate('/login');
+
+      // Redirect to onboarding flow instead of login
+      navigate('/onboarding/type');
     } catch (error) {
       console.error('Registration error:', error);
       toast({

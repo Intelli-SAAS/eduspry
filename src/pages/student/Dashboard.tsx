@@ -27,7 +27,7 @@ const fadeIn = {
 const StudentDashboard: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  
+
   // State for video conferences
   const [upcomingConferences, setUpcomingConferences] = useState<any[]>([]);
   const [isLoadingConferences, setIsLoadingConferences] = useState(true);
@@ -39,12 +39,12 @@ const StudentDashboard: React.FC = () => {
   ];
 
   const recentTests = [
-    { 
-      id: '3', 
-      title: 'Mathematics Practice Quiz', 
-      date: '2023-09-30T09:00:00', 
-      score: 85, 
-      subject: SubjectType.MATHEMATICS 
+    {
+      id: '3',
+      title: 'Mathematics Practice Quiz',
+      date: '2023-09-30T09:00:00',
+      score: 85,
+      subject: SubjectType.MATHEMATICS
     },
   ];
 
@@ -70,19 +70,19 @@ const StudentDashboard: React.FC = () => {
   useEffect(() => {
     const fetchUpcomingConferences = async () => {
       if (!user) return;
-      
+
       try {
         setIsLoadingConferences(true);
         const sessions = await VideoConferenceService.getUserSessions(user.id);
-        
+
         // Filter for sessions that are scheduled or active
         const activeOrUpcoming = sessions.filter(
           session => ['scheduled', 'active'].includes(session.status)
         );
-        
+
         // Sort by start time (ascending)
         activeOrUpcoming.sort((a, b) => a.startTime.getTime() - b.startTime.getTime());
-        
+
         setUpcomingConferences(activeOrUpcoming);
       } catch (error) {
         console.error('Error fetching video conferences:', error);
@@ -90,44 +90,44 @@ const StudentDashboard: React.FC = () => {
         setIsLoadingConferences(false);
       }
     };
-    
+
     fetchUpcomingConferences();
   }, [user]);
-  
+
   // Helper functions
   // Format date for display
   const formatDateTime = (date: Date) => {
     return format(date, 'MMM dd, yyyy - h:mm a');
   };
-  
+
   // Calculate time until conference
   const getTimeUntil = (date: Date) => {
     const now = new Date();
     const diff = date.getTime() - now.getTime();
-    
+
     if (diff <= 0) return 'Now';
-    
+
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    
+
     if (days > 0) return `${days}d ${hours}h`;
     if (hours > 0) return `${hours}h ${minutes}m`;
     return `${minutes}m`;
   };
-  
+
   // Join a video conference
   const joinConference = (channel: string) => {
     navigate(`/classroom/${channel}`);
   };
 
   return (
-    <motion.div 
+    <motion.div
       initial="hidden"
       animate="visible"
       className="space-y-8"
     >
-      <motion.div 
+      <motion.div
         className="flex flex-col md:flex-row md:items-center md:justify-between gap-4"
         variants={fadeIn}
         custom={0}
@@ -146,6 +146,11 @@ const StudentDashboard: React.FC = () => {
             </Link>
           </Button>
         </motion.div>
+        <div className="flex space-x-2 mt-4 md:mt-0">
+          <Button onClick={() => navigate('/onboarding/type')}>
+            Test Onboarding Flow
+          </Button>
+        </div>
       </motion.div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -200,7 +205,7 @@ const StudentDashboard: React.FC = () => {
               </CardHeader>
               <CardContent>
                 <div className={`text-xs text-${stat.color} flex items-center`}>
-                  {stat.icon} 
+                  {stat.icon}
                   {stat.subtitle}
                 </div>
               </CardContent>
@@ -226,8 +231,8 @@ const StudentDashboard: React.FC = () => {
               {upcomingTests.length > 0 ? (
                 <div>
                   {upcomingTests.map((test, index) => (
-                    <motion.div 
-                      key={test.id} 
+                    <motion.div
+                      key={test.id}
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.6 + (index * 0.1) }}
@@ -276,8 +281,8 @@ const StudentDashboard: React.FC = () => {
               {recentTests.length > 0 ? (
                 <div>
                   {recentTests.map((test, index) => (
-                    <motion.div 
-                      key={test.id} 
+                    <motion.div
+                      key={test.id}
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.7 + (index * 0.1) }}
@@ -331,7 +336,7 @@ const StudentDashboard: React.FC = () => {
           <CardContent className="pt-6">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
               {subjectPerformance.map((subject, index) => (
-                <motion.div 
+                <motion.div
                   key={subject.subject}
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -355,7 +360,7 @@ const StudentDashboard: React.FC = () => {
       {/* Add this section for upcoming video conferences */}
       <div className="space-y-4">
         <h2 className="text-2xl font-bold">Upcoming Classes</h2>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {isLoadingConferences ? (
             <Card>
@@ -387,7 +392,7 @@ const StudentDashboard: React.FC = () => {
                   </CardTitle>
                   <CardDescription className="flex items-center">
                     <Clock className="h-4 w-4 mr-1" />
-                    {conference.status === 'active' 
+                    {conference.status === 'active'
                       ? 'Started at ' + formatDateTime(conference.startTime)
                       : formatDateTime(conference.startTime)
                     }

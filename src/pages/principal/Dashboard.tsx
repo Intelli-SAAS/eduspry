@@ -2,16 +2,17 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { BarChart, PieChart, LineChart } from '@/components/ui/chart';
+import { BarChart, PieChart, LineChart, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Line, Bar, Pie } from '@/components/ui/chart';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
-import { ArrowUpRight, Users, UserCheck, Presentation, PieChart as PieChartIcon, Activity } from 'lucide-react';
+import { ArrowUpRight, Users, UserCheck, Presentation, PieChart as PieChartIcon, Activity, Calendar, BookOpen } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 // Animation variants
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     y: 0,
     transition: { duration: 0.4, ease: "easeOut" }
   }
@@ -29,8 +30,8 @@ const staggerContainer = {
 
 const chartVariants = {
   hidden: { opacity: 0, scale: 0.95 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     scale: 1,
     transition: { duration: 0.6, ease: "easeOut", delay: 0.1 }
   }
@@ -38,7 +39,7 @@ const chartVariants = {
 
 const cardHover = {
   rest: { scale: 1 },
-  hover: { 
+  hover: {
     scale: 1.02,
     boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
     borderColor: "rgba(26, 68, 128, 0.5)",
@@ -70,22 +71,27 @@ const departmentPerformance = [
   },
 ];
 
+// Updated teacher activity data with fill colors
 const teacherActivity = [
   {
     name: 'Assessments Created',
     value: 145,
+    fill: '#1a4480'
   },
   {
     name: 'Feedback Sessions',
     value: 89,
+    fill: '#4a76c4'
   },
   {
     name: 'Professional Development',
     value: 42,
+    fill: '#89a7e0'
   },
   {
     name: 'Parent Meetings',
     value: 76,
+    fill: '#ccdaf2'
   },
 ];
 
@@ -141,15 +147,17 @@ const studentEnrollmentTrend = [
 ];
 
 const PrincipalDashboard: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
-    <motion.div 
+    <motion.div
       className="space-y-6 p-6 pb-16"
       initial="hidden"
       animate="visible"
       variants={staggerContainer}
     >
       <div className="flex flex-col space-y-4">
-        <motion.h1 
+        <motion.h1
           className="text-3xl font-bold tracking-tight text-[#1a4480]"
           variants={fadeIn}
           initial={{ opacity: 0, x: -20 }}
@@ -158,7 +166,7 @@ const PrincipalDashboard: React.FC = () => {
         >
           Principal Dashboard
         </motion.h1>
-        <motion.p 
+        <motion.p
           className="text-gray-500"
           variants={fadeIn}
           initial={{ opacity: 0 }}
@@ -171,11 +179,11 @@ const PrincipalDashboard: React.FC = () => {
 
       <Separator />
 
-      <motion.div 
+      <motion.div
         className="grid gap-4 md:grid-cols-2 lg:grid-cols-4"
         variants={staggerContainer}
       >
-        <motion.div 
+        <motion.div
           variants={fadeIn}
           whileHover="hover"
           initial="rest"
@@ -196,8 +204,8 @@ const PrincipalDashboard: React.FC = () => {
             </Card>
           </motion.div>
         </motion.div>
-        
-        <motion.div 
+
+        <motion.div
           variants={fadeIn}
           whileHover="hover"
           initial="rest"
@@ -218,8 +226,8 @@ const PrincipalDashboard: React.FC = () => {
             </Card>
           </motion.div>
         </motion.div>
-        
-        <motion.div 
+
+        <motion.div
           variants={fadeIn}
           whileHover="hover"
           initial="rest"
@@ -240,8 +248,8 @@ const PrincipalDashboard: React.FC = () => {
             </Card>
           </motion.div>
         </motion.div>
-        
-        <motion.div 
+
+        <motion.div
           variants={fadeIn}
           whileHover="hover"
           initial="rest"
@@ -264,11 +272,11 @@ const PrincipalDashboard: React.FC = () => {
         </motion.div>
       </motion.div>
 
-      <motion.div 
+      <motion.div
         className="grid gap-4 md:grid-cols-2 lg:grid-cols-7"
         variants={staggerContainer}
       >
-        <motion.div 
+        <motion.div
           className="col-span-4"
           variants={chartVariants}
           whileHover={{ y: -5 }}
@@ -279,19 +287,21 @@ const PrincipalDashboard: React.FC = () => {
               <CardTitle className="text-[#1a4480]">School Enrollment Trend</CardTitle>
             </CardHeader>
             <CardContent>
-              <LineChart
-                data={studentEnrollmentTrend}
-                categories={['students']}
-                colors={['#1a4480']}
-                index="name"
-                yAxisWidth={40}
-                showAnimation={true}
-              />
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={studentEnrollmentTrend}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Line type="monotone" dataKey="students" stroke="#1a4480" activeDot={{ r: 8 }} />
+                </LineChart>
+              </ResponsiveContainer>
             </CardContent>
           </Card>
         </motion.div>
-        
-        <motion.div 
+
+        <motion.div
           className="col-span-3"
           variants={chartVariants}
           whileHover={{ y: -5 }}
@@ -302,24 +312,26 @@ const PrincipalDashboard: React.FC = () => {
               <CardTitle className="text-[#1a4480]">Department Performance</CardTitle>
             </CardHeader>
             <CardContent>
-              <BarChart
-                data={departmentPerformance}
-                categories={['value']}
-                colors={['#1a4480']}
-                index="name"
-                yAxisWidth={40}
-                showAnimation={true}
-              />
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={departmentPerformance}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Bar dataKey="value" fill="#1a4480" />
+                </BarChart>
+              </ResponsiveContainer>
             </CardContent>
           </Card>
         </motion.div>
       </motion.div>
 
-      <motion.div 
+      <motion.div
         className="grid gap-4 md:grid-cols-2"
         variants={staggerContainer}
       >
-        <motion.div 
+        <motion.div
           variants={chartVariants}
           whileHover={{ y: -5 }}
           transition={{ duration: 0.3 }}
@@ -329,25 +341,32 @@ const PrincipalDashboard: React.FC = () => {
               <CardTitle className="text-[#1a4480]">Faculty Activity Distribution</CardTitle>
             </CardHeader>
             <CardContent>
-              <PieChart
-                data={teacherActivity}
-                category="value"
-                index="name"
-                colors={['#1a4480', '#4a76c4', '#89a7e0', '#ccdaf2']}
-                valueFormatter={(value) => `${value} activities`}
-                showAnimation={true}
-              />
+              <ResponsiveContainer width="100%" height={300}>
+                <PieChart>
+                  <Pie
+                    data={teacherActivity}
+                    dataKey="value"
+                    nameKey="name"
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={80}
+                    label
+                  />
+                  <Tooltip formatter={(value) => `${value} activities`} />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
             </CardContent>
           </Card>
         </motion.div>
-        
+
         <motion.div variants={fadeIn}>
           <Card className="transition-all duration-300 h-full">
             <CardHeader>
               <CardTitle className="text-[#1a4480]">Recent Announcements</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <motion.div 
+              <motion.div
                 className="space-y-2 border-l-4 border-[#1a4480] pl-4"
                 whileHover={{ x: 8, backgroundColor: "rgba(26, 68, 128, 0.05)" }}
                 transition={{ duration: 0.2 }}
@@ -356,8 +375,8 @@ const PrincipalDashboard: React.FC = () => {
                 <p className="text-sm text-gray-500">Scheduled for November 15th. All teachers must attend.</p>
                 <p className="text-xs text-gray-400">Posted 2 days ago</p>
               </motion.div>
-              
-              <motion.div 
+
+              <motion.div
                 className="space-y-2 border-l-4 border-[#1a4480] pl-4"
                 whileHover={{ x: 8, backgroundColor: "rgba(26, 68, 128, 0.05)" }}
                 transition={{ duration: 0.2 }}
@@ -366,8 +385,8 @@ const PrincipalDashboard: React.FC = () => {
                 <p className="text-sm text-gray-500">All faculty must submit reports by December 10th.</p>
                 <p className="text-xs text-gray-400">Posted 5 days ago</p>
               </motion.div>
-              
-              <motion.div 
+
+              <motion.div
                 className="space-y-2 border-l-4 border-[#1a4480] pl-4"
                 whileHover={{ x: 8, backgroundColor: "rgba(26, 68, 128, 0.05)" }}
                 transition={{ duration: 0.2 }}
@@ -376,23 +395,23 @@ const PrincipalDashboard: React.FC = () => {
                 <p className="text-sm text-gray-500">School will be closed from December 20th to January 5th.</p>
                 <p className="text-xs text-gray-400">Posted 1 week ago</p>
               </motion.div>
-              
-              <motion.div 
+
+              <motion.div
                 className="flex justify-end"
                 whileHover={{ scale: 1.05 }}
               >
-                <Button 
-                  size="sm" 
+                <Button
+                  size="sm"
                   className="bg-[#1a4480] hover:bg-[#0d2d5a] text-white flex items-center gap-1"
                 >
-                  <motion.span 
+                  <motion.span
                     initial={{ x: 0 }}
                     whileHover={{ x: -2 }}
                     transition={{ duration: 0.2 }}
                   >
                     View All
-                  </motion.span> 
-                  <motion.div 
+                  </motion.span>
+                  <motion.div
                     whileHover={{ x: 2 }}
                     transition={{ duration: 0.2 }}
                   >
@@ -403,6 +422,18 @@ const PrincipalDashboard: React.FC = () => {
             </CardContent>
           </Card>
         </motion.div>
+      </motion.div>
+
+      <motion.div
+        className="flex space-x-2 mt-4 md:mt-0"
+        variants={staggerContainer}
+      >
+        <Button variant="outline" onClick={() => navigate('/modules')}>
+          Manage Modules
+        </Button>
+        <Button onClick={() => navigate('/onboarding/type')}>
+          Test Onboarding Flow
+        </Button>
       </motion.div>
     </motion.div>
   );
