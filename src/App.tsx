@@ -5,7 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
-import { UserRole } from "@/types";
+import { UserRole } from "@/modules/shared/types";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
 // Layout
@@ -66,12 +66,12 @@ const PlaceholderPage = () => (
 // SmartRedirect component to handle role-based redirects
 const SmartRedirect = () => {
   const { user } = useAuth();
-  
+
   if (!user) {
     return <Navigate to="/login" replace />;
   }
-  
-  switch(user.role) {
+
+  switch (user.role) {
     case UserRole.TEACHER:
       return <Navigate to="/teacher/dashboard" replace />;
     case UserRole.PRINCIPAL:
@@ -107,10 +107,10 @@ const App = () => (
               <Route path="/forgot-password" element={<ForgotPasswordPage />} />
               <Route path="/reset-password" element={<ResetPasswordPage />} />
               <Route path="/unauthorized" element={<UnauthorizedPage />} />
-              
+
               {/* App entry point - redirects based on user role */}
               <Route path="/app" element={<SmartRedirect />} />
-              
+
               {/* Student Routes */}
               <Route element={<AppLayout requiredRoles={[UserRole.STUDENT]} />}>
                 <Route path="/dashboard" element={<StudentDashboard />} />
@@ -120,7 +120,7 @@ const App = () => (
                 <Route path="/performance" element={<StudentPerformancePage />} />
                 <Route path="/study-tools" element={<AIStudyTools />} />
               </Route>
-              
+
               {/* Teacher Routes */}
               <Route element={<AppLayout requiredRoles={[UserRole.TEACHER]} />}>
                 <Route path="/teacher/dashboard" element={<TeacherDashboard />} />
@@ -135,7 +135,7 @@ const App = () => (
                 <Route path="/ai-assistant" element={<AIAssistant />} />
                 <Route path="/video-conference/create" element={<CreateVideoConference />} />
               </Route>
-              
+
               {/* Principal Routes */}
               <Route element={<AppLayout requiredRoles={[UserRole.PRINCIPAL]} />}>
                 <Route path="/principal/dashboard" element={<PrincipalDashboard />} />
@@ -145,7 +145,7 @@ const App = () => (
                 <Route path="/analytics/school" element={<SchoolAnalytics />} />
                 <Route path="/settings" element={<SettingsPage />} />
               </Route>
-              
+
               {/* Shared Routes (accessible to both teacher and student) */}
               <Route element={<AppLayout requiredRoles={[UserRole.TEACHER, UserRole.STUDENT]} />}>
                 <Route path="/calendar" element={<CalendarPage />} />
@@ -153,13 +153,13 @@ const App = () => (
                 <Route path="/courses" element={<CoursesList />} />
                 <Route path="/courses/:courseId" element={<CourseDetail />} />
               </Route>
-              
+
               {/* Shared Routes (accessible to all roles including Principal) */}
               <Route element={<AppLayout requiredRoles={[UserRole.TEACHER, UserRole.STUDENT, UserRole.PRINCIPAL]} />}>
                 <Route path="/teacher/calendar" element={<CalendarPage />} />
                 <Route path="/principal/calendar" element={<CalendarPage />} />
               </Route>
-              
+
               {/* Catch-all route */}
               <Route path="*" element={<NotFound />} />
             </Routes>
