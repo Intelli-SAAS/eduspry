@@ -1,0 +1,200 @@
+Onboarding Flow Design (Subscription-Based Signup)
+
+Absolutely! Here's a detailed **Onboarding Flow Design (Subscription-Based Signup)** for your **SaaS Education Platform** using **Next.js + TypeScript + Supabase**. This will guide users (students, colleges, institutions) to:
+
+1. **Register**
+2. **Select Role & Tenant Info**
+3. **Choose a Feature Bundle/Plan**
+4. **Provision Access**
+5. **Access Dashboard**
+
+---
+
+## ✅ USER ONBOARDING FLOW – OVERVIEW
+
+```
+[ Landing Page ]
+      ↓
+[ Sign Up / Login ] ─→ [ Supabase Auth ]
+      ↓
+[ Select User Type: Student / College / Institution ]
+      ↓
+[ Provide Tenant Info (name, org, etc.) ]
+      ↓
+[ Choose Plan / Feature Bundle ]
+      ↓
+[ Backend: Create Tenant + Assign User + Map Modules ]
+      ↓
+[ Redirect to Dashboard with Conditional UI ]
+```
+
+---
+
+## 🧱 DB DESIGN FOR ONBOARDING
+
+```sql
+-- Already defined
+table tenants (
+  id uuid primary key,
+  name text,
+  plan text check (plan in ('student', 'college', 'institution'))
+);
+
+table users (
+  id uuid references auth.users,
+  tenant_id uuid references tenants(id),
+  role text check (role in ('admin', 'student', 'teacher'))
+);
+
+table tenant_modules (
+  tenant_id uuid,
+  module text,          -- e.g. 'admissions', 'courses'
+  enabled boolean
+);
+```
+
+---
+
+## 🎨 UI SCREENS
+
+### 1. **Sign Up Page (`/signup`)**
+
+* Email
+* Password
+* Confirm Password
+
+Use: `supabase.auth.signUp({ email, password })`
+
+---
+
+### 2. **Profile Type Selection (`/onboarding/type`)**
+
+* **Choose your profile:**
+
+  * 🔸 Student
+  * 🏫 College
+  * 🏛️ Institution
+
+Save selection temporarily in session or Supabase user metadata.
+
+---
+
+### 3. **Tenant Info (`/onboarding/info`)**
+
+* **Student**: Full Name, School/College Name
+* **College/Institution**: Org Name, Contact Person, Domain, Phone
+
+On form submit:
+➡️ Call `POST /api/tenant/init` to create tenant + assign user.
+
+---
+
+### 4. **Bundle Selection (`/onboarding/plan`)**
+
+* **Student Bundle**
+
+  * Courses
+  * AI Assistant
+  * Progress Tracking
+
+* **College Bundle**
+
+  * Admissions
+  * Courses
+  * Attendance
+  * Performance Analytics
+
+* **Institution Bundle**
+
+  * All modules (Enterprise)
+
+On select:
+➡️ Call `POST /api/tenant/modules` to set feature access.
+
+---
+
+## 🧪 API ROUTES
+
+### `/api/tenant/init.ts`
+
+```ts
+import { createServerActionClient } from '@supabase/auth-helpers-nextjs'
+
+export async function POST(req: Request) {
+  const supabase = createServerActionClient({ cookies })
+  const { data: { user } } = await supabase.auth.getUser()
+  const { name, plan, role } = await req.json()
+
+  const { data: tenant } = await supabase.from('tenants').insert({
+    name,
+    plan
+  }).select('*').single()
+
+  await supabase.from('users').insert({
+    id: user.id,
+    tenant_id: tenant.id,
+    role
+  })
+
+  return NextResponse.json({ tenantId: tenant.id })
+}
+```
+
+---
+
+### `/api/tenant/modules.ts`
+
+```ts
+export async function POST(req: Request) {
+  const supabase = createServerActionClient({ cookies })
+  const { tenantId, selectedModules } = await req.json()
+
+  const records = selectedModules.map((module: string) => ({
+    tenant_id: tenantId,
+    module,
+    enabled: true
+  }))
+
+  await supabase.from('tenant_modules').insert(records)
+  return NextResponse.json({ success: true })
+}
+```
+
+---
+
+## ✅ FINAL REDIRECT
+
+Once onboarding is complete:
+
+```tsx
+router.push("/dashboard")
+```
+
+In `dashboard/page.tsx`, use `GET /api/modules` to conditionally load the UI modules the user has access to.
+
+---
+
+## 🧠 BONUS: Feature Bundles as Constants
+
+```ts
+export const BUNDLES = {
+  student: ['courses', 'ai', 'progress'],
+  college: ['admissions', 'courses', 'attendance', 'analytics'],
+  institution: ['admissions', 'courses', 'attendance', 'analytics', 'proctored-exams', 'live-classes', 'ai', 'progress']
+}
+```
+
+---
+
+## 📦 Optional Enhancements
+
+| Feature                     | Stack/Tool                                                   |
+| --------------------------- | ------------------------------------------------------------ |
+| Stripe Payments for bundle  | [Stripe Checkout](https://stripe.com/docs/payments/checkout) |
+| Invite teammates            | Supabase row invites or magic link                           |
+| Branding for institutions   | Custom domains or logos stored in Supabase Storage           |
+| Audit log or usage tracking | Supabase Edge Function triggers or Logs table                |
+
+---
+
+Would you like a full **starter code repo**, or a **mock UI wireframe for onboarding screens** as next steps?

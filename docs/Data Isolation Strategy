@@ -1,0 +1,119 @@
+Data Isolation Strategy :
+
+To ensure **perfect data isolation** between **colleges** (multi-tenancy) while supporting **individual students** (shared tenancy), we’ll design your architecture to support **hybrid tenancy** with strong **row-level security** (RLS) and **scoped access control** using Supabase and your app logic.
+
+---
+
+## ✅ GOAL
+
+| User Type              | Access to Data                                | Isolation Strategy          |
+| ---------------------- | --------------------------------------------- | --------------------------- |
+| **College**            | Only their own data (students, results, etc.) | **Strict tenant isolation** |
+| **Individual Student** | Shared/public courses & analytics             | **Shared/public access**    |
+
+---
+
+## ✅ RECOMMENDED DESIGN STRATEGY
+
+### 🔒 1. **Use Row-Level Security (RLS) in Supabase**
+
+* Each record (e.g., course, student, attendance, etc.) includes a `tenant_id`.
+* For **colleges**, `tenant_id = college's UUID`.
+* For **individual students**, `tenant_id = null` or `public`.
+
+**Example Schema:**
+
+```sql
+table students (
+  id uuid primary key,
+  tenant_id uuid,   -- null for individual users
+  name text,
+  email text
+)
+
+table courses (
+  id uuid,
+  tenant_id uuid,   -- null for public courses
+  title text,
+  description text
+)
+```
+
+---
+
+### ✅ 2. **Write RLS Policies**
+
+#### Example: Students Table
+
+```sql
+-- Enable RLS
+ALTER TABLE students ENABLE ROW LEVEL SECURITY;
+
+-- Policy: College Admin sees only their tenant's data
+CREATE POLICY "College access" ON students
+  USING (tenant_id = auth.jwt() ->> 'tenant_id');
+
+-- Policy: Individual students can only access their own record
+CREATE POLICY "Self-access" ON students
+  USING (id = auth.uid());
+```
+
+---
+
+### 🧱 3. **User Metadata: Attach `tenant_id` + `role` at login**
+
+After sign-up or login, retrieve the user’s tenant and role:
+
+```ts
+const { data: { user } } = await supabase.auth.getUser();
+const tenantId = user?.user_metadata?.tenant_id;
+```
+
+Use this in:
+
+* UI (to load tenant-specific or public content)
+* Supabase queries (through RLS)
+* API routes (to restrict logic and filtering)
+
+---
+
+### 🧠 4. **Hybrid Tenancy Strategy**
+
+| Data Type       | `tenant_id`    | Visible To                         |
+| --------------- | -------------- | ---------------------------------- |
+| Public Content  | `null`         | Individual Students & All Colleges |
+| College Data    | `college UUID` | That specific college only         |
+| Shared Students | `null`         | Global records (if allowed)        |
+
+---
+
+### 🧭 5. **Access Control in UI/UX**
+
+* **If user is part of a college:** show `tenant_id`-scoped dashboards (e.g., “XYZ College Dashboard”).
+* **If user is individual:** show global content (e.g., “Available Courses”, “My AI Assistant”).
+
+---
+
+## 🧩 Final Architecture Summary
+
+| Layer             | Strategy                                                           |
+| ----------------- | ------------------------------------------------------------------ |
+| **Database**      | Multi-tenant schema with `tenant_id`, enforce RLS                  |
+| **Supabase Auth** | Store `tenant_id`, `role`, `user_type` in metadata                 |
+| **API Layer**     | Read `tenant_id` from session/token, filter and validate queries   |
+| **UI Layer**      | Show/hide tenant-specific or global components using user metadata |
+
+---
+
+## 💡 Optional Improvements
+
+| Feature                        | Tool/Tech                                    |
+| ------------------------------ | -------------------------------------------- |
+| Soft multi-tenancy boundaries  | Use a `shared` tenant group with tenant\_id  |
+| Full data isolation per tenant | Separate Supabase projects (costlier)        |
+| Activity logs                  | Create an `events` table per tenant          |
+| Public course marketplace      | Store public courses with `tenant_id = null` |
+
+---
+
+Would you like me to generate an ERD (Entity Relationship Diagram) or setup example Supabase SQL scripts to implement this hybrid tenancy model?
