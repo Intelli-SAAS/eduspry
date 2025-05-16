@@ -33,8 +33,8 @@ const LandingPage: React.FC = () => {
 
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
       transition: { duration: 0.6 }
     }
@@ -42,51 +42,82 @@ const LandingPage: React.FC = () => {
 
   return (
     <div className="bg-gray-50 overflow-hidden">
+      {/* Header */}
+      <header className="bg-[#1a4480] shadow-sm">
+        <div className="container mx-auto px-6 py-4">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center">
+              <Link to="/" className="text-2xl font-bold text-white">EduSpry</Link>
+            </div>
+            <div className="flex items-center space-x-4">
+              <nav className="hidden md:flex items-center space-x-8">
+                <Link to="/features" className="text-white hover:text-blue-200 font-medium">Features</Link>
+                <Link to="/pricing" className="text-white hover:text-blue-200 font-medium">Pricing</Link>
+                <Link to="/about" className="text-white hover:text-blue-200 font-medium">About</Link>
+                <Link to="/contact" className="text-white hover:text-blue-200 font-medium">Contact</Link>
+              </nav>
+              <Button
+                className="bg-white text-[#1a4480] hover:bg-blue-50 px-6 py-2 rounded-md font-medium"
+                asChild
+              >
+                <Link to="/login">Login</Link>
+              </Button>
+              <Button
+                className="bg-white text-[#1a4480] hover:bg-blue-50 px-6 py-2 rounded-md font-medium"
+                asChild
+              >
+                <Link to="/register">Sign up</Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </header>
+
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         {/* Background with subtle pattern and gradient */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#1a4480] to-[#2c5aa0] bg-grid-white/[0.05] bg-[length:16px_16px]"></div>
-        
+
         {/* Accent lines */}
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 to-indigo-400"></div>
         <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-400 to-blue-400"></div>
-        
+
         {/* Content */}
         <div className="container relative mx-auto px-6 py-24 md:py-32">
-          <motion.div 
+          <motion.div
             className="flex flex-col items-center text-center"
             initial="hidden"
             animate="visible"
             variants={containerVariants}
           >
-            <motion.h1 
+            <motion.h1
               className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6"
               variants={itemVariants}
             >
               Transform Your Education <br className="hidden md:block" />
               <span className="text-blue-200">With AI-Powered Learning</span>
             </motion.h1>
-            
-            <motion.p 
+
+            <motion.p
               className="text-lg md:text-xl text-white/80 max-w-3xl mb-8"
               variants={itemVariants}
             >
-              EduSpry helps teachers create engaging content, students learn more effectively, 
+              EduSpry helps teachers create engaging content, students learn more effectively,
               and institutions track performance - all through an intuitive, AI-enhanced platform.
             </motion.p>
-            
-            <motion.div 
+
+            <motion.div
               className="flex flex-col sm:flex-row gap-4 w-full justify-center"
               variants={itemVariants}
             >
-              <Button 
+              <Button
                 className="bg-white text-[#1a4480] hover:bg-blue-50 px-8 py-6 text-lg rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all"
                 asChild
               >
                 <Link to="/register">Get Started Free</Link>
               </Button>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 className="border-white text-white hover:bg-white/10 px-8 py-6 text-lg rounded-lg font-semibold"
                 asChild
               >
@@ -95,7 +126,7 @@ const LandingPage: React.FC = () => {
             </motion.div>
           </motion.div>
         </div>
-        
+
         {/* Wave divider */}
         <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none" className="h-[60px] w-full fill-gray-50">
@@ -107,7 +138,7 @@ const LandingPage: React.FC = () => {
       {/* Trust Indicators */}
       <section className="py-12 bg-gray-50">
         <div className="container mx-auto px-6">
-          <motion.div 
+          <motion.div
             className="flex flex-wrap justify-center items-center gap-8 md:gap-16 text-gray-500"
             initial="hidden"
             whileInView="visible"
@@ -126,7 +157,7 @@ const LandingPage: React.FC = () => {
       {/* Features Section */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-6">
-          <motion.div 
+          <motion.div
             className="text-center mb-16"
             initial="hidden"
             whileInView="visible"
@@ -141,10 +172,10 @@ const LandingPage: React.FC = () => {
               with innovative AI-powered tools.
             </p>
           </motion.div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             {/* Feature 1 */}
-            <motion.div 
+            <motion.div
               className="bg-gray-50 rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow border border-gray-100"
               initial="hidden"
               whileInView="visible"
@@ -167,9 +198,9 @@ const LandingPage: React.FC = () => {
                 ))}
               </ul>
             </motion.div>
-            
+
             {/* Feature 2 */}
-            <motion.div 
+            <motion.div
               className="bg-gray-50 rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow border border-gray-100"
               initial="hidden"
               whileInView="visible"
@@ -193,9 +224,9 @@ const LandingPage: React.FC = () => {
                 ))}
               </ul>
             </motion.div>
-            
+
             {/* Feature 3 */}
-            <motion.div 
+            <motion.div
               className="bg-gray-50 rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow border border-gray-100"
               initial="hidden"
               whileInView="visible"
@@ -226,7 +257,7 @@ const LandingPage: React.FC = () => {
       {/* Testimonials */}
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-6">
-          <motion.div 
+          <motion.div
             className="text-center mb-16"
             initial="hidden"
             whileInView="visible"
@@ -240,7 +271,7 @@ const LandingPage: React.FC = () => {
               Hear from educators and students who've transformed their learning experience with EduSpry.
             </p>
           </motion.div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
@@ -262,7 +293,7 @@ const LandingPage: React.FC = () => {
                 rating: 5
               }
             ].map((testimonial, index) => (
-              <motion.div 
+              <motion.div
                 key={index}
                 className="bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow border border-gray-100"
                 initial="hidden"
@@ -295,7 +326,7 @@ const LandingPage: React.FC = () => {
       {/* CTA Section */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-6">
-          <motion.div 
+          <motion.div
             className="bg-gradient-to-r from-[#1a4480] to-[#2c5aa0] rounded-2xl overflow-hidden relative"
             initial="hidden"
             whileInView="visible"
@@ -304,7 +335,7 @@ const LandingPage: React.FC = () => {
           >
             {/* Background pattern */}
             <div className="absolute inset-0 bg-grid-white/[0.05] bg-[length:16px_16px]"></div>
-            
+
             <div className="relative py-16 px-8 md:px-16 text-center">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
                 Ready to Transform Your Educational Experience?
@@ -313,14 +344,14 @@ const LandingPage: React.FC = () => {
                 Join thousands of educators and students who are already benefiting from EduSpry's AI-powered platform.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button 
+                <Button
                   className="bg-white text-[#1a4480] hover:bg-blue-50 px-8 py-6 text-lg rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all"
                   asChild
                 >
                   <Link to="/register">Start Your Free Trial</Link>
                 </Button>
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   className="border-white text-white hover:bg-white/10 px-8 py-6 text-lg rounded-lg font-semibold"
                   asChild
                 >
@@ -360,7 +391,7 @@ const LandingPage: React.FC = () => {
                 </a>
               </div>
             </div>
-            
+
             <div>
               <h3 className="text-lg font-semibold mb-4">Product</h3>
               <ul className="space-y-2">
@@ -373,7 +404,7 @@ const LandingPage: React.FC = () => {
                 ))}
               </ul>
             </div>
-            
+
             <div>
               <h3 className="text-lg font-semibold mb-4">Resources</h3>
               <ul className="space-y-2">
@@ -386,7 +417,7 @@ const LandingPage: React.FC = () => {
                 ))}
               </ul>
             </div>
-            
+
             <div>
               <h3 className="text-lg font-semibold mb-4">Company</h3>
               <ul className="space-y-2">
@@ -400,7 +431,7 @@ const LandingPage: React.FC = () => {
               </ul>
             </div>
           </div>
-          
+
           <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm">
               © {new Date().getFullYear()} EduSpry. All rights reserved.
