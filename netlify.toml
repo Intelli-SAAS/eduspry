@@ -1,6 +1,7 @@
 [build]
-  command = "npm run build"
+  command = "rm -rf node_modules package-lock.json && ROLLUP_SKIP_NODEJS=true npm install && npm run build"
   publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "20" 
+  NODE_VERSION = "20"
+  ROLLUP_SKIP_NODEJS = "true"
