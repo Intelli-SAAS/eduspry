@@ -4,8 +4,11 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from '@/components/ui/button';
 import { useOnboarding } from '@/contexts/OnboardingContext';
 import { TenantType, SUBSCRIPTION_PLANS } from '@/types/onboarding';
-import { GraduationCap, Building, Building2, ArrowLeft } from 'lucide-react';
+import { GraduationCap, Building, Building2, Globe, ArrowRight, Check } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import OnboardingLayout from '@/components/layout/OnboardingLayout';
+import { motion } from 'framer-motion';
+import { Badge } from '@/components/ui/badge';
 
 const TenantTypePage: React.FC = () => {
     const navigate = useNavigate();
@@ -16,144 +19,227 @@ const TenantTypePage: React.FC = () => {
         setTenantType(type);
 
         // Set default modules based on the selected plan
-        const plan = SUBSCRIPTION_PLANS.find(plan => plan.id === type);
-        if (plan) {
-            setModules(plan.modules);
+        const plans = SUBSCRIPTION_PLANS[type];
+        if (plans && plans.length > 0) {
+            // Use the 'recommended' plan if available, otherwise use the first one
+            const recommendedPlan = plans.find(plan => plan.recommended) || plans[0];
+            setModules(recommendedPlan.modules);
         }
 
         navigate('/onboarding/info');
     };
 
-    const handleCancel = () => {
-        // For existing users testing the flow, just go back to their dashboard
-        navigate(-1);
+    const cardVariants = {
+        initial: { y: 20, opacity: 0 },
+        animate: { y: 0, opacity: 1 },
+        hover: {
+            y: -5,
+            boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+            transition: { type: "spring", stiffness: 300 }
+        },
+        tap: { y: 0, scale: 0.98 }
+    };
+
+    const featuredBadgeVariants = {
+        initial: { scale: 0.8, opacity: 0 },
+        animate: { scale: 1, opacity: 1, transition: { delay: 0.3 } }
+    };
+
+    const checkmarkVariants = {
+        initial: { scale: 0, opacity: 0 },
+        animate: { scale: 1, opacity: 1 }
     };
 
     return (
-        <div className="container mx-auto py-10 px-4 max-w-5xl">
-            {user && (
-                <div className="mb-6">
-                    <Button variant="ghost" onClick={handleCancel} className="mb-4">
-                        <ArrowLeft className="mr-2 h-4 w-4" />
-                        Back to Dashboard
-                    </Button>
-                    <div className="p-3 bg-yellow-50 text-yellow-800 rounded-md">
-                        <p>
-                            You are testing the onboarding flow as an existing user.
-                            This will allow you to create a new tenant configuration.
-                        </p>
-                    </div>
+        <OnboardingLayout
+            title="Welcome to EduSpry"
+            description="Let's get started by selecting the type of account you need"
+            showBackButton={!!user}
+        >
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {/* Student Card */}
+                <motion.div
+                    variants={cardVariants}
+                    initial="initial"
+                    animate="animate"
+                    whileHover="hover"
+                    whileTap="tap"
+                    transition={{ duration: 0.2, delay: 0.1 }}
+                >
+                    <Card className="h-full border-2 hover:border-primary cursor-pointer overflow-hidden">
+                        <CardHeader className="text-center pb-2 relative">
+                            <div className="bg-primary/10 absolute -top-6 -right-6 -left-6 h-24 rounded-b-[50%] flex items-end justify-center pb-2">
+                                <GraduationCap className="w-12 h-12 text-primary" />
+                            </div>
+                            <div className="mt-10"></div>
+                            <CardTitle className="text-xl">Student</CardTitle>
+                            <CardDescription>For individual learners</CardDescription>
+                        </CardHeader>
+                        <CardContent className="text-center">
+                            <div className="text-3xl font-bold text-primary mb-2">
+                                ₹499
+                                <span className="text-sm font-normal text-muted-foreground">/mo</span>
+                            </div>
+                            <ul className="text-left space-y-2 mt-6 mb-6">
+                                {SUBSCRIPTION_PLANS[TenantType.STUDENT][1].features.map((feature, i) => (
+                                    <motion.li
+                                        key={i}
+                                        className="flex items-start"
+                                        variants={checkmarkVariants}
+                                        initial="initial"
+                                        animate="animate"
+                                        transition={{ delay: 0.2 + (i * 0.1) }}
+                                    >
+                                        <Check className="h-5 w-5 text-primary shrink-0 mr-2" />
+                                        <span className="text-sm">{feature}</span>
+                                    </motion.li>
+                                ))}
+                            </ul>
+                        </CardContent>
+                        <CardFooter>
+                            <Button className="w-full" onClick={() => handleSelectType(TenantType.STUDENT)}>
+                                Select Student Plan
+                                <ArrowRight className="ml-2 h-4 w-4" />
+                            </Button>
+                        </CardFooter>
+                    </Card>
+                </motion.div>
+
+                {/* College Card */}
+                <motion.div
+                    variants={cardVariants}
+                    initial="initial"
+                    animate="animate"
+                    whileHover="hover"
+                    whileTap="tap"
+                    transition={{ duration: 0.2, delay: 0.2 }}
+                    className="md:col-span-2"
+                >
+                    <Card className="h-full border-2 hover:border-primary cursor-pointer overflow-hidden relative">
+                        <motion.div
+                            className="absolute top-4 right-4 z-10"
+                            variants={featuredBadgeVariants}
+                            initial="initial"
+                            animate="animate"
+                        >
+                            <Badge className="bg-primary hover:bg-primary">Recommended</Badge>
+                        </motion.div>
+                        <CardHeader className="text-center pb-2 relative">
+                            <div className="bg-primary/10 absolute -top-6 -right-6 -left-6 h-24 rounded-b-[50%] flex items-end justify-center pb-2">
+                                <Building className="w-12 h-12 text-primary" />
+                            </div>
+                            <div className="mt-10"></div>
+                            <CardTitle className="text-xl">College / Institution</CardTitle>
+                            <CardDescription>For educational institutions of all sizes</CardDescription>
+                        </CardHeader>
+                        <CardContent className="text-center">
+                            <div className="text-3xl font-bold text-primary mb-2">
+                                ₹9,999
+                                <span className="text-sm font-normal text-muted-foreground">/mo</span>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4 mt-4">
+                                <ul className="text-left space-y-2">
+                                    {SUBSCRIPTION_PLANS[TenantType.COLLEGE][1].features.slice(0, 4).map((feature, i) => (
+                                        <motion.li
+                                            key={i}
+                                            className="flex items-start"
+                                            variants={checkmarkVariants}
+                                            initial="initial"
+                                            animate="animate"
+                                            transition={{ delay: 0.2 + (i * 0.1) }}
+                                        >
+                                            <Check className="h-5 w-5 text-primary shrink-0 mr-2" />
+                                            <span className="text-sm">{feature}</span>
+                                        </motion.li>
+                                    ))}
+                                </ul>
+                                <ul className="text-left space-y-2">
+                                    {SUBSCRIPTION_PLANS[TenantType.COLLEGE][1].features.slice(4).map((feature, i) => (
+                                        <motion.li
+                                            key={i}
+                                            className="flex items-start"
+                                            variants={checkmarkVariants}
+                                            initial="initial"
+                                            animate="animate"
+                                            transition={{ delay: 0.2 + ((i + 4) * 0.1) }}
+                                        >
+                                            <Check className="h-5 w-5 text-primary shrink-0 mr-2" />
+                                            <span className="text-sm">{feature}</span>
+                                        </motion.li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </CardContent>
+                        <CardFooter>
+                            <Button className="w-full" onClick={() => handleSelectType(TenantType.COLLEGE)}>
+                                Select Institution Plan
+                                <ArrowRight className="ml-2 h-4 w-4" />
+                            </Button>
+                        </CardFooter>
+                    </Card>
+                </motion.div>
+
+                {/* EdTech Platform Card */}
+                <motion.div
+                    variants={cardVariants}
+                    initial="initial"
+                    animate="animate"
+                    whileHover="hover"
+                    whileTap="tap"
+                    transition={{ duration: 0.2, delay: 0.3 }}
+                >
+                    <Card className="h-full border-2 hover:border-primary cursor-pointer overflow-hidden">
+                        <CardHeader className="text-center pb-2 relative">
+                            <div className="bg-primary/10 absolute -top-6 -right-6 -left-6 h-24 rounded-b-[50%] flex items-end justify-center pb-2">
+                                <Globe className="w-12 h-12 text-primary" />
+                            </div>
+                            <div className="mt-10"></div>
+                            <CardTitle className="text-xl">EdTech Platform</CardTitle>
+                            <CardDescription>For course creators & content sellers</CardDescription>
+                        </CardHeader>
+                        <CardContent className="text-center">
+                            <div className="text-3xl font-bold text-primary mb-2">
+                                ₹14,999
+                                <span className="text-sm font-normal text-muted-foreground">/mo</span>
+                            </div>
+                            <ul className="text-left space-y-2 mt-6 mb-6">
+                                {SUBSCRIPTION_PLANS[TenantType.EDTECH][1].features.map((feature, i) => (
+                                    <motion.li
+                                        key={i}
+                                        className="flex items-start"
+                                        variants={checkmarkVariants}
+                                        initial="initial"
+                                        animate="animate"
+                                        transition={{ delay: 0.2 + (i * 0.1) }}
+                                    >
+                                        <Check className="h-5 w-5 text-primary shrink-0 mr-2" />
+                                        <span className="text-sm">{feature}</span>
+                                    </motion.li>
+                                ))}
+                            </ul>
+                        </CardContent>
+                        <CardFooter>
+                            <Button className="w-full" onClick={() => handleSelectType(TenantType.EDTECH)}>
+                                Select EdTech Plan
+                                <ArrowRight className="ml-2 h-4 w-4" />
+                            </Button>
+                        </CardFooter>
+                    </Card>
+                </motion.div>
+            </div>
+
+            <div className="flex justify-center mt-8">
+                <div className="bg-primary/5 rounded-lg p-4 max-w-md">
+                    <p className="text-sm text-center text-muted-foreground">
+                        All plans include a 30-day free trial.
+                        No credit card required to start.
+                        <br />
+                        Need help choosing? <a href="#" className="text-primary font-medium hover:underline">Contact our team</a>
+                    </p>
                 </div>
-            )}
-
-            <div className="text-center mb-10">
-                <h1 className="text-3xl font-bold mb-2">Welcome to EduSpry</h1>
-                <p className="text-gray-600 dark:text-gray-300">
-                    Let's get started by selecting the type of account you need
-                </p>
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <Card className="hover:shadow-lg transition-shadow cursor-pointer border-2 hover:border-primary">
-                    <CardHeader className="text-center">
-                        <GraduationCap className="w-12 h-12 mx-auto text-primary" />
-                        <CardTitle>Student</CardTitle>
-                        <CardDescription>For individual learners</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <ul className="space-y-2 mb-6">
-                            <li className="flex items-center">
-                                <span className="mr-2">✓</span> Access to courses
-                            </li>
-                            <li className="flex items-center">
-                                <span className="mr-2">✓</span> AI learning assistant
-                            </li>
-                            <li className="flex items-center">
-                                <span className="mr-2">✓</span> Progress tracking
-                            </li>
-                            <li className="flex items-center">
-                                <span className="mr-2">✓</span> Mobile access
-                            </li>
-                        </ul>
-                        <p className="font-bold text-xl text-center">₹499/month</p>
-                    </CardContent>
-                    <CardFooter>
-                        <Button className="w-full" onClick={() => handleSelectType(TenantType.STUDENT)}>
-                            Select Student Plan
-                        </Button>
-                    </CardFooter>
-                </Card>
-
-                <Card className="hover:shadow-lg transition-shadow cursor-pointer border-2 hover:border-primary relative">
-                    <div className="absolute top-0 right-0 bg-primary text-white px-3 py-1 rounded-bl-lg text-xs font-medium">
-                        Recommended
-                    </div>
-                    <CardHeader className="text-center">
-                        <Building className="w-12 h-12 mx-auto text-primary" />
-                        <CardTitle>College</CardTitle>
-                        <CardDescription>For educational institutions</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <ul className="space-y-2 mb-6">
-                            <li className="flex items-center">
-                                <span className="mr-2">✓</span> All Student Plan features
-                            </li>
-                            <li className="flex items-center">
-                                <span className="mr-2">✓</span> Admissions management
-                            </li>
-                            <li className="flex items-center">
-                                <span className="mr-2">✓</span> Attendance tracking
-                            </li>
-                            <li className="flex items-center">
-                                <span className="mr-2">✓</span> Performance analytics
-                            </li>
-                            <li className="flex items-center">
-                                <span className="mr-2">✓</span> Multiple user accounts
-                            </li>
-                        </ul>
-                        <p className="font-bold text-xl text-center">₹9,999/month</p>
-                    </CardContent>
-                    <CardFooter>
-                        <Button className="w-full" onClick={() => handleSelectType(TenantType.COLLEGE)}>
-                            Select College Plan
-                        </Button>
-                    </CardFooter>
-                </Card>
-
-                <Card className="hover:shadow-lg transition-shadow cursor-pointer border-2 hover:border-primary">
-                    <CardHeader className="text-center">
-                        <Building2 className="w-12 h-12 mx-auto text-primary" />
-                        <CardTitle>Institution</CardTitle>
-                        <CardDescription>For large educational organizations</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <ul className="space-y-2 mb-6">
-                            <li className="flex items-center">
-                                <span className="mr-2">✓</span> All College Plan features
-                            </li>
-                            <li className="flex items-center">
-                                <span className="mr-2">✓</span> Live virtual classrooms
-                            </li>
-                            <li className="flex items-center">
-                                <span className="mr-2">✓</span> Advanced exam proctoring
-                            </li>
-                            <li className="flex items-center">
-                                <span className="mr-2">✓</span> Custom integrations
-                            </li>
-                            <li className="flex items-center">
-                                <span className="mr-2">✓</span> Priority support
-                            </li>
-                        </ul>
-                        <p className="font-bold text-xl text-center">₹24,999/month</p>
-                    </CardContent>
-                    <CardFooter>
-                        <Button className="w-full" onClick={() => handleSelectType(TenantType.INSTITUTION)}>
-                            Select Institution Plan
-                        </Button>
-                    </CardFooter>
-                </Card>
-            </div>
-        </div>
+        </OnboardingLayout>
     );
 };
 
