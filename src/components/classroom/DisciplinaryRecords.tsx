@@ -1,767 +1,820 @@
-import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Label } from '@/components/ui/label';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Badge } from '@/components/ui/badge';
-import { toast } from '@/components/ui/use-toast';
-import { useAuth } from '@/contexts/AuthContext';
-import { UserRole, DisciplinaryType, DisciplinarySeverity } from '@/types';
+
+import React, { useState, useEffect } from 'react';
 import {
-  AlertOctagon,
-  CalendarClock,
-  Clock,
-  FileWarning,
-  User,
-  Search,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  AlertCircle,
+  MoreHorizontal,
   Filter,
-  PlusCircle,
-  Mail,
-  Phone,
-  Calendar,
-  ChevronRight,
-  AlarmClock,
-  BookX,
-  MessageSquare,
-  ThumbsDown,
-  Info,
-  BadgeAlert,
-  CheckCircle2
+  Search,
+  Plus,
+  Edit,
+  Trash2,
+  Eye,
 } from 'lucide-react';
-import { format } from 'date-fns';
-
-// Types
-interface DisciplinaryRecord {
-  id: string;
-  studentId: string;
-  studentName: string;
-  class: string;
-  section: string;
-  type: 'academic' | 'behavioral';
-  category: string;
-  description: string;
-  date: string;
-  severity: 'minor' | 'moderate' | 'serious';
-  status: 'active' | 'resolved' | 'pending';
-  assignedTo?: string;
-  comments?: {
-    user: string;
-    role: string;
-    text: string;
-    date: string;
-  }[];
-  actions?: {
-    description: string;
-    date: string;
-    by: string;
-  }[];
-}
-
-interface DisciplinaryRecordsProps {
-  className?: string;
-  role?: 'teacher' | 'admin' | 'parent';
-  studentId?: string;
-}
+import { Badge } from "@/components/ui/badge";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { toast } from "sonner";
 
 // Mock data
-const mockStudents = [
-  { id: '101', name: 'Aarav Singh', class: 'Class 5', section: 'A', avatar: '/avatars/01.png' },
-  { id: '102', name: 'Diya Patel', class: 'Class 5', section: 'B', avatar: '/avatars/02.png' },
-  { id: '103', name: 'Rohan Kumar', class: 'Class 6', section: 'A', avatar: '/avatars/03.png' },
-  { id: '104', name: 'Ananya Sharma', class: 'Class 6', section: 'B', avatar: '/avatars/04.png' },
-  { id: '105', name: 'Ishaan Mehta', class: 'Class 7', section: 'A', avatar: '/avatars/05.png' },
+const MOCK_STUDENTS = [
+  { id: '1', name: 'John Doe', grade: '10A', studentId: 'S10001' },
+  { id: '2', name: 'Jane Smith', grade: '10A', studentId: 'S10002' },
+  { id: '3', name: 'Michael Johnson', grade: '10B', studentId: 'S10003' },
+  { id: '4', name: 'Emily Williams', grade: '10B', studentId: 'S10004' },
+  { id: '5', name: 'David Brown', grade: '11A', studentId: 'S11001' },
 ];
 
-const academicCategories = [
-  'Missing Assignments',
-  'Low Academic Performance',
-  'Plagiarism',
-  'Cheating on Tests',
-  'Incomplete Homework',
-  'Late Submissions',
-  'Attendance Issues'
-];
-
-const behavioralCategories = [
-  'Classroom Disruption',
-  'Bullying',
-  'Vandalism',
-  'Dress Code Violation',
-  'Inappropriate Language',
-  'Tardiness',
-  'Technology Misuse',
-  'Fighting'
-];
-
-const mockDisciplinaryRecords: DisciplinaryRecord[] = [
+const MOCK_RECORDS = [
   {
-    id: 'DR001',
-    studentId: '101',
-    studentName: 'Aarav Singh',
-    class: 'Class 5',
-    section: 'A',
-    type: 'academic',
-    category: 'Missing Assignments',
-    description: 'Student has not submitted 3 consecutive mathematics assignments this term.',
-    date: '2023-09-10',
-    severity: 'moderate',
-    status: 'active',
-    assignedTo: 'Mr. Gupta',
-    comments: [
-      {
-        user: 'Mr. Gupta',
-        role: 'teacher',
-        text: 'I\'ve spoken to Aarav about this issue. He promised to submit all pending assignments by next week.',
-        date: '2023-09-12'
-      }
-    ],
-    actions: [
-      {
-        description: 'Parent notification sent via email',
-        date: '2023-09-11',
-        by: 'Ms. Sharma'
-      }
-    ]
-  },
-  {
-    id: 'DR002',
-    studentId: '103',
-    studentName: 'Rohan Kumar',
-    class: 'Class 6',
-    section: 'A',
-    type: 'behavioral',
-    category: 'Classroom Disruption',
-    description: 'Continuously talking and disrupting the science class.',
+    id: '1',
+    studentId: '1',
     date: '2023-09-15',
-    severity: 'minor',
-    status: 'resolved',
-    assignedTo: 'Ms. Kapoor',
-    comments: [
-      {
-        user: 'Ms. Kapoor',
-        role: 'teacher',
-        text: 'Had a discussion with Rohan about his behavior.',
-        date: '2023-09-16'
-      },
-      {
-        user: 'Mr. Kumar',
-        role: 'parent',
-        text: 'We have spoken to Rohan about this at home. He understands the importance of classroom discipline.',
-        date: '2023-09-17'
-      }
-    ],
-    actions: [
-      {
-        description: 'Verbal warning issued',
-        date: '2023-09-15',
-        by: 'Ms. Kapoor'
-      },
-      {
-        description: 'Follow-up meeting with student',
-        date: '2023-09-18',
-        by: 'Ms. Kapoor'
-      }
-    ]
+    incidentType: 'Classroom Disruption',
+    description: 'Repeatedly talking during silent reading time',
+    actionTaken: 'Verbal warning',
+    reporter: 'Ms. Johnson',
+    severity: 'Low',
+    status: 'Resolved',
   },
   {
-    id: 'DR003',
-    studentId: '102',
-    studentName: 'Diya Patel',
-    class: 'Class 5',
-    section: 'B',
-    type: 'academic',
-    category: 'Plagiarism',
-    description: 'Submitted a history project with content directly copied from internet sources without citation.',
-    date: '2023-09-20',
-    severity: 'serious',
-    status: 'pending',
-    assignedTo: 'Mr. Sharma',
-    comments: [
-      {
-        user: 'Mr. Sharma',
-        role: 'teacher',
-        text: 'This is a serious academic integrity violation. A meeting with parents has been scheduled.',
-        date: '2023-09-21'
-      }
-    ],
-    actions: [
-      {
-        description: 'Project marked for resubmission',
-        date: '2023-09-20',
-        by: 'Mr. Sharma'
-      },
-      {
-        description: 'Parent-teacher meeting scheduled',
-        date: '2023-09-22',
-        by: 'Ms. Joshi'
-      }
-    ]
-  }
+    id: '2',
+    studentId: '1',
+    date: '2023-10-05',
+    incidentType: 'Late Submission',
+    description: 'Assignment submitted 3 days after deadline without valid reason',
+    actionTaken: 'Deduction of marks',
+    reporter: 'Mr. Williams',
+    severity: 'Low',
+    status: 'Resolved',
+  },
+  {
+    id: '3',
+    studentId: '2',
+    date: '2023-10-10',
+    incidentType: 'Unauthorized Absence',
+    description: 'Skipped math class without permission',
+    actionTaken: 'Detention',
+    reporter: 'Ms. Adams',
+    severity: 'Medium',
+    status: 'Pending',
+  },
+  {
+    id: '4',
+    studentId: '3',
+    date: '2023-10-08',
+    incidentType: 'Academic Dishonesty',
+    description: 'Caught using unauthorized notes during quiz',
+    actionTaken: 'Zero grade for the quiz and parent notification',
+    reporter: 'Mr. Thompson',
+    severity: 'High',
+    status: 'Under Review',
+  },
 ];
 
-// Main Component
-const DisciplinaryRecords: React.FC<DisciplinaryRecordsProps> = ({
-  className = '',
-  role = 'teacher',
-  studentId
-}) => {
-  const { user } = useAuth();
-  const teacherRole = role === 'teacher' || user?.role === UserRole.TEACHER;
-  const currentStudentId = studentId || (user?.role === UserRole.STUDENT ? user.id : undefined);
-  
-  const [activeTab, setActiveTab] = useState<string>('all');
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [selectedType, setSelectedType] = useState<string>('');
-  const [selectedSeverity, setSelectedSeverity] = useState<string>('');
-  const [selectedStatus, setSelectedStatus] = useState<string>('');
-  const [showAddDialog, setShowAddDialog] = useState<boolean>(false);
-  const [viewingRecord, setViewingRecord] = useState<DisciplinaryRecord | null>(null);
-  
-  const [records, setRecords] = useState<DisciplinaryRecord[]>(mockDisciplinaryRecords);
-  
-  const filteredRecords = records.filter(record => {
-    if (currentStudentId && record.studentId !== currentStudentId) return false;
-    
-    if (activeTab === 'academic' && record.type !== 'academic') return false;
-    if (activeTab === 'behavioral' && record.type !== 'behavioral') return false;
-    
-    if (searchQuery && !record.studentName.toLowerCase().includes(searchQuery.toLowerCase()) &&
-        !record.description.toLowerCase().includes(searchQuery.toLowerCase()) &&
-        !record.category.toLowerCase().includes(searchQuery.toLowerCase())) {
-      return false;
-    }
-    
-    if (selectedType && record.type !== selectedType) return false;
-    
-    if (selectedSeverity && record.severity !== selectedSeverity) return false;
-    
-    if (selectedStatus && record.status !== selectedStatus) return false;
-    
-    return true;
+const INCIDENT_TYPES = [
+  'Classroom Disruption',
+  'Late Submission',
+  'Unauthorized Absence',
+  'Academic Dishonesty',
+  'Behavioral Issue',
+  'Dress Code Violation',
+  'Technology Misuse',
+  'Property Damage',
+  'Other',
+];
+
+const SEVERITY_LEVELS = [
+  { value: 'Low', color: 'bg-blue-100 text-blue-800' },
+  { value: 'Medium', color: 'bg-yellow-100 text-yellow-800' },
+  { value: 'High', color: 'bg-red-100 text-red-800' },
+];
+
+const STATUS_OPTIONS = [
+  { value: 'Pending', color: 'bg-yellow-100 text-yellow-800' },
+  { value: 'Under Review', color: 'bg-purple-100 text-purple-800' },
+  { value: 'Resolved', color: 'bg-green-100 text-green-800' },
+  { value: 'Escalated', color: 'bg-red-100 text-red-800' },
+];
+
+const DisciplinaryRecords: React.FC = () => {
+  const [records, setRecords] = useState(MOCK_RECORDS);
+  const [students] = useState(MOCK_STUDENTS);
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [selectedRecord, setSelectedRecord] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterStatus, setFilterStatus] = useState('');
+  const [filterSeverity, setFilterSeverity] = useState('');
+
+  // New record form state
+  const [formData, setFormData] = useState({
+    studentId: '',
+    date: '',
+    incidentType: '',
+    description: '',
+    actionTaken: '',
+    reporter: '',
+    severity: '',
+    status: 'Pending',
   });
 
-  const getSeverityBadge = (severity: string) => {
-    switch (severity) {
-      case 'minor':
-        return <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">Minor</Badge>;
-      case 'moderate':
-        return <Badge variant="outline" className="bg-orange-50 text-orange-700 border-orange-200">Moderate</Badge>;
-      case 'serious':
-        return <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">Serious</Badge>;
-      default:
-        return <Badge variant="outline">Unknown</Badge>;
-    }
+  // Handle form input changes
+  const handleFormChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case 'active':
-        return <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">Active</Badge>;
-      case 'resolved':
-        return <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">Resolved</Badge>;
-      case 'pending':
-        return <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-200">Pending</Badge>;
-      default:
-        return <Badge variant="outline">Unknown</Badge>;
-    }
+  // Handle select changes
+  const handleSelectChange = (name, value) => {
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleResetFilters = () => {
-    setSearchQuery('');
-    setSelectedType('');
-    setSelectedSeverity('');
-    setSelectedStatus('');
+  // Reset form data
+  const resetForm = () => {
+    setFormData({
+      studentId: '',
+      date: '',
+      incidentType: '',
+      description: '',
+      actionTaken: '',
+      reporter: '',
+      severity: '',
+      status: 'Pending',
+    });
   };
 
-  const handleAddRecord = () => {
-    if (!newRecord.studentId || !newRecord.category || !newRecord.description) {
-      toast({
-        title: "Missing Information",
-        description: "Please fill all required fields.",
-        variant: "destructive"
-      });
+  // Submit new record
+  const handleSubmitRecord = (e) => {
+    e.preventDefault();
+    
+    // Validation
+    if (!formData.studentId || !formData.date || !formData.incidentType || 
+        !formData.description || !formData.severity || !formData.status) {
+      toast.error("Please fill all required fields");
       return;
     }
 
-    const student = mockStudents.find(s => s.id === newRecord.studentId);
-    if (!student) return;
-
-    const newDisciplinaryRecord: DisciplinaryRecord = {
-      id: `DR${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`,
-      studentId: student.id,
-      studentName: student.name,
-      class: student.class,
-      section: student.section,
-      type: newRecord.type as 'academic' | 'behavioral',
-      category: newRecord.category,
-      description: newRecord.description,
-      date: format(new Date(), 'yyyy-MM-dd'),
-      severity: newRecord.severity as 'minor' | 'moderate' | 'serious',
-      status: 'active',
-      comments: [],
-      actions: []
+    const newRecord = {
+      id: (records.length + 1).toString(),
+      ...formData,
     };
 
-    setRecords([newDisciplinaryRecord, ...records]);
-    setShowAddDialog(false);
-    setNewRecord({
-      studentId: '',
-      type: 'behavioral',
-      category: '',
-      description: '',
-      severity: 'minor',
-    });
-
-    toast({
-      title: "Record Added",
-      description: "The disciplinary record has been added successfully."
-    });
+    setRecords([...records, newRecord]);
+    resetForm();
+    setIsAddDialogOpen(false);
+    toast.success("Disciplinary record added successfully");
   };
 
-  const handleResolveRecord = (id: string) => {
-    const updatedRecords = records.map(record => 
-      record.id === id 
-        ? {
-            ...record, 
-            status: 'resolved',
-            actions: [
-              ...(record.actions || []),
-              {
-                description: 'Issue marked as resolved',
-                date: format(new Date(), 'yyyy-MM-dd'),
-                by: 'Current User'
-              }
-            ]
-          } 
-        : record
-    );
+  // Handle update record
+  const handleUpdateRecord = (e) => {
+    e.preventDefault();
     
+    // Update the record
+    const updatedRecords = records.map(record => {
+      if (record.id === selectedRecord.id) {
+        return { ...formData, id: record.id };
+      }
+      return record;
+    });
+
     setRecords(updatedRecords);
-    setViewingRecord(null);
-    
-    toast({
-      title: "Record Updated",
-      description: "The disciplinary record has been marked as resolved."
-    });
+    setIsEditDialogOpen(false);
+    toast.success("Disciplinary record updated successfully");
   };
 
-  const handleAddComment = (id: string, commentText: string) => {
-    if (!commentText.trim()) return;
-
-    const updatedRecords = records.map(record => 
-      record.id === id 
-        ? {
-            ...record,
-            comments: [
-              ...(record.comments || []),
-              {
-                user: 'Current User',
-                role: role,
-                text: commentText,
-                date: format(new Date(), 'yyyy-MM-dd')
-              }
-            ]
-          } 
-        : record
-    );
-    
+  // Handle delete record
+  const handleDeleteRecord = () => {
+    const updatedRecords = records.filter(record => record.id !== selectedRecord.id);
     setRecords(updatedRecords);
-    
-    const updatedRecord = updatedRecords.find(r => r.id === id);
-    if (updatedRecord && viewingRecord?.id === id) {
-      setViewingRecord(updatedRecord);
-    }
-    
-    toast({
-      title: "Comment Added",
-      description: "Your comment has been added to the record."
-    });
+    setIsDeleteDialogOpen(false);
+    toast.success("Disciplinary record deleted successfully");
   };
+
+  // Open view dialog
+  const openViewDialog = (record) => {
+    setSelectedRecord(record);
+    setIsViewDialogOpen(true);
+  };
+
+  // Open edit dialog
+  const openEditDialog = (record) => {
+    setSelectedRecord(record);
+    // Populate form data with the selected record
+    setFormData({
+      studentId: record.studentId,
+      date: record.date,
+      incidentType: record.incidentType,
+      description: record.description,
+      actionTaken: record.actionTaken || '',
+      reporter: record.reporter,
+      severity: record.severity,
+      status: record.status,
+    });
+    setIsEditDialogOpen(true);
+  };
+
+  // Open delete dialog
+  const openDeleteDialog = (record) => {
+    setSelectedRecord(record);
+    setIsDeleteDialogOpen(true);
+  };
+
+  // Get student name by ID
+  const getStudentName = (studentId) => {
+    const student = students.find(s => s.id === studentId);
+    return student ? student.name : 'Unknown Student';
+  };
+
+  // Filter records based on search term, status, and severity
+  const filteredRecords = records.filter(record => {
+    const studentName = getStudentName(record.studentId).toLowerCase();
+    const matchesSearch = searchTerm === '' ||
+      studentName.includes(searchTerm.toLowerCase()) ||
+      record.incidentType.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      record.description.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesStatus = filterStatus === '' || record.status === filterStatus;
+    const matchesSeverity = filterSeverity === '' || record.severity === filterSeverity;
+
+    return matchesSearch && matchesStatus && matchesSeverity;
+  });
 
   return (
-    <div className={`flex flex-col h-full ${className}`}>
-      <div className="bg-gray-50 dark:bg-gray-900 p-4 border-b mb-4">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <h2 className="text-xl font-semibold flex items-center">
-              <BadgeAlert className="mr-2 h-5 w-5" />
-              Disciplinary Records
-            </h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              {teacherRole ? "Track and manage student disciplinary issues" : "View your disciplinary records"}
-            </p>
-          </div>
-          
-          <div className="flex items-center gap-2">
-            {teacherRole && (
-              <Button onClick={() => setShowAddDialog(true)}>
-                <PlusCircle className="mr-2 h-4 w-4" />
-                New Record
-              </Button>
-            )}
-          </div>
-        </div>
+    <div className="container mx-auto py-6 px-4">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">Disciplinary Records</h1>
+        <Button onClick={() => setIsAddDialogOpen(true)}>
+          <Plus className="mr-2 h-4 w-4" /> Add New Record
+        </Button>
       </div>
-      
-      <div className="p-4 flex flex-col sm:flex-row gap-4 items-start sm:items-center border-b">
-        <div className="flex-grow">
-          <Tabs value={activeTab} onValueChange={(val: any) => setActiveTab(val)}>
-            <TabsList className="grid grid-cols-5 w-full">
-              <TabsTrigger value="all" className="flex items-center gap-1">
-                <FileWarning className="h-4 w-4" />
-                <span>All</span>
-              </TabsTrigger>
-              <TabsTrigger value="academic" className="flex items-center gap-1">
-                <BookX className="h-4 w-4" />
-                <span>Academic</span>
-              </TabsTrigger>
-              <TabsTrigger value="behavioral" className="flex items-center gap-1">
-                <MessageSquare className="h-4 w-4" />
-                <span>Behavioral</span>
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
-        </div>
-        
-        <div className="flex gap-2 w-full sm:w-auto">
-          <Select 
-            value={selectedSeverity} 
-            onValueChange={(value: any) => setSelectedSeverity(value)}
-          >
-            <SelectTrigger className="w-[140px]">
-              <SelectValue placeholder="Severity" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Severity</SelectItem>
-              <SelectItem value="minor">Minor</SelectItem>
-              <SelectItem value="moderate">Moderate</SelectItem>
-              <SelectItem value="serious">Serious</SelectItem>
-            </SelectContent>
-          </Select>
-          
-          {teacherRole && (
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Records Management</CardTitle>
+          <CardDescription>View and manage disciplinary records for students</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {/* Search and Filter Section */}
+          <div className="flex flex-col md:flex-row gap-4 mb-6">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
               <Input
-                className="pl-10 w-full"
-                placeholder="Search students..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search by student, incident type or description..."
+                className="pl-9"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-          )}
-        </div>
-      </div>
-      
-      <div className="flex-1 overflow-auto p-4">
-        {filteredRecords.length === 0 ? (
-          <div className="text-center py-12 text-gray-500">
-            <FileWarning className="h-12 w-12 mx-auto mb-3 opacity-30" />
-            <h3 className="text-lg font-medium mb-1">No disciplinary records found</h3>
-            <p className="text-sm">
-              {teacherRole ? "There are no records matching your filters" : "You don't have any disciplinary records"}
-            </p>
-            
-            {teacherRole && (
-              <Button 
-                variant="outline" 
-                className="mt-4"
-                onClick={() => setShowAddDialog(true)}
-              >
-                <PlusCircle className="mr-2 h-4 w-4" />
-                Create New Record
+            <div className="flex gap-2">
+              <Select value={filterStatus} onValueChange={(value) => setFilterStatus(value)}>
+                <SelectTrigger className="w-[180px]">
+                  <div className="flex items-center">
+                    <Filter className="mr-2 h-4 w-4" />
+                    <span>{filterStatus || "Filter by Status"}</span>
+                  </div>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">All Statuses</SelectItem>
+                  {STATUS_OPTIONS.map(status => (
+                    <SelectItem key={status.value} value={status.value}>
+                      {status.value}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <Select value={filterSeverity} onValueChange={(value) => setFilterSeverity(value)}>
+                <SelectTrigger className="w-[180px]">
+                  <div className="flex items-center">
+                    <Filter className="mr-2 h-4 w-4" />
+                    <span>{filterSeverity || "Filter by Severity"}</span>
+                  </div>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">All Severities</SelectItem>
+                  {SEVERITY_LEVELS.map(severity => (
+                    <SelectItem key={severity.value} value={severity.value}>
+                      {severity.value}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          {/* Records Table */}
+          {filteredRecords.length > 0 ? (
+            <div className="rounded-md border overflow-hidden">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Student</TableHead>
+                    <TableHead>Date</TableHead>
+                    <TableHead>Incident Type</TableHead>
+                    <TableHead>Severity</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {filteredRecords.map((record) => (
+                    <TableRow key={record.id}>
+                      <TableCell className="font-medium">{getStudentName(record.studentId)}</TableCell>
+                      <TableCell>{record.date}</TableCell>
+                      <TableCell>{record.incidentType}</TableCell>
+                      <TableCell>
+                        <Badge className={
+                          record.severity === 'Low' ? 'bg-blue-100 text-blue-800' : 
+                          record.severity === 'Medium' ? 'bg-yellow-100 text-yellow-800' : 
+                          'bg-red-100 text-red-800'
+                        }>
+                          {record.severity}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <Badge className={
+                          record.status === 'Resolved' ? 'bg-green-100 text-green-800' :
+                          record.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
+                          record.status === 'Under Review' ? 'bg-purple-100 text-purple-800' :
+                          'bg-red-100 text-red-800'
+                        }>
+                          {record.status}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="sm">
+                              <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem onClick={() => openViewDialog(record)}>
+                              <Eye className="mr-2 h-4 w-4" /> View Details
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => openEditDialog(record)}>
+                              <Edit className="mr-2 h-4 w-4" /> Edit Record
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => openDeleteDialog(record)} className="text-red-600">
+                              <Trash2 className="mr-2 h-4 w-4" /> Delete
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center p-8 text-center">
+              <AlertCircle className="h-10 w-10 text-gray-400 mb-2" />
+              <h3 className="text-lg font-medium">No Records Found</h3>
+              <p className="text-sm text-gray-500 max-w-sm mt-2">
+                No disciplinary records match your search criteria. Try adjusting your filters or add a new record.
+              </p>
+              <Button onClick={() => setIsAddDialogOpen(true)} className="mt-4">
+                <Plus className="mr-2 h-4 w-4" /> Add New Record
               </Button>
-            )}
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {filteredRecords.map((record) => (
-              <Card key={record.id} className="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors" onClick={() => setViewingRecord(record)}>
-                <CardContent className="p-4 flex flex-col sm:flex-row justify-between gap-4">
-                  <div className="flex-grow">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-2">
-                      <div className="flex items-center gap-2 mb-2 sm:mb-0">
-                        <User className="h-4 w-4 text-gray-500" />
-                        <span className="font-medium">{record.studentName}</span>
-                        {record.class && (
-                          <Badge variant="outline" className="ml-2">{record.class}</Badge>
-                        )}
-                      </div>
-                      <Badge variant={record.type === 'academic' ? 'secondary' : 'default'}>
-                        {record.type.charAt(0).toUpperCase() + record.type.slice(1)}
-                      </Badge>
-                    </div>
-                    
-                    <div className="flex items-center text-sm mb-2">
-                      <Calendar className="h-4 w-4 mr-2 text-gray-500" />
-                      <span>{new Date(record.date).toLocaleDateString()}</span>
-                    </div>
-                    
-                    <div className="flex items-center text-sm mb-3">
-                      {getSeverityBadge(record.severity)}
-                      {getStatusBadge(record.status)}
-                    </div>
-                    
-                    <p className="text-sm line-clamp-2">{record.category}</p>
-                  </div>
-                  
-                  <div className="flex items-center self-end">
-                    <ChevronRight className="h-5 w-5 text-gray-400" />
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        )}
-      </div>
-      
-      <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
-        <DialogContent className="sm:max-w-[550px]">
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Add Record Dialog */}
+      <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+        <DialogContent className="max-w-2xl">
           <DialogHeader>
-      {/* New Record Dialog */}
-      <Dialog open={showNewRecordDialog} onOpenChange={setShowNewRecordDialog}>
-        <DialogContent className="sm:max-w-[500px]">
-          <DialogHeader>
-            <DialogTitle>Create Disciplinary Record</DialogTitle>
+            <DialogTitle>Add New Disciplinary Record</DialogTitle>
             <DialogDescription>
-              Fill out the form to create a new disciplinary record for a student.
+              Create a new disciplinary record for a student.
             </DialogDescription>
           </DialogHeader>
           
-          <div className="space-y-4 py-4">
-            <div className="space-y-2">
-              <Label htmlFor="student-name">Student Name</Label>
-              <Input
-                id="student-name"
-                placeholder="Enter student name"
-                value={newRecord.studentName}
-                onChange={(e) => setNewRecord({...newRecord, studentName: e.target.value})}
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="student-class">Class/Section</Label>
-              <Input
-                id="student-class"
-                placeholder="E.g., 10-A"
-                value={newRecord.class}
-                onChange={(e) => setNewRecord({...newRecord, class: e.target.value})}
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="incident-date">Incident Date</Label>
-              <Input
-                id="incident-date"
-                type="date"
-                value={newRecord.date}
-                onChange={(e) => setNewRecord({...newRecord, date: e.target.value})}
-                max={new Date().toISOString().split('T')[0]} // Can't be in the future
-              />
-            </div>
-            
-            <div className="grid grid-cols-2 gap-4">
+          <form onSubmit={handleSubmitRecord}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="type">Type</Label>
-                <Select 
-                  value={newRecord.type} 
-                  onValueChange={(value: DisciplinaryType) => setNewRecord({...newRecord, type: value})}
-                >
-                  <SelectTrigger id="type">
-                    <SelectValue placeholder="Select type" />
+                <Label htmlFor="studentId">Student *</Label>
+                <Select name="studentId" value={formData.studentId} onValueChange={(value) => handleSelectChange("studentId", value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select student" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value={DisciplinaryType.TARDY}>Tardiness</SelectItem>
-                    <SelectItem value={DisciplinaryType.ABSENCE}>Absence</SelectItem>
-                    <SelectItem value={DisciplinaryType.BEHAVIOR}>Behavioral Issue</SelectItem>
-                    <SelectItem value={DisciplinaryType.ACADEMIC}>Academic Issue</SelectItem>
-                    <SelectItem value={DisciplinaryType.OTHER}>Other</SelectItem>
+                    {students.map((student) => (
+                      <SelectItem key={student.id} value={student.id}>
+                        {student.name} ({student.grade})
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
-              
+
               <div className="space-y-2">
-                <Label htmlFor="severity">Severity</Label>
-                <Select 
-                  value={newRecord.severity} 
-                  onValueChange={(value: DisciplinarySeverity) => setNewRecord({...newRecord, severity: value})}
-                >
-                  <SelectTrigger id="severity">
+                <Label htmlFor="date">Date of Incident *</Label>
+                <Input 
+                  id="date" 
+                  name="date" 
+                  type="date" 
+                  value={formData.date} 
+                  onChange={handleFormChange} 
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="incidentType">Incident Type *</Label>
+                <Select name="incidentType" value={formData.incidentType} onValueChange={(value) => handleSelectChange("incidentType", value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select incident type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {INCIDENT_TYPES.map((type) => (
+                      <SelectItem key={type} value={type}>
+                        {type}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="reporter">Reported By *</Label>
+                <Input 
+                  id="reporter" 
+                  name="reporter" 
+                  value={formData.reporter} 
+                  onChange={handleFormChange} 
+                  placeholder="Name of the reporter"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="severity">Severity Level *</Label>
+                <Select name="severity" value={formData.severity} onValueChange={(value) => handleSelectChange("severity", value)}>
+                  <SelectTrigger>
                     <SelectValue placeholder="Select severity" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value={DisciplinarySeverity.LOW}>Low</SelectItem>
-                    <SelectItem value={DisciplinarySeverity.MEDIUM}>Medium</SelectItem>
-                    <SelectItem value={DisciplinarySeverity.HIGH}>High</SelectItem>
-                    <SelectItem value={DisciplinarySeverity.CRITICAL}>Critical</SelectItem>
+                    {SEVERITY_LEVELS.map((level) => (
+                      <SelectItem key={level.value} value={level.value}>
+                        {level.value}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="description">Description</Label>
-              <Textarea
-                id="description"
-                placeholder="Describe the incident in detail"
-                value={newRecord.description}
-                onChange={(e) => setNewRecord({...newRecord, description: e.target.value})}
-                rows={3}
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="action">Action Taken</Label>
-              <Textarea
-                id="action"
-                placeholder="Describe any actions taken or consequences"
-                value={newRecord.actionTaken}
-                onChange={(e) => setNewRecord({...newRecord, actionTaken: e.target.value})}
-                rows={2}
-              />
-            </div>
-            
-            <div className="flex items-center space-x-2">
-              <Checkbox 
-                id="parent-notified" 
-                checked={newRecord.parentNotified}
-                onCheckedChange={(checked) => {
-                  const isChecked = Boolean(checked);
-                  setNewRecord({
-                    ...newRecord, 
-                    parentNotified: isChecked,
-                    parentNotificationDate: isChecked ? new Date().toISOString().split('T')[0] : ''
-                  });
-                }}
-              />
-              <Label htmlFor="parent-notified">Parent/Guardian has been notified</Label>
-            </div>
-            
-            {newRecord.parentNotified && (
+
               <div className="space-y-2">
-                <Label htmlFor="notification-date">Notification Date</Label>
-                <Input
-                  id="notification-date"
-                  type="date"
-                  value={newRecord.parentNotificationDate}
-                  onChange={(e) => setNewRecord({...newRecord, parentNotificationDate: e.target.value})}
-                  max={new Date().toISOString().split('T')[0]} // Can't be in the future
+                <Label htmlFor="status">Status *</Label>
+                <Select name="status" value={formData.status} onValueChange={(value) => handleSelectChange("status", value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {STATUS_OPTIONS.map((status) => (
+                      <SelectItem key={status.value} value={status.value}>
+                        {status.value}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2 col-span-2">
+                <Label htmlFor="description">Description *</Label>
+                <Textarea 
+                  id="description" 
+                  name="description" 
+                  value={formData.description} 
+                  onChange={handleFormChange} 
+                  placeholder="Detailed description of the incident"
+                  className="min-h-[100px]"
                 />
               </div>
-            )}
-          </div>
+
+              <div className="space-y-2 col-span-2">
+                <Label htmlFor="actionTaken">Action Taken</Label>
+                <Textarea 
+                  id="actionTaken" 
+                  name="actionTaken" 
+                  value={formData.actionTaken} 
+                  onChange={handleFormChange} 
+                  placeholder="What actions have been taken to address this incident"
+                  className="min-h-[100px]"
+                />
+              </div>
+            </div>
+
+            <DialogFooter className="mt-6">
+              <Button type="button" variant="outline" onClick={() => setIsAddDialogOpen(false)}>
+                Cancel
+              </Button>
+              <Button type="submit">
+                Save Record
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* View Record Dialog */}
+      <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
+        <DialogContent className="max-w-2xl">
+          {selectedRecord && (
+            <>
+              <DialogHeader>
+                <DialogTitle>Disciplinary Record Details</DialogTitle>
+                <DialogDescription>
+                  Viewing details for {getStudentName(selectedRecord.studentId)}
+                </DialogDescription>
+              </DialogHeader>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h3 className="text-sm font-medium text-gray-500 mb-1">Student</h3>
+                  <p className="text-base font-medium">{getStudentName(selectedRecord.studentId)}</p>
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-gray-500 mb-1">Date of Incident</h3>
+                  <p className="text-base">{selectedRecord.date}</p>
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-gray-500 mb-1">Incident Type</h3>
+                  <p className="text-base">{selectedRecord.incidentType}</p>
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-gray-500 mb-1">Reported By</h3>
+                  <p className="text-base">{selectedRecord.reporter}</p>
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-gray-500 mb-1">Severity</h3>
+                  <Badge className={
+                    selectedRecord.severity === 'Low' ? 'bg-blue-100 text-blue-800' : 
+                    selectedRecord.severity === 'Medium' ? 'bg-yellow-100 text-yellow-800' : 
+                    'bg-red-100 text-red-800'
+                  }>
+                    {selectedRecord.severity}
+                  </Badge>
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-gray-500 mb-1">Status</h3>
+                  <Badge className={
+                    selectedRecord.status === 'Resolved' ? 'bg-green-100 text-green-800' :
+                    selectedRecord.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
+                    selectedRecord.status === 'Under Review' ? 'bg-purple-100 text-purple-800' :
+                    'bg-red-100 text-red-800'
+                  }>
+                    {selectedRecord.status}
+                  </Badge>
+                </div>
+                <div className="col-span-2">
+                  <h3 className="text-sm font-medium text-gray-500 mb-1">Description</h3>
+                  <p className="text-base bg-gray-50 p-3 rounded-md">{selectedRecord.description}</p>
+                </div>
+                {selectedRecord.actionTaken && (
+                  <div className="col-span-2">
+                    <h3 className="text-sm font-medium text-gray-500 mb-1">Action Taken</h3>
+                    <p className="text-base bg-gray-50 p-3 rounded-md">{selectedRecord.actionTaken}</p>
+                  </div>
+                )}
+              </div>
+
+              <DialogFooter>
+                <Button variant="outline" onClick={() => setIsViewDialogOpen(false)}>
+                  Close
+                </Button>
+                <Button onClick={() => {
+                  setIsViewDialogOpen(false);
+                  openEditDialog(selectedRecord);
+                }}>
+                  <Edit className="mr-2 h-4 w-4" /> Edit Record
+                </Button>
+              </DialogFooter>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Record Dialog */}
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Edit Disciplinary Record</DialogTitle>
+            <DialogDescription>
+              Update disciplinary record for {selectedRecord && getStudentName(selectedRecord.studentId)}
+            </DialogDescription>
+          </DialogHeader>
           
+          {selectedRecord && (
+            <form onSubmit={handleUpdateRecord}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="studentId">Student *</Label>
+                  <Select name="studentId" value={formData.studentId} onValueChange={(value) => handleSelectChange("studentId", value)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select student" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {students.map((student) => (
+                        <SelectItem key={student.id} value={student.id}>
+                          {student.name} ({student.grade})
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="date">Date of Incident *</Label>
+                  <Input 
+                    id="date" 
+                    name="date" 
+                    type="date" 
+                    value={formData.date} 
+                    onChange={handleFormChange} 
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="incidentType">Incident Type *</Label>
+                  <Select name="incidentType" value={formData.incidentType} onValueChange={(value) => handleSelectChange("incidentType", value)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select incident type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {INCIDENT_TYPES.map((type) => (
+                        <SelectItem key={type} value={type}>
+                          {type}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="reporter">Reported By *</Label>
+                  <Input 
+                    id="reporter" 
+                    name="reporter" 
+                    value={formData.reporter} 
+                    onChange={handleFormChange} 
+                    placeholder="Name of the reporter"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="severity">Severity Level *</Label>
+                  <Select name="severity" value={formData.severity} onValueChange={(value) => handleSelectChange("severity", value)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select severity" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {SEVERITY_LEVELS.map((level) => (
+                        <SelectItem key={level.value} value={level.value}>
+                          {level.value}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="status">Status *</Label>
+                  <Select name="status" value={formData.status} onValueChange={(value) => handleSelectChange("status", value)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {STATUS_OPTIONS.map((status) => (
+                        <SelectItem key={status.value} value={status.value}>
+                          {status.value}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2 col-span-2">
+                  <Label htmlFor="description">Description *</Label>
+                  <Textarea 
+                    id="description" 
+                    name="description" 
+                    value={formData.description} 
+                    onChange={handleFormChange} 
+                    placeholder="Detailed description of the incident"
+                    className="min-h-[100px]"
+                  />
+                </div>
+
+                <div className="space-y-2 col-span-2">
+                  <Label htmlFor="actionTaken">Action Taken</Label>
+                  <Textarea 
+                    id="actionTaken" 
+                    name="actionTaken" 
+                    value={formData.actionTaken} 
+                    onChange={handleFormChange} 
+                    placeholder="What actions have been taken to address this incident"
+                    className="min-h-[100px]"
+                  />
+                </div>
+              </div>
+
+              <DialogFooter className="mt-6">
+                <Button type="button" variant="outline" onClick={() => setIsEditDialogOpen(false)}>
+                  Cancel
+                </Button>
+                <Button type="submit">
+                  Update Record
+                </Button>
+              </DialogFooter>
+            </form>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Confirm Deletion</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to delete this disciplinary record? This action cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          
+          {selectedRecord && (
+            <div className="bg-red-50 border border-red-200 rounded-md p-4 mb-4">
+              <div className="flex space-x-2">
+                <AlertCircle className="h-5 w-5 text-red-500 flex-shrink-0" />
+                <div>
+                  <h4 className="font-medium text-red-800">Warning: Permanent Deletion</h4>
+                  <p className="text-sm text-red-700 mt-1">
+                    You are about to delete the disciplinary record for <strong>{getStudentName(selectedRecord.studentId)}</strong> regarding <strong>{selectedRecord.incidentType}</strong> on <strong>{selectedRecord.date}</strong>.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
           <DialogFooter>
-            <Button variant="outline" onClick={() => setShowNewRecordDialog(false)}>
+            <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)}>
               Cancel
             </Button>
-            <Button onClick={handleCreateDisciplinaryRecord}>
-              Create Record
+            <Button variant="destructive" onClick={handleDeleteRecord}>
+              <Trash2 className="mr-2 h-4 w-4" /> Delete Record
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
-      
-      {/* Record Details Dialog */}
-      {selectedRecord && (
-        <Dialog open={showDetailsDialog} onOpenChange={setShowDetailsDialog}>
-          <DialogContent className="sm:max-w-[500px]">
-            <DialogHeader>
-              <DialogTitle>Disciplinary Record Details</DialogTitle>
-              <Badge variant={getSeverityBadgeVariant(selectedRecord.severity)} className="self-start mt-2">
-                {selectedRecord.severity} Severity
-              </Badge>
-            </DialogHeader>
-            
-            <div className="space-y-4 py-2">
-              <div className="flex justify-between items-start">
-                <div>
-                  <h3 className="font-medium">{selectedRecord.studentName}</h3>
-                  {selectedRecord.class && (
-                    <p className="text-sm text-gray-500">{selectedRecord.class}</p>
-                  )}
-                </div>
-                
-                <div className="text-right text-sm">
-                  <p className="text-gray-500">Date of Incident</p>
-                  <p>{new Date(selectedRecord.date).toLocaleDateString()}</p>
-                </div>
-              </div>
-              
-              <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 space-y-2">
-                <div className="flex items-center">
-                  {getDisciplinaryTypeIcon(selectedRecord.type)}
-                  <p className="text-sm font-medium ml-2">
-                    {getDisciplinaryTypeLabel(selectedRecord.type)}
-                  </p>
-                </div>
-                
-                <div className="flex items-center">
-                  <CalendarClock className="h-4 w-4 mr-2 text-gray-500" />
-                  <p className="text-sm">Recorded on {new Date(selectedRecord.createdAt).toLocaleString()}</p>
-                </div>
-                
-                <div className="flex items-center">
-                  <User className="h-4 w-4 mr-2 text-gray-500" />
-                  <p className="text-sm">Recorded by: {selectedRecord.createdBy}</p>
-                </div>
-              </div>
-              
-              <div>
-                <h4 className="text-sm font-medium mb-1">Description</h4>
-                <p className="text-sm bg-gray-50 dark:bg-gray-800 p-3 rounded-lg">{selectedRecord.description}</p>
-              </div>
-              
-              {selectedRecord.actionTaken && (
-                <div>
-                  <h4 className="text-sm font-medium mb-1">Action Taken</h4>
-                  <p className="text-sm bg-gray-50 dark:bg-gray-800 p-3 rounded-lg">{selectedRecord.actionTaken}</p>
-                </div>
-              )}
-              
-              <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-3">
-                <h4 className="text-sm font-medium mb-2">Parent/Guardian Notification</h4>
-                
-                {selectedRecord.parentNotified ? (
-                  <div className="flex items-center text-sm text-green-600 dark:text-green-400">
-                    <CheckCircle2 className="h-4 w-4 mr-2" />
-                    <span>
-                      Parents notified on {
-                        selectedRecord.parentNotificationDate 
-                          ? new Date(selectedRecord.parentNotificationDate).toLocaleDateString() 
-                          : 'N/A'
-                      }
-                    </span>
-                  </div>
-                ) : (
-                  <div className="flex items-center text-sm text-amber-600 dark:text-amber-400">
-                    <AlertOctagon className="h-4 w-4 mr-2" />
-                    <span>Parents have not been notified</span>
-                  </div>
-                )}
-              </div>
-            </div>
-            
-            <DialogFooter>
-              {teacherRole && !selectedRecord.parentNotified && (
-                <Button>
-                  Mark as Notified
-                </Button>
-              )}
-              <Button variant="outline" onClick={() => setShowDetailsDialog(false)}>
-                Close
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      )}
     </div>
   );
 };
 
-export default DisciplinaryRecords; 
+export default DisciplinaryRecords;
