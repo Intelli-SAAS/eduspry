@@ -208,6 +208,9 @@ const LeaveManagement: React.FC<LeaveManagementProps> = ({
   const [endDate, setEndDate] = useState<string>(format(addDays(new Date(), 1), 'yyyy-MM-dd'));
   const [selectedStudent, setSelectedStudent] = useState<string>('');
   const [isShowingForm, setIsShowingForm] = useState<boolean>(false);
+  const [reason, setReason] = useState<string>(''); // Added missing state
+  const [filterClass, setFilterClass] = useState<string>(''); // Added missing state
+  const [filterSection, setFilterSection] = useState<string>(''); // Added missing state
 
   const [leaveApplications, setLeaveApplications] = useState<LeaveApplication[]>(mockLeaveApplications);
 
@@ -402,7 +405,7 @@ const LeaveManagement: React.FC<LeaveManagementProps> = ({
       app.id === id 
         ? {
             ...app, 
-            status: 'approved', 
+            status: 'approved' as const, 
             reviewedBy: 'Current User', 
             reviewedOn: format(new Date(), 'yyyy-MM-dd')
           } 
@@ -420,7 +423,7 @@ const LeaveManagement: React.FC<LeaveManagementProps> = ({
       app.id === id 
         ? {
             ...app, 
-            status: 'rejected', 
+            status: 'rejected' as const, 
             reviewedBy: 'Current User', 
             reviewedOn: format(new Date(), 'yyyy-MM-dd')
           } 
@@ -901,4 +904,4 @@ const LeaveManagement: React.FC<LeaveManagementProps> = ({
   );
 };
 
-export default LeaveManagement; 
+export default LeaveManagement;

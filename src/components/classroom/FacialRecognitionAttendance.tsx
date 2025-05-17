@@ -242,7 +242,7 @@ export default function FacialRecognitionAttendance({ className }: FacialRecogni
   const resetAttendance = () => {
     const resetStudents = students.map(student => ({
       ...student,
-      scanStatus: 'pending',
+      scanStatus: 'pending' as const,
       lastScan: undefined,
       confidence: undefined
     }));
@@ -298,7 +298,7 @@ export default function FacialRecognitionAttendance({ className }: FacialRecogni
             if (student.id === studentToMark.id) {
               return {
                 ...student,
-                scanStatus: confidence > 80 ? 'verified' : 'failed',
+                scanStatus: confidence > 80 ? 'verified' as const : 'failed' as const,
                 lastScan: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
                 confidence: parseFloat(confidence.toFixed(1))
               };
@@ -747,4 +747,4 @@ export default function FacialRecognitionAttendance({ className }: FacialRecogni
       </Card>
     </div>
   );
-} 
+}

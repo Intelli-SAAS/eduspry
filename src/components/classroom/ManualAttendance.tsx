@@ -126,7 +126,7 @@ export default function ManualAttendance({ className }: ManualAttendanceProps) {
   const resetAttendance = () => {
     const resetStudents = students.map(student => ({
       ...student,
-      scanStatus: 'pending',
+      scanStatus: 'pending' as const, // Use const assertion to fix the type
       lastScan: undefined,
       remarks: undefined
     }));
@@ -587,4 +587,4 @@ export default function ManualAttendance({ className }: ManualAttendanceProps) {
       )}
     </div>
   );
-} 
+}

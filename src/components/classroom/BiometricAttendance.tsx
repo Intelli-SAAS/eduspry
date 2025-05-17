@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -22,9 +22,8 @@ import {
   Scan,
   Save,
   Search,
-  Plus,
-  Trash2,
-  Upload
+  Shield,
+  RotateCw
 } from 'lucide-react';
 
 interface Student {
@@ -51,22 +50,21 @@ export default function BiometricAttendance({ className }: BiometricAttendancePr
   const [attendanceDate, setAttendanceDate] = useState<string>(
     new Date().toISOString().split('T')[0]
   );
-  const [scannerStatus, setScannerStatus] = useState<'connected' | 'disconnected' | 'scanning'>('disconnected');
-  const [activeTab, setActiveTab] = useState<string>('attendance');
+  const [deviceStatus, setDeviceStatus] = useState<'connected' | 'disconnected' | 'scanning'>('disconnected');
+  const [activeTab, setActiveTab] = useState<string>('scan');
   const [students, setStudents] = useState<Student[]>([]);
   const [processing, setProcessing] = useState<boolean>(false);
-  const [scanningStudent, setScanningStudent] = useState<string | null>(null);
   const [progress, setProgress] = useState<number>(0);
+  const [scanningStudent, setScanningStudent] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [enrollingStudent, setEnrollingStudent] = useState<Student | null>(null);
-  const [enrollmentStep, setEnrollmentStep] = useState<number>(0);
-  const [enrollmentProgress, setEnrollmentProgress] = useState<number>(0);
+  const [showEnrollDialog, setShowEnrollDialog] = useState<boolean>(false);
 
   // Mock class and section data
   const classOptions = ['Class 1', 'Class 2', 'Class 3', 'Class 4', 'Class 5'];
   const sectionOptions = ['A', 'B', 'C', 'D'];
 
-  // Mock student data
+  // Mock student data with fingerprint enrollment status
   const mockStudents: Student[] = [
     { 
       id: '1', 
@@ -136,72 +134,49 @@ export default function BiometricAttendance({ className }: BiometricAttendancePr
     }
   }, [selectedClass, selectedSection]);
 
-  useEffect(() => {
-    // Simulate scanner initialization
-    if (scannerStatus === 'connected' && !processing) {
-      let initProgress = 0;
-      setProcessing(true);
-      
-      const interval = setInterval(() => {
-        initProgress += 10;
-        setProgress(initProgress);
-        
-        if (initProgress >= 100) {
-          clearInterval(interval);
-          setProcessing(false);
-          toast({
-            title: "Scanner Ready",
-            description: "The fingerprint scanner is now ready to use."
-          });
-        }
-      }, 200);
-      
-      return () => clearInterval(interval);
-    }
-  }, [scannerStatus, processing]);
-
-  const connectScanner = async () => {
-    try {
-      // In a real app, this would connect to a physical fingerprint scanner
-      setScannerStatus('connected');
-      
-      toast({
-        title: "Scanner Connected",
-        description: "Fingerprint scanner is now ready to use."
-      });
-    } catch (error) {
-      console.error('Error connecting scanner:', error);
-      toast({
-        title: "Scanner Error",
-        description: "Could not connect to the fingerprint scanner.",
-        variant: "destructive"
-      });
-    }
-  };
-
-  const disconnectScanner = () => {
-    setScannerStatus('disconnected');
+  const connectDevice = () => {
+    setProcessing(true);
     setProgress(0);
     
+    // Simulate connection progress
+    const interval = setInterval(() => {
+      setProgress(prev => {
+        if (prev >= 100) {
+          clearInterval(interval);
+          setDeviceStatus('connected');
+          setProcessing(false);
+          
+          toast({
+            title: "Device Connected",
+            description: "Biometric scanner is now ready to use."
+          });
+          
+          return 100;
+        }
+        return prev + 10;
+      });
+    }, 200);
+  };
+
+  const disconnectDevice = () => {
+    setDeviceStatus('disconnected');
     toast({
-      title: "Scanner Disconnected",
-      description: "Fingerprint scanner has been disconnected."
+      title: "Device Disconnected",
+      description: "Biometric scanner has been disconnected."
     });
   };
 
   const startScanning = () => {
-    setScannerStatus('scanning');
-    
+    setDeviceStatus('scanning');
     toast({
-      title: "Scanning Initiated",
-      description: "The system is now scanning for fingerprints."
+      title: "Scanning Started",
+      description: "Place finger on the scanner to record attendance."
     });
   };
 
   const stopScanning = () => {
-    setScannerStatus('connected');
+    setDeviceStatus('connected');
     setScanningStudent(null);
-    
     toast({
       title: "Scanning Stopped",
       description: "Fingerprint scanning has been stopped."
@@ -211,7 +186,7 @@ export default function BiometricAttendance({ className }: BiometricAttendancePr
   const resetAttendance = () => {
     const resetStudents = students.map(student => ({
       ...student,
-      scanStatus: 'pending',
+      scanStatus: 'pending' as const, // Use const assertion to fix the type
       lastScan: undefined,
       confidence: undefined
     }));
@@ -224,13 +199,16 @@ export default function BiometricAttendance({ className }: BiometricAttendancePr
     });
   };
 
-  const processFingerprint = () => {
-    // In a real app, this would process the fingerprint scan
+  const simulateFingerprintScan = () => {
+    if (deviceStatus !== 'scanning') return;
+    
     setProcessing(true);
     
-    // Simulate processing delay and random student identification
+    // Simulate scanning delay and random student identification
     setTimeout(() => {
-      const enrolledStudents = students.filter(s => s.fingerprintEnrolled && s.scanStatus === 'pending');
+      const enrolledStudents = students.filter(s => 
+        s.scanStatus === 'pending' && s.fingerprintEnrolled
+      );
       
       if (enrolledStudents.length > 0) {
         // Randomly select a student to mark as verified (simulating recognition)
@@ -248,7 +226,7 @@ export default function BiometricAttendance({ className }: BiometricAttendancePr
             if (student.id === studentToMark.id) {
               return {
                 ...student,
-                scanStatus: confidence > 80 ? 'verified' : 'failed',
+                scanStatus: confidence > 65 ? 'verified' as const : 'failed' as const, // Use const assertion to fix the type
                 lastScan: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
                 confidence: parseFloat(confidence.toFixed(1))
               };
@@ -260,27 +238,27 @@ export default function BiometricAttendance({ className }: BiometricAttendancePr
           setScanningStudent(null);
           setProcessing(false);
           
-          if (confidence > 80) {
+          if (confidence > 65) {
             toast({
-              title: "Student Recognized",
+              title: "Fingerprint Matched",
               description: `Attendance marked for ${studentToMark.name} with ${confidence.toFixed(1)}% confidence.`
             });
           } else {
             toast({
               title: "Low Confidence Match",
-              description: `Failed to verify ${studentToMark.name} with only ${confidence.toFixed(1)}% confidence.`,
+              description: `Failed to verify ${studentToMark.name}'s fingerprint with only ${confidence.toFixed(1)}% confidence.`,
               variant: "destructive"
             });
           }
-        }, 1500);
+        }, 1000);
       } else {
         setProcessing(false);
         toast({
-          title: "No Eligible Students",
-          description: "No enrolled students are pending attendance.",
+          title: "No Pending Students",
+          description: "All enrolled students have been processed or no enrolled students found.",
         });
       }
-    }, 1000);
+    }, 800);
   };
 
   const manualMarkAttendance = (studentId: string, status: 'verified' | 'failed') => {
@@ -304,70 +282,31 @@ export default function BiometricAttendance({ className }: BiometricAttendancePr
     });
   };
 
-  const startEnrollment = (student: Student) => {
+  const handleEnrollFingerprint = (student: Student) => {
     setEnrollingStudent(student);
-    setEnrollmentStep(1);
-    setEnrollmentProgress(0);
-    setActiveTab('enrollment');
+    setShowEnrollDialog(true);
   };
 
-  const processEnrollmentStep = () => {
+  const completeEnrollment = () => {
     if (!enrollingStudent) return;
     
-    setEnrollmentProgress(0);
-    setProcessing(true);
+    const updatedStudents = students.map(student => {
+      if (student.id === enrollingStudent.id) {
+        return {
+          ...student,
+          fingerprintEnrolled: true
+        };
+      }
+      return student;
+    });
     
-    // Simulate fingerprint enrollment process
-    const interval = setInterval(() => {
-      setEnrollmentProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          setProcessing(false);
-          
-          if (enrollmentStep < 3) {
-            setEnrollmentStep(prev => prev + 1);
-            toast({
-              title: "Enrollment Step Complete",
-              description: `Step ${enrollmentStep} of 3 completed. Please place your finger again.`
-            });
-          } else {
-            // Complete enrollment
-            const updatedStudents = students.map(student => {
-              if (student.id === enrollingStudent.id) {
-                return {
-                  ...student,
-                  fingerprintEnrolled: true
-                };
-              }
-              return student;
-            });
-            
-            setStudents(updatedStudents);
-            setEnrollingStudent(null);
-            setEnrollmentStep(0);
-            setActiveTab('attendance');
-            
-            toast({
-              title: "Enrollment Complete",
-              description: `Fingerprint enrollment completed for ${enrollingStudent.name}.`
-            });
-          }
-          return 0;
-        }
-        return prev + 10;
-      });
-    }, 200);
-  };
-
-  const cancelEnrollment = () => {
+    setStudents(updatedStudents);
     setEnrollingStudent(null);
-    setEnrollmentStep(0);
-    setEnrollmentProgress(0);
-    setActiveTab('attendance');
+    setShowEnrollDialog(false);
     
     toast({
-      title: "Enrollment Cancelled",
-      description: "Fingerprint enrollment process has been cancelled."
+      title: "Enrollment Complete",
+      description: "Fingerprint has been successfully enrolled."
     });
   };
 
@@ -386,7 +325,8 @@ export default function BiometricAttendance({ className }: BiometricAttendancePr
     const present = students.filter(s => s.scanStatus === 'verified').length;
     const absent = students.filter(s => s.scanStatus === 'failed').length;
     const pending = students.filter(s => s.scanStatus === 'pending').length;
-    return { present, absent, pending, total: students.length };
+    const enrolled = students.filter(s => s.fingerprintEnrolled).length;
+    return { present, absent, pending, total: students.length, enrolled };
   };
 
   const filteredStudents = students.filter(student => 
@@ -405,14 +345,14 @@ export default function BiometricAttendance({ className }: BiometricAttendancePr
               <CardDescription>Mark student attendance using fingerprint scanning</CardDescription>
             </div>
             <div className="flex space-x-2">
-              {activeTab === 'attendance' && (
-                scannerStatus === 'disconnected' ? (
-                  <Button variant="outline" onClick={connectScanner}>
-                    <Fingerprint className="h-4 w-4 mr-2" /> Connect Scanner
+              {activeTab === 'scan' && (
+                deviceStatus === 'disconnected' ? (
+                  <Button variant="outline" onClick={connectDevice}>
+                    <Shield className="h-4 w-4 mr-2" /> Connect Device
                   </Button>
-                ) : scannerStatus === 'connected' ? (
+                ) : deviceStatus === 'connected' ? (
                   <div className="space-x-2">
-                    <Button variant="outline" onClick={disconnectScanner}>
+                    <Button variant="outline" onClick={disconnectDevice}>
                       <XCircle className="h-4 w-4 mr-2" /> Disconnect
                     </Button>
                     <Button onClick={startScanning}>
@@ -431,15 +371,15 @@ export default function BiometricAttendance({ className }: BiometricAttendancePr
         <CardContent>
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="attendance">
-                <Fingerprint className="h-4 w-4 mr-2" /> Take Attendance
+              <TabsTrigger value="scan">
+                <Shield className="h-4 w-4 mr-2" /> Scan Attendance
               </TabsTrigger>
-              <TabsTrigger value="enrollment">
+              <TabsTrigger value="enroll">
                 <Plus className="h-4 w-4 mr-2" /> Enroll Students
               </TabsTrigger>
             </TabsList>
             
-            <TabsContent value="attendance" className="space-y-4">
+            <TabsContent value="scan" className="space-y-4">
               <div className="flex space-x-4 mt-4">
                 <div className="grid w-full max-w-sm items-center gap-1.5">
                   <Label htmlFor="class">Class</Label>
@@ -481,12 +421,12 @@ export default function BiometricAttendance({ className }: BiometricAttendancePr
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
                 <div className="space-y-4">
                   <div className="relative bg-black rounded-lg overflow-hidden aspect-video flex items-center justify-center">
-                    {scannerStatus === 'disconnected' ? (
+                    {deviceStatus === 'disconnected' ? (
                       <div className="text-center text-gray-400">
-                        <Fingerprint className="h-12 w-12 mx-auto mb-2 opacity-50" />
-                        <p>Scanner disconnected</p>
-                        <Button onClick={connectScanner} variant="outline" size="sm" className="mt-2">
-                          Connect Scanner
+                        <Shield className="h-12 w-12 mx-auto mb-2 opacity-50" />
+                        <p>Device disconnected</p>
+                        <Button onClick={connectDevice} variant="outline" size="sm" className="mt-2">
+                          Connect Device
                         </Button>
                       </div>
                     ) : (
@@ -501,7 +441,7 @@ export default function BiometricAttendance({ className }: BiometricAttendancePr
                             <RefreshCw className="h-8 w-8 text-white animate-spin mb-2" />
                             <Progress value={progress} className="w-3/4 mb-2" />
                             <p className="text-white text-sm text-center">
-                              {scannerStatus === 'scanning' 
+                              {deviceStatus === 'scanning' 
                                 ? scanningStudent 
                                   ? `Verifying ${scanningStudent}...` 
                                   : 'Waiting for fingerprint...' 
@@ -509,9 +449,9 @@ export default function BiometricAttendance({ className }: BiometricAttendancePr
                             </p>
                           </div>
                         )}
-                        {scannerStatus === 'scanning' && !processing && (
+                        {deviceStatus === 'scanning' && !processing && (
                           <div className="absolute bottom-4 left-0 right-0 flex justify-center">
-                            <Button onClick={processFingerprint} variant="default" size="sm">
+                            <Button onClick={simulateFingerprintScan} variant="default" size="sm">
                               <Fingerprint className="h-4 w-4 mr-2" /> Scan Fingerprint
                             </Button>
                           </div>
@@ -520,12 +460,12 @@ export default function BiometricAttendance({ className }: BiometricAttendancePr
                     )}
                   </div>
                   
-                  {scannerStatus !== 'disconnected' && (
+                  {deviceStatus !== 'disconnected' && (
                     <div className="flex flex-col space-y-2">
                       <div className="flex space-x-4">
                         <div className="flex items-center text-sm text-muted-foreground">
-                          <div className={`h-2 w-2 rounded-full mr-1 ${scannerStatus === 'scanning' ? 'bg-green-500 animate-pulse' : 'bg-yellow-500'}`}></div>
-                          <span>Scanner Status: {scannerStatus === 'scanning' ? 'Active Scanning' : 'Ready'}</span>
+                          <div className={`h-2 w-2 rounded-full mr-1 ${deviceStatus === 'scanning' ? 'bg-green-500 animate-pulse' : 'bg-yellow-500'}`}></div>
+                          <span>Device Status: {deviceStatus === 'scanning' ? 'Active Scanning' : 'Ready'}</span>
                         </div>
                       </div>
                       
@@ -634,7 +574,7 @@ export default function BiometricAttendance({ className }: BiometricAttendancePr
                                         <Button 
                                           size="sm" 
                                           variant="ghost" 
-                                          onClick={() => startEnrollment(student)}
+                                          onClick={() => handleEnrollFingerprint(student)}
                                           className="h-8 text-xs"
                                         >
                                           <Plus className="h-3 w-3 mr-1" /> Enroll
@@ -685,17 +625,17 @@ export default function BiometricAttendance({ className }: BiometricAttendancePr
               </div>
             </TabsContent>
             
-            <TabsContent value="enrollment" className="space-y-4">
-              {enrollingStudent ? (
+            <TabsContent value="enroll" className="space-y-4">
+              {showEnrollDialog ? (
                 <div className="space-y-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h3 className="text-lg font-medium">Enrolling {enrollingStudent.name}</h3>
+                      <h3 className="text-lg font-medium">Enrolling {enrollingStudent?.name}</h3>
                       <p className="text-sm text-muted-foreground">
-                        Step {enrollmentStep} of 3: Place your finger on the scanner
+                        Step 1 of 3: Place your finger on the scanner
                       </p>
                     </div>
-                    <Button variant="outline" size="sm" onClick={cancelEnrollment}>
+                    <Button variant="outline" size="sm" onClick={() => setShowEnrollDialog(false)}>
                       <XCircle className="h-4 w-4 mr-2" /> Cancel
                     </Button>
                   </div>
@@ -709,7 +649,7 @@ export default function BiometricAttendance({ className }: BiometricAttendancePr
                     {processing && (
                       <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center p-4">
                         <RefreshCw className="h-8 w-8 text-white animate-spin mb-2" />
-                        <Progress value={enrollmentProgress} className="w-3/4 mb-2" />
+                        <Progress value={progress} className="w-3/4 mb-2" />
                         <p className="text-white text-sm text-center">
                           Capturing fingerprint...
                         </p>
@@ -717,7 +657,7 @@ export default function BiometricAttendance({ className }: BiometricAttendancePr
                     )}
                     {!processing && (
                       <div className="absolute bottom-4 left-0 right-0 flex justify-center">
-                        <Button onClick={processEnrollmentStep} variant="default" size="sm">
+                        <Button onClick={completeEnrollment} variant="default" size="sm">
                           <Fingerprint className="h-4 w-4 mr-2" /> Capture Fingerprint
                         </Button>
                       </div>
@@ -726,15 +666,15 @@ export default function BiometricAttendance({ className }: BiometricAttendancePr
                   
                   <div className="space-y-2">
                     <div className="flex items-center space-x-2">
-                      <div className={`h-2 w-2 rounded-full ${enrollmentStep >= 1 ? 'bg-green-500' : 'bg-gray-300'}`}></div>
+                      <div className={`h-2 w-2 rounded-full ${progress >= 10 ? 'bg-green-500' : 'bg-gray-300'}`}></div>
                       <span className="text-sm">First scan</span>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <div className={`h-2 w-2 rounded-full ${enrollmentStep >= 2 ? 'bg-green-500' : 'bg-gray-300'}`}></div>
+                      <div className={`h-2 w-2 rounded-full ${progress >= 20 ? 'bg-green-500' : 'bg-gray-300'}`}></div>
                       <span className="text-sm">Second scan</span>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <div className={`h-2 w-2 rounded-full ${enrollmentStep >= 3 ? 'bg-green-500' : 'bg-gray-300'}`}></div>
+                      <div className={`h-2 w-2 rounded-full ${progress >= 30 ? 'bg-green-500' : 'bg-gray-300'}`}></div>
                       <span className="text-sm">Final scan</span>
                     </div>
                   </div>
@@ -829,7 +769,7 @@ export default function BiometricAttendance({ className }: BiometricAttendancePr
                                     <Button 
                                       size="sm" 
                                       variant="ghost" 
-                                      onClick={() => startEnrollment(student)}
+                                      onClick={() => handleEnrollFingerprint(student)}
                                       className="h-8 text-xs"
                                     >
                                       <Plus className="h-3 w-3 mr-1" /> Enroll
@@ -865,10 +805,10 @@ export default function BiometricAttendance({ className }: BiometricAttendancePr
         </CardContent>
         <CardFooter className="flex justify-between">
           <span className="text-sm text-muted-foreground">
-            {scannerStatus === 'disconnected' ? (
-              <Badge variant="outline" className="bg-gray-100 text-gray-700">Scanner Disconnected</Badge>
-            ) : scannerStatus === 'connected' ? (
-              <Badge variant="outline" className="bg-green-100 text-green-700">Scanner Connected</Badge>
+            {deviceStatus === 'disconnected' ? (
+              <Badge variant="outline" className="bg-gray-100 text-gray-700">Device Disconnected</Badge>
+            ) : deviceStatus === 'connected' ? (
+              <Badge variant="outline" className="bg-green-100 text-green-700">Device Connected</Badge>
             ) : (
               <Badge variant="outline" className="bg-blue-100 text-blue-700 animate-pulse">Scanning Active</Badge>
             )}
@@ -888,4 +828,4 @@ export default function BiometricAttendance({ className }: BiometricAttendancePr
       </Card>
     </div>
   );
-} 
+}
