@@ -56,7 +56,7 @@ const Header = () => {
     open: i => ({ opacity: 1, y: 0, transition: { delay: 0.05 * i } })
   };
 
-  const navItems = ['Features', 'Solutions', 'Testimonials', 'Pricing'];
+  const navItems = ['Features', 'Testimonials', 'Pricing'];
 
   return (
     <motion.header
@@ -616,11 +616,11 @@ const Index = () => {
                           </div>
                         </div>
 
-                        <h3 className="text-2xl font-bold text-gray-900 mb-4">Empower Your Teaching</h3>
+                        <h3 className="text-2xl font-bold text-gray-900 mb-4">Personalized Learning Journey</h3>
 
                         <p className="text-gray-700 mb-6">
-                          Streamline your workflow with AI-powered tools that help you create engaging content,
-                          assess student performance, and provide personalized guidance.
+                          Transform your classroom with AI-powered teaching tools that help you create engaging content,
+                          develop personalized learning paths for each student, and gain real-time insights into student progress.
                         </p>
                       </>
                     )}
@@ -633,11 +633,12 @@ const Index = () => {
                           </div>
                         </div>
 
-                        <h3 className="text-2xl font-bold text-gray-900 mb-4">Institution Management</h3>
+                        <h3 className="text-2xl font-bold text-gray-900 mb-4">Personalized Learning Journey</h3>
 
                         <p className="text-gray-700 mb-6">
-                          Gain comprehensive oversight of your educational institution with powerful analytics,
-                          resource optimization tools, and streamlined administrative workflows.
+                          Elevate your institution with data-driven insights that track student progress across all learning paths.
+                          Our comprehensive analytics tools help you optimize resources, personalize curriculum development, and
+                          create an environment where every student can thrive.
                         </p>
                       </>
                     )}
@@ -650,11 +651,12 @@ const Index = () => {
                           </div>
                         </div>
 
-                        <h3 className="text-2xl font-bold text-gray-900 mb-4">Scale Your Educational Business</h3>
+                        <h3 className="text-2xl font-bold text-gray-900 mb-4">Personalized Learning Journey</h3>
 
                         <p className="text-gray-700 mb-6">
-                          Create, publish, and sell courses while leveraging our live class modules,
-                          AI tools, and comprehensive platform to build your educational empire.
+                          Build a scalable education ecosystem with our advanced AI-powered learning path creator.
+                          Deliver personalized educational experiences to every learner while gaining actionable
+                          analytics that help you continuously optimize course content and learning outcomes.
                         </p>
                       </>
                     )}
@@ -855,7 +857,7 @@ const Index = () => {
                             className="bg-white shadow-lg rounded-xl overflow-hidden border border-blue-100 relative z-10 w-full"
                           >
                             <div className="bg-[#1a4480] text-white p-3 flex justify-between items-center">
-                              <span className="text-sm font-medium">Student Dashboard</span>
+                              <span className="text-sm font-medium">Personalized Learning Dashboard</span>
                               <div className="flex space-x-1">
                                 <div className="w-2 h-2 rounded-full bg-white/30"></div>
                                 <div className="w-2 h-2 rounded-full bg-white/30"></div>
@@ -864,36 +866,395 @@ const Index = () => {
                             </div>
 
                             <div className="p-4">
-                              <div className="flex items-center justify-between mb-4">
+                              <div className="flex items-center justify-between mb-3">
                                 <div>
-                                  <h5 className="text-sm font-medium">Your Learning Progress</h5>
-                                  <p className="text-xs text-gray-500">Trending upwards</p>
+                                  <h5 className="text-sm font-bold text-gray-900">Your Learning Journey</h5>
+                                  <p className="text-xs text-gray-500">Adaptive curriculum progress</p>
                                 </div>
-                                <div className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">
-                                  +12% this week
+                                <div className="text-xs px-2 py-1 bg-blue-100 text-[#1a4480] rounded-full font-medium">
+                                  Current: Advanced Math
                                 </div>
                               </div>
 
-                              <div className="h-24 bg-gray-50 rounded-lg mb-4 overflow-hidden p-3">
-                                <div className="h-full flex items-end justify-between gap-2">
-                                  {[40, 25, 35, 30, 55, 65, 75].map((height, i) => (
-                                    <div key={i} className="relative w-full">
-                                      <div
-                                        className="bg-gradient-to-t from-[#1a4480] to-blue-400 rounded-t-sm"
-                                        style={{ height: `${height}%` }}
-                                      ></div>
-                                      <div className="mt-1 text-xs text-gray-400 text-center">
-                                        {['M', 'T', 'W', 'T', 'F', 'S', 'S'][i]}
-                                      </div>
-                                    </div>
-                                  ))}
+                              <div className="mb-3 h-2 bg-gray-100 rounded-full overflow-hidden">
+                                <div className="h-full bg-gradient-to-r from-[#1a4480] to-blue-400 rounded-full" style={{ width: "68%" }}></div>
+                              </div>
+
+                              <div className="flex justify-between text-xs text-gray-500 mb-4">
+                                <span>Beginner</span>
+                                <span className="text-[#1a4480] font-medium">68% Complete</span>
+                                <span>Advanced</span>
+                              </div>
+
+                              <div className="grid grid-cols-2 gap-2 mb-3">
+                                <div className="p-2 bg-blue-50 rounded-lg flex items-center">
+                                  <div className="w-8 h-8 bg-[#1a4480]/10 rounded-full flex items-center justify-center mr-2">
+                                    <div className="w-4 h-4 rounded-full bg-[#1a4480]"></div>
+                                  </div>
+                                  <div>
+                                    <div className="text-xs font-medium text-gray-700">Next Assignment</div>
+                                    <div className="text-xs text-[#1a4480]">Due in 2 days</div>
+                                  </div>
                                 </div>
+
+                                <div className="p-2 bg-green-50 rounded-lg flex items-center">
+                                  <div className="w-8 h-8 bg-green-500/10 rounded-full flex items-center justify-center mr-2">
+                                    <div className="w-4 h-4 rounded-full bg-green-500"></div>
+                                  </div>
+                                  <div>
+                                    <div className="text-xs font-medium text-gray-700">Recent Score</div>
+                                    <div className="text-xs text-green-600">92% (+8%)</div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div className="p-2 bg-indigo-50 rounded-lg flex items-center justify-between">
+                                <div className="flex items-center">
+                                  <div className="w-8 h-8 bg-indigo-500/10 rounded-full flex items-center justify-center mr-2">
+                                    <div className="w-4 h-4 rounded-full bg-indigo-500"></div>
+                                  </div>
+                                  <div>
+                                    <div className="text-xs font-medium text-gray-700">AI Study Recommendation</div>
+                                    <div className="text-xs text-indigo-600">Focus on Algebra concepts</div>
+                                  </div>
+                                </div>
+                                <div className="text-xs font-medium text-indigo-600">View →</div>
                               </div>
                             </div>
                           </motion.div>
                         )}
 
-                        {/* Add abbreviated dashboard previews for other roles as needed */}
+                        {selectedRole === "teacher" && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.2 }}
+                            className="bg-white shadow-lg rounded-xl overflow-hidden border border-blue-100 relative z-10 w-full"
+                          >
+                            <div className="bg-[#1a4480] text-white p-3 flex justify-between items-center">
+                              <span className="text-sm font-medium">Personalized Teaching Dashboard</span>
+                              <div className="flex space-x-1">
+                                <div className="w-2 h-2 rounded-full bg-white/30"></div>
+                                <div className="w-2 h-2 rounded-full bg-white/30"></div>
+                                <div className="w-2 h-2 rounded-full bg-white/30"></div>
+                              </div>
+                            </div>
+
+                            <div className="p-4">
+                              <div className="flex items-center justify-between mb-3">
+                                <div>
+                                  <h5 className="text-sm font-bold text-gray-900">Learning Path Creator</h5>
+                                  <p className="text-xs text-gray-500">Personalization insights</p>
+                                </div>
+                                <div className="text-xs px-2 py-1 bg-blue-100 text-[#1a4480] rounded-full font-medium">
+                                  28 active students
+                                </div>
+                              </div>
+
+                              <div className="bg-blue-50/50 rounded-lg p-3 mb-3">
+                                <div className="flex items-center justify-between mb-2">
+                                  <div className="flex items-center">
+                                    <div className="w-7 h-7 bg-[#1a4480]/10 rounded-full flex items-center justify-center mr-2">
+                                      <div className="w-3.5 h-3.5 rounded-full bg-[#1a4480]"></div>
+                                    </div>
+                                    <span className="text-xs font-medium text-gray-800">Class performance overview</span>
+                                  </div>
+                                  <span className="text-xs bg-green-100 text-green-700 px-1.5 py-0.5 rounded-full">+16%</span>
+                                </div>
+                                <div className="flex justify-between items-end px-2">
+                                  {[65, 72, 58, 81, 75, 90].map((height, i) => (
+                                    <div key={i} className="flex flex-col items-center">
+                                      <div className="w-5 bg-[#1a4480] rounded-sm" style={{ height: `${height * 0.6}px` }}></div>
+                                      <div className="mt-1 text-[10px] text-gray-500">{['M1', 'M2', 'M3', 'M4', 'M5', 'M6'][i]}</div>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="text-[10px] text-gray-500 mt-1 text-center">Module completion rates</div>
+                              </div>
+
+                              <div className="flex gap-2 mb-3">
+                                <div className="flex-1 p-2 bg-indigo-50 rounded-lg">
+                                  <div className="flex justify-between items-start mb-2">
+                                    <div className="flex items-center">
+                                      <div className="w-5 h-5 bg-indigo-500/10 rounded-full flex items-center justify-center mr-1">
+                                        <div className="w-2.5 h-2.5 rounded-full bg-indigo-500"></div>
+                                      </div>
+                                      <span className="text-[10px] font-medium text-gray-700">AI Content</span>
+                                    </div>
+                                    <span className="text-[10px] text-indigo-600 font-medium">5 drafts</span>
+                                  </div>
+                                  <div className="text-xs font-medium text-gray-900 mb-1">Math Assessment</div>
+                                  <div className="flex items-center justify-between">
+                                    <div className="h-1.5 bg-gray-100 rounded-full w-4/5 overflow-hidden">
+                                      <div className="h-full bg-indigo-500 rounded-full" style={{ width: "70%" }}></div>
+                                    </div>
+                                    <span className="text-[10px] text-gray-500">70%</span>
+                                  </div>
+                                </div>
+                                <div className="flex-1 p-2 bg-purple-50 rounded-lg">
+                                  <div className="flex justify-between items-start mb-2">
+                                    <div className="flex items-center">
+                                      <div className="w-5 h-5 bg-purple-500/10 rounded-full flex items-center justify-center mr-1">
+                                        <div className="w-2.5 h-2.5 rounded-full bg-purple-500"></div>
+                                      </div>
+                                      <span className="text-[10px] font-medium text-gray-700">Personalization</span>
+                                    </div>
+                                    <span className="text-[10px] text-purple-600 font-medium">3 paths</span>
+                                  </div>
+                                  <div className="text-xs font-medium text-gray-900 mb-1">Adaptive Learning</div>
+                                  <div className="flex items-center justify-between">
+                                    <div className="h-1.5 bg-gray-100 rounded-full w-4/5 overflow-hidden">
+                                      <div className="h-full bg-purple-500 rounded-full" style={{ width: "85%" }}></div>
+                                    </div>
+                                    <span className="text-[10px] text-gray-500">85%</span>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div className="p-2 bg-green-50 rounded-lg flex items-center justify-between">
+                                <div className="flex items-center">
+                                  <div className="w-8 h-8 bg-green-500/10 rounded-full flex items-center justify-center mr-2">
+                                    <div className="w-4 h-4 rounded-full bg-green-500"></div>
+                                  </div>
+                                  <div>
+                                    <div className="text-xs font-medium text-gray-700">AI Recommended Action</div>
+                                    <div className="text-xs text-green-600">Create personalized exercises for 5 students</div>
+                                  </div>
+                                </div>
+                                <div className="text-xs font-medium text-green-600">Create →</div>
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+
+                        {selectedRole === "admin" && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.2 }}
+                            className="bg-white shadow-lg rounded-xl overflow-hidden border border-blue-100 relative z-10 w-full"
+                          >
+                            <div className="bg-[#1a4480] text-white p-3 flex justify-between items-center">
+                              <span className="text-sm font-medium">Personalized Learning Analytics</span>
+                              <div className="flex space-x-1">
+                                <div className="w-2 h-2 rounded-full bg-white/30"></div>
+                                <div className="w-2 h-2 rounded-full bg-white/30"></div>
+                                <div className="w-2 h-2 rounded-full bg-white/30"></div>
+                              </div>
+                            </div>
+
+                            <div className="p-4">
+                              <div className="flex items-center justify-between mb-3">
+                                <div>
+                                  <h5 className="text-sm font-bold text-gray-900">Institution Learning Insights</h5>
+                                  <p className="text-xs text-gray-500">Personalization effectiveness</p>
+                                </div>
+                                <div className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full font-medium">
+                                  +16% improvement
+                                </div>
+                              </div>
+
+                              <div className="flex gap-2 mb-3">
+                                <div className="flex-1 bg-[#1a4480]/5 rounded-lg p-2.5">
+                                  <div className="flex flex-col items-center">
+                                    <div className="text-[10px] text-gray-500 mb-1">Student Engagement</div>
+                                    <div className="relative w-16 h-16 mb-1">
+                                      <div className="absolute inset-0 rounded-full border-4 border-[#1a4480]/20"></div>
+                                      <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-[#1a4480]"></div>
+                                      <div className="absolute inset-0 flex items-center justify-center">
+                                        <span className="text-lg font-bold text-[#1a4480]">92%</span>
+                                      </div>
+                                    </div>
+                                    <div className="text-[10px] font-medium text-green-600">↑ 8.2%</div>
+                                  </div>
+                                </div>
+                                <div className="flex-1 bg-indigo-50 rounded-lg p-2.5">
+                                  <div className="flex flex-col items-center">
+                                    <div className="text-[10px] text-gray-500 mb-1">Learning Completion</div>
+                                    <div className="relative w-16 h-16 mb-1">
+                                      <div className="absolute inset-0 rounded-full border-4 border-indigo-200"></div>
+                                      <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-indigo-500"></div>
+                                      <div className="absolute inset-0 flex items-center justify-center">
+                                        <span className="text-lg font-bold text-indigo-600">86%</span>
+                                      </div>
+                                    </div>
+                                    <div className="text-[10px] font-medium text-green-600">↑ 5.7%</div>
+                                  </div>
+                                </div>
+                                <div className="flex-1 bg-purple-50 rounded-lg p-2.5">
+                                  <div className="flex flex-col items-center">
+                                    <div className="text-[10px] text-gray-500 mb-1">Teacher Adoption</div>
+                                    <div className="relative w-16 h-16 mb-1">
+                                      <div className="absolute inset-0 rounded-full border-4 border-purple-200"></div>
+                                      <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-purple-500"></div>
+                                      <div className="absolute inset-0 flex items-center justify-center">
+                                        <span className="text-lg font-bold text-purple-600">94%</span>
+                                      </div>
+                                    </div>
+                                    <div className="text-[10px] font-medium text-green-600">↑ 12.3%</div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div className="bg-blue-50/50 rounded-lg p-3 mb-3">
+                                <div className="flex items-center justify-between mb-2">
+                                  <div className="flex items-center">
+                                    <div className="w-6 h-6 bg-[#1a4480]/10 rounded-full flex items-center justify-center mr-2">
+                                      <div className="w-3 h-3 rounded-full bg-[#1a4480]"></div>
+                                    </div>
+                                    <span className="text-xs font-medium text-gray-800">Personalized Learning Paths</span>
+                                  </div>
+                                  <span className="text-[10px] bg-blue-100 text-[#1a4480] px-1.5 py-0.5 rounded-full font-medium">156 active</span>
+                                </div>
+                                <div className="flex items-center gap-1 mb-1">
+                                  <div className="h-2 w-3/5 bg-[#1a4480] rounded-sm"></div>
+                                  <div className="h-2 w-1/4 bg-indigo-400 rounded-sm"></div>
+                                  <div className="h-2 w-3/12 bg-purple-400 rounded-sm"></div>
+                                </div>
+                                <div className="flex justify-between text-[10px] text-gray-500">
+                                  <span>Math & Science: 60%</span>
+                                  <span>Humanities: 25%</span>
+                                  <span>Arts: 15%</span>
+                                </div>
+                              </div>
+
+                              <div className="p-2 bg-green-50 rounded-lg flex items-center justify-between">
+                                <div className="flex items-center">
+                                  <div className="w-8 h-8 bg-green-500/10 rounded-full flex items-center justify-center mr-2">
+                                    <div className="w-4 h-4 rounded-full bg-green-500"></div>
+                                  </div>
+                                  <div>
+                                    <div className="text-xs font-medium text-gray-700">AI Recommended Optimization</div>
+                                    <div className="text-xs text-green-600">Expand adaptive resources in Science curriculum</div>
+                                  </div>
+                                </div>
+                                <div className="text-xs font-medium text-green-600">Review →</div>
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+
+                        {selectedRole === "edtech" && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.2 }}
+                            className="bg-white shadow-lg rounded-xl overflow-hidden border border-blue-100 relative z-10 w-full"
+                          >
+                            <div className="bg-[#1a4480] text-white p-3 flex justify-between items-center">
+                              <span className="text-sm font-medium">Personalized Learning Platform</span>
+                              <div className="flex space-x-1">
+                                <div className="w-2 h-2 rounded-full bg-white/30"></div>
+                                <div className="w-2 h-2 rounded-full bg-white/30"></div>
+                                <div className="w-2 h-2 rounded-full bg-white/30"></div>
+                              </div>
+                            </div>
+
+                            <div className="p-4">
+                              <div className="flex items-center justify-between mb-3">
+                                <div>
+                                  <h5 className="text-sm font-bold text-gray-900">Adaptive Learning Ecosystem</h5>
+                                  <p className="text-xs text-gray-500">Personalization analytics</p>
+                                </div>
+                                <div className="text-xs px-2 py-1 bg-blue-100 text-[#1a4480] rounded-full font-medium">
+                                  24 active pathways
+                                </div>
+                              </div>
+
+                              <div className="mb-3 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50/30 p-3">
+                                <div className="flex items-center mb-2">
+                                  <div className="w-6 h-6 bg-[#1a4480]/10 rounded-full flex items-center justify-center mr-2">
+                                    <div className="w-3 h-3 rounded-full bg-[#1a4480]"></div>
+                                  </div>
+                                  <span className="text-xs font-medium text-gray-900">Personalized Learning Journey Builder</span>
+                                </div>
+
+                                <div className="flex mb-2">
+                                  <div className="flex-1 h-16 bg-white/80 rounded-l-lg border border-blue-200 flex flex-col items-center justify-center relative overflow-hidden">
+                                    <div className="absolute inset-0 opacity-20 bg-gradient-to-r from-blue-400 to-transparent"></div>
+                                    <div className="w-6 h-6 rounded-full bg-[#1a4480] mb-1 flex items-center justify-center text-white text-xs font-bold relative z-10">1</div>
+                                    <div className="text-xs text-[#1a4480] font-medium relative z-10">Foundation</div>
+                                  </div>
+                                  <div className="w-8 h-16 flex items-center justify-center text-[#1a4480]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                                  </div>
+                                  <div className="flex-1 h-16 bg-white/80 border border-indigo-200 flex flex-col items-center justify-center relative overflow-hidden">
+                                    <div className="absolute inset-0 opacity-20 bg-gradient-to-r from-indigo-400 to-transparent"></div>
+                                    <div className="w-6 h-6 rounded-full bg-indigo-500 mb-1 flex items-center justify-center text-white text-xs font-bold relative z-10">2</div>
+                                    <div className="text-xs text-indigo-600 font-medium relative z-10">Proficiency</div>
+                                  </div>
+                                  <div className="w-8 h-16 flex items-center justify-center text-indigo-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                                  </div>
+                                  <div className="flex-1 h-16 bg-white/80 rounded-r-lg border border-purple-200 flex flex-col items-center justify-center relative overflow-hidden">
+                                    <div className="absolute inset-0 opacity-20 bg-gradient-to-r from-purple-400 to-transparent"></div>
+                                    <div className="w-6 h-6 rounded-full bg-purple-500 mb-1 flex items-center justify-center text-white text-xs font-bold relative z-10">3</div>
+                                    <div className="text-xs text-purple-600 font-medium relative z-10">Mastery</div>
+                                  </div>
+                                </div>
+
+                                <div className="flex justify-between">
+                                  <div className="w-1/3 px-1">
+                                    <div className="text-[10px] font-medium text-[#1a4480] text-center mb-1">Adaptive Lessons</div>
+                                    <div className="bg-white/70 rounded-md px-2 py-1 text-[10px] text-gray-600 text-center">
+                                      AI-tailored content
+                                    </div>
+                                  </div>
+                                  <div className="w-1/3 px-1">
+                                    <div className="text-[10px] font-medium text-indigo-600 text-center mb-1">Knowledge Checks</div>
+                                    <div className="bg-white/70 rounded-md px-2 py-1 text-[10px] text-gray-600 text-center">
+                                      Smart assessments
+                                    </div>
+                                  </div>
+                                  <div className="w-1/3 px-1">
+                                    <div className="text-[10px] font-medium text-purple-600 text-center mb-1">Detailed Analytics</div>
+                                    <div className="bg-white/70 rounded-md px-2 py-1 text-[10px] text-gray-600 text-center">
+                                      Progress insights
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div className="flex gap-2 mb-3">
+                                <div className="flex-1 bg-blue-50 rounded-lg p-3">
+                                  <div className="flex items-center mb-2">
+                                    <div className="w-5 h-5 bg-[#1a4480]/10 rounded-full flex items-center justify-center mr-1.5">
+                                      <div className="w-2.5 h-2.5 rounded-full bg-[#1a4480]"></div>
+                                    </div>
+                                    <span className="text-xs font-medium text-gray-800">Learner Engagement</span>
+                                  </div>
+                                  <div className="flex items-end h-8 gap-1 px-1">
+                                    {[65, 78, 58, 81, 75, 90].map((height, i) => (
+                                      <div key={i} className="flex-1 bg-[#1a4480] rounded-sm opacity-80" style={{ height: `${height}%` }}></div>
+                                    ))}
+                                  </div>
+                                  <div className="text-[10px] text-center text-gray-500 mt-1">Last 6 days activity</div>
+                                </div>
+                                <div className="flex-1 bg-purple-50 rounded-lg p-3">
+                                  <div className="flex items-center mb-2">
+                                    <div className="w-5 h-5 bg-purple-500/10 rounded-full flex items-center justify-center mr-1.5">
+                                      <div className="w-2.5 h-2.5 rounded-full bg-purple-500"></div>
+                                    </div>
+                                    <span className="text-xs font-medium text-gray-800">Completion Rate</span>
+                                  </div>
+                                  <div className="flex items-center justify-center">
+                                    <div className="relative w-12 h-12">
+                                      <svg viewBox="0 0 36 36" className="w-12 h-12">
+                                        <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#e2e8f0" strokeWidth="3" strokeDasharray="100, 100" />
+                                        <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#a855f7" strokeWidth="3" strokeDasharray="76, 100" />
+                                      </svg>
+                                      <div className="absolute inset-0 flex items-center justify-center text-sm font-semibold text-purple-600">76%</div>
+                                    </div>
+                                  </div>
+                                  <div className="text-[10px] text-center text-gray-500 mt-1">+12% from last month</div>
+                                </div>
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
                       </div>
                     </div>
                   </div>
