@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -75,7 +76,7 @@ const ForgotPasswordPage: React.FC = () => {
 
         {/* Digital dots and lines pattern */}
         <div className="absolute inset-0">
-          {Array.from({ length: 8 }).map((_, index) => (
+          {Array.from({ length: 12 }).map((_, index) => (
             <motion.div
               key={`line-${index}`}
               className="absolute w-[1px] bg-gradient-to-b from-transparent via-blue-400/20 to-transparent"
@@ -93,6 +94,31 @@ const ForgotPasswordPage: React.FC = () => {
                 repeat: Infinity,
                 delay: Math.random() * 5,
                 ease: "linear"
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Floating elements */}
+        <div className="absolute inset-0">
+          {Array.from({ length: 6 }).map((_, index) => (
+            <motion.div
+              key={`float-${index}`}
+              className="absolute rounded-full bg-gradient-to-r from-blue-200/10 to-blue-400/5"
+              style={{
+                width: `${Math.random() * 80 + 40}px`,
+                height: `${Math.random() * 80 + 40}px`,
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+              }}
+              animate={{
+                y: [0, -20, 0],
+                opacity: [0.3, 0.7, 0.3],
+              }}
+              transition={{
+                duration: Math.random() * 5 + 5,
+                repeat: Infinity,
+                ease: "easeInOut"
               }}
             />
           ))}
@@ -153,7 +179,7 @@ const ForgotPasswordPage: React.FC = () => {
           animate="visible"
           transition={{ delay: 0.3 }}
         >
-          <Card className="backdrop-blur-sm bg-white/90 border border-blue-100/20 shadow-xl hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] transition-all duration-500">
+          <Card className="premium-card backdrop-blur-sm hover:shadow-card-hover transition-all duration-500">
             <CardHeader className="space-y-1">
               <CardTitle className="text-2xl text-center font-semibold bg-clip-text text-transparent bg-gradient-to-r from-[#1a4480] to-[#2c5aa0]" style={{ fontFamily: "'Playfair Display', serif" }}>
                 {isSuccess ? "Check Your Email" : "Forgot Password?"}
@@ -169,9 +195,13 @@ const ForgotPasswordPage: React.FC = () => {
             {isSuccess ? (
               <CardContent className="space-y-4">
                 <div className="flex flex-col items-center justify-center space-y-4">
-                  <div className="flex h-20 w-20 items-center justify-center rounded-full bg-blue-50 shadow-inner">
+                  <motion.div 
+                    className="flex h-20 w-20 items-center justify-center rounded-full bg-blue-50 shadow-inner"
+                    animate={{ y: [0, -5, 0] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                  >
                     <Mail size={36} className="text-[#1a4480]" />
-                  </div>
+                  </motion.div>
                   <p className="text-center text-sm text-gray-600">
                     We've sent an email to <span className="font-semibold text-[#1a4480]">{email}</span> with instructions to reset your password.
                   </p>
@@ -179,7 +209,7 @@ const ForgotPasswordPage: React.FC = () => {
                     <Button
                       type="button"
                       variant="outline"
-                      className="w-full border-[#1a4480]/20 hover:bg-[#1a4480]/5 text-[#1a4480]"
+                      className="w-full border-[#1a4480]/20 hover:bg-[#1a4480]/5 text-[#1a4480] hover-lift"
                       onClick={() => setIsSuccess(false)}
                     >
                       Send to a different email
@@ -209,9 +239,13 @@ const ForgotPasswordPage: React.FC = () => {
                   )}
 
                   <div className="flex justify-center mb-2">
-                    <div className="w-20 h-20 rounded-full bg-blue-50 shadow-inner flex items-center justify-center">
+                    <motion.div 
+                      className="w-20 h-20 rounded-full bg-blue-50 shadow-inner flex items-center justify-center"
+                      animate={{ y: [0, -5, 0] }}
+                      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                    >
                       <Lock size={36} className="text-[#1a4480]" />
-                    </div>
+                    </motion.div>
                   </div>
 
                   <div className="space-y-2">
@@ -291,7 +325,7 @@ const ForgotPasswordPage: React.FC = () => {
             whileHover={{ y: -2 }}
             transition={{ duration: 0.2 }}
           >
-            <Link to="/login" className="flex items-center">
+            <Link to="/login" className="flex items-center hover-lift">
               <ArrowLeft size={14} className="mr-1" />
               Back to Login
             </Link>

@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -67,7 +68,11 @@
   h4,
   h5,
   h6 {
-    @apply font-poppins font-medium tracking-tight;
+    @apply font-playfair font-medium tracking-tight;
+  }
+  
+  p, span, a, button, input, label, div {
+    @apply font-opensans;
   }
 }
 
@@ -88,6 +93,19 @@
   .perplexity-button {
     @apply rounded-lg bg-primary px-5 py-2 text-white hover:bg-primary/90 transition-all active:scale-95 font-semibold text-base shadow-sm;
   }
+  
+  .premium-card {
+    @apply rounded-xl border border-border/30 bg-white/90 backdrop-blur-sm shadow-md hover:shadow-lg transition-all duration-300;
+  }
+  
+  .animated-gradient {
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+  }
+  
+  .hover-lift {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-md;
+  }
 }
 
 /* Custom Elements */
@@ -104,5 +122,17 @@ footer {
 
   to {
     opacity: 1;
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }
