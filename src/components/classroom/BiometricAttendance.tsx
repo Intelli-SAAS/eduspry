@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -23,7 +24,9 @@ import {
   Save,
   Search,
   Shield,
-  RotateCw
+  RotateCw,
+  Plus,
+  Trash2
 } from 'lucide-react';
 
 interface Student {
