@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, CheckCircle, Users, Lightbulb, Award, ChevronRight, Star, BookOpen, User, School, Database } from 'lucide-react';
+import { ArrowRight, CheckCircle, Users, Lightbulb, Award, ChevronRight, Star, BookOpen, User, School, Database, Shield, Zap, LineChart, Bell, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const LandingPage: React.FC = () => {
@@ -146,6 +146,133 @@ const LandingPage: React.FC = () => {
             <img src="/brands/mit.svg" alt="MIT" className="h-8 grayscale opacity-70 hover:opacity-100 transition-opacity" />
             <img src="/brands/oxford.svg" alt="Oxford" className="h-8 grayscale opacity-70 hover:opacity-100 transition-opacity" />
             <img src="/brands/cambridge.svg" alt="Cambridge" className="h-8 grayscale opacity-70 hover:opacity-100 transition-opacity" />
+          </motion.div>
+        </div>
+      </section>
+      <section className="py-20 bg-gradient-to-b from-white via-blue-50/20 to-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMxYTQ0ODAiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djZoNnYtNmgtNnptMC0xMnY2aDZ2LTZoLTZ6bTEyIDEydjZoNnYtNmgtNnptMC0xMnY2aDZ2LTZoLTZ6bS0yNCAwdjZoNnYtNmgtNnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-50 -z-10"></div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+          <div className="text-center mb-12">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="inline-block mb-4 px-4 py-1 bg-[#1a4480]/10 rounded-full"
+            >
+              <span className="text-sm font-semibold text-[#1a4480]">
+                Powerful Platform Features
+              </span>
+            </motion.div>
+
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="text-4xl font-bold text-gray-900 bg-clip-text text-transparent bg-gradient-to-r from-[#1a4480] to-[#2c5aa0]"
+            >
+              Advanced Educational Tools
+            </motion.h2>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="mt-4 text-xl text-gray-600 max-w-3xl mx-auto"
+            >
+              Discover how our comprehensive suite of tools empowers the entire educational ecosystem
+            </motion.p>
+          </div>
+        </div>
+
+        {/* Custom horizontal scroll section */}
+        <div className="relative w-full overflow-hidden">
+          <div className="absolute left-0 top-0 bottom-0 w-20 z-10 bg-gradient-to-r from-white to-transparent pointer-events-none"></div>
+          <div className="absolute right-0 top-0 bottom-0 w-20 z-10 bg-gradient-to-l from-white to-transparent pointer-events-none"></div>
+
+          {/* Scroll container */}
+          <motion.div
+            className="flex gap-6 py-8 px-10 overflow-x-auto hide-scrollbar"
+            initial={{ x: 50, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            style={{ paddingLeft: 'calc(50% - 500px)', paddingRight: '120px' }}
+          >
+            {/* Feature cards */}
+            {[
+              {
+                title: "Live Interactive Classes",
+                description: "Engage in real-time with students through interactive virtual classrooms with whiteboard and screen sharing",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='340' height='200' viewBox='0 0 340 200'%3E%3Crect width='340' height='200' fill='%23e6f0ff'/%3E%3Crect x='20' y='20' width='300' height='160' rx='8' fill='white' stroke='%231a4480' stroke-width='2'/%3E%3Crect x='30' y='30' width='180' height='110' rx='4' fill='%23dbeafe'/%3E%3Ccircle cx='120' cy='85' r='25' fill='%231a4480' opacity='0.8'/%3E%3Crect x='220' y='30' width='90' height='140' rx='4' fill='%23f0f9ff'/%3E%3Crect x='230' y='40' width='70' height='15' rx='2' fill='%231a4480' opacity='0.2'/%3E%3Crect x='230' y='65' width='70' height='15' rx='2' fill='%231a4480' opacity='0.2'/%3E%3Crect x='230' y='90' width='70' height='15' rx='2' fill='%231a4480' opacity='0.2'/%3E%3Crect x='230' y='115' width='70' height='15' rx='2' fill='%231a4480' opacity='0.2'/%3E%3Cpath d='M120 70 L135 95 L105 95 Z' fill='white'/%3E%3C/svg%3E",
+                color: "from-blue-50 to-indigo-50",
+                icon: <Users className="h-6 w-6 text-[#1a4480]" />,
+              },
+              {
+                title: "AI-Powered Course Creation",
+                description: "Create comprehensive courses with intelligent content suggestions and automated resource generation",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='340' height='200' viewBox='0 0 340 200'%3E%3Crect width='340' height='200' fill='%23e6f0ff'/%3E%3Crect x='40' y='30' width='260' height='140' rx='8' fill='white' stroke='%231a4480' stroke-width='2'/%3E%3Crect x='50' y='50' width='80' height='100' rx='4' fill='%23dbeafe'/%3E%3Crect x='140' y='50' width='80' height='100' rx='4' fill='%23dbeafe'/%3E%3Crect x='230' y='50' width='60' height='100' rx='4' fill='%23dbeafe'/%3E%3Cpath d='M60 140 L120 140 L120 90 L90 70 L60 90 Z' fill='%231a4480' opacity='0.2'/%3E%3Cpath d='M150 140 L210 140 L210 90 L180 70 L150 90 Z' fill='%231a4480' opacity='0.7'/%3E%3Cpath d='M240 140 L280 140 L280 90 L260 70 L240 90 Z' fill='%231a4480' opacity='0.4'/%3E%3Crect x='65' y='60' width='50' height='6' rx='2' fill='%231a4480' opacity='0.7'/%3E%3Crect x='155' y='60' width='50' height='6' rx='2' fill='white'/%3E%3Crect x='240' y='60' width='40' height='6' rx='2' fill='%231a4480' opacity='0.7'/%3E%3C/svg%3E",
+                color: "from-purple-50 to-indigo-50",
+                icon: <BookOpen className="h-6 w-6 text-indigo-600" />,
+              },
+              {
+                title: "Secure Proctored Exams",
+                description: "Conduct secure, AI-monitored assessments with automated identity verification and anti-cheating measures",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='340' height='200' viewBox='0 0 340 200'%3E%3Crect width='340' height='200' fill='%23e6f0ff'/%3E%3Crect x='40' y='40' width='260' height='120' rx='8' fill='white' stroke='%231a4480' stroke-width='2'/%3E%3Crect x='60' y='60' width='160' height='80' rx='4' fill='%23dbeafe'/%3E%3Crect x='230' y='60' width='50' height='80' rx='4' fill='%23f0f9ff'/%3E%3Ccircle cx='140' cy='100' r='30' fill='%231a4480' opacity='0.7'/%3E%3Cpath d='M140 85 L140 105 L155 95 Z' fill='white'/%3E%3Crect x='235' y='70' width='40' height='10' rx='2' fill='%231a4480' opacity='0.2'/%3E%3Crect x='235' y='90' width='40' height='10' rx='2' fill='%231a4480' opacity='0.2'/%3E%3Crect x='235' y='110' width='40' height='10' rx='2' fill='%231a4480' opacity='0.2'/%3E%3Cpath d='M40 40 L60 20 L300 20 L280 40 Z' fill='%231a4480' opacity='0.1'/%3E%3Cpath d='M300 160 L280 180 L40 180 L60 160 Z' fill='%231a4480' opacity='0.1'/%3E%3C/svg%3E",
+                color: "from-green-50 to-emerald-50",
+                icon: <Shield className="h-6 w-6 text-green-600" />,
+              },
+              {
+                title: "AI Doubts Solver",
+                description: "Instant resolution of student questions with context-aware AI that understands complex educational concepts",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='340' height='200' viewBox='0 0 340 200'%3E%3Crect width='340' height='200' fill='%23e6f0ff'/%3E%3Crect x='20' y='40' width='300' height='120' rx='8' fill='white' stroke='%231a4480' stroke-width='2'/%3E%3Cpath d='M80 70 L120 70 A15 15 0 0 1 120 100 L80 100 Z' fill='%23dbeafe'/%3E%3Cpath d='M220 110 L260 110 A15 15 0 0 0 260 80 L220 80 Z' fill='%231a4480' opacity='0.1'/%3E%3Cpath d='M160 50 L180 50 A10 10 0 0 1 180 70 L160 70 Z' fill='%231a4480' opacity='0.3'/%3E%3Ccircle cx='70' cy='130' r='10' fill='%23dbeafe'/%3E%3Ccircle cx='270' cy='60' r='10' fill='%231a4480' opacity='0.1'/%3E%3Ccircle cx='170' cy='90' r='20' fill='%231a4480' opacity='0.7'/%3E%3Cpath d='M170 83 L177 90 L170 97 L163 90 Z' fill='white'/%3E%3C/svg%3E",
+                color: "from-blue-50 to-cyan-50",
+                icon: <Zap className="h-6 w-6 text-blue-600" />,
+              }
+            ].map((feature, index) => (
+              <motion.div
+                key={index}
+                className={`flex-shrink-0 w-[340px] bg-gradient-to-br ${feature.color} rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow`}
+                whileHover={{ y: -8, scale: 1.02 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.1 * index }}
+              >
+                <div className="h-[200px] w-full bg-white relative">
+                  <img
+                    src={feature.image}
+                    alt={feature.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute top-3 right-3 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-sm">
+                    {feature.icon}
+                  </div>
+                </div>
+                <div className="p-5">
+                  <h3 className="font-bold text-gray-900 text-lg mb-2">{feature.title}</h3>
+                  <p className="text-gray-600 text-sm">{feature.description}</p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+
+        <div className="flex justify-center mt-12">
+          <motion.div
+            whileHover={{ scale: 1.05, y: -5 }}
+            whileTap={{ scale: 0.98 }}
+            className="inline-block"
+          >
+            <Button className="rounded-full px-8 py-6 bg-gradient-to-r from-[#1a4480] to-[#2c5aa0] hover:from-[#0f2b50] hover:to-[#1a4480] text-white shadow-xl">
+              <span className="flex items-center gap-2">
+                Explore All Features
+                <ChevronRight className="h-5 w-5" />
+              </span>
+            </Button>
           </motion.div>
         </div>
       </section>

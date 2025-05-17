@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import {
   BookOpen,
@@ -20,12 +20,25 @@ import {
   Clock,
   Menu,
   X,
-  Search
+  Search,
+  Sparkles,
+  ExternalLink,
+  Bell
 } from 'lucide-react';
 
 // Update this in your tailwind.config.js too
 // USA.gov blue #1a4480
 const usaGovBlue = '#1a4480';
+
+// Import fonts in your _app.tsx or add to your public/index.html:
+// <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+// Then add to your tailwind.config.js:
+// fontFamily: {
+//   serif: ['Playfair Display', 'serif'],
+//   sans: ['Open Sans', 'sans-serif'],
+// },
+// ... existing code ...
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -61,12 +74,13 @@ const Header = () => {
   return (
     <motion.header
       className={`fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 lg:px-8 transition-all duration-300 ${isScrolled
-        ? 'bg-[#1a4480]/90 backdrop-blur-lg py-2 shadow-md'
+        ? 'bg-[#1a4480]/95 backdrop-blur-lg py-2 shadow-lg'
         : 'bg-gradient-to-b from-[#1a4480] to-[#1a4480]/80 backdrop-blur-md py-4'
         }`}
       initial="hidden"
       animate="visible"
       variants={headerVariants}
+      style={{ fontFamily: "'Open Sans', sans-serif" }}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <div className="flex items-center">
@@ -76,7 +90,7 @@ const Header = () => {
             whileTap={{ scale: 0.95 }}
           >
             <BookOpen className="h-8 w-8 text-white" />
-            <span className="ml-2 text-xl font-bold text-white bg-gradient-to-r from-white to-blue-100 bg-clip-text">
+            <span className="ml-2 text-xl font-bold text-white bg-gradient-to-r from-white to-blue-100 bg-clip-text" style={{ fontFamily: "'Playfair Display', serif" }}>
               EduSpry
             </span>
           </motion.div>
@@ -113,7 +127,7 @@ const Header = () => {
               </Button>
             </motion.div>
             <motion.div
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.05, boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)' }}
               whileTap={{ scale: 0.95 }}
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -140,39 +154,44 @@ const Header = () => {
       </div>
 
       {/* Mobile menu */}
-      <motion.div
-        className="md:hidden absolute top-full left-0 right-0 bg-[#1a4480]/95 backdrop-blur-lg shadow-lg flex flex-col overflow-hidden"
-        initial="closed"
-        animate={isMobileMenuOpen ? "open" : "closed"}
-        variants={menuVariants}
-      >
-        <div className="px-6 py-8 space-y-6">
-          {navItems.map((item, i) => (
-            <motion.a
-              key={item}
-              custom={i}
-              variants={menuItemVariants}
-              href={`#${item.toLowerCase()}`}
-              className="block text-sm font-medium text-white/90 hover:text-white pl-4 border-l-2 border-transparent hover:border-white/50 transition-all"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              {item}
-            </motion.a>
-          ))}
-          <div className="pt-6 flex flex-col space-y-4">
-            <motion.div custom={4} variants={menuItemVariants}>
-              <Button asChild size="sm" className="w-full justify-center py-5 rounded-full backdrop-blur-md bg-white/20 text-white hover:bg-white/30 border border-white/20">
-                <Link to="/login">Login</Link>
-              </Button>
-            </motion.div>
-            <motion.div custom={5} variants={menuItemVariants}>
-              <Button asChild size="sm" className="w-full justify-center py-5 rounded-full bg-white text-[#1a4480] hover:bg-blue-50 font-medium">
-                <Link to="/register">Sign up</Link>
-              </Button>
-            </motion.div>
-          </div>
-        </div>
-      </motion.div>
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            className="md:hidden absolute top-full left-0 right-0 bg-[#1a4480]/95 backdrop-blur-lg shadow-lg flex flex-col overflow-hidden"
+            initial="closed"
+            animate="open"
+            exit="closed"
+            variants={menuVariants}
+          >
+            <div className="px-6 py-8 space-y-6">
+              {navItems.map((item, i) => (
+                <motion.a
+                  key={item}
+                  custom={i}
+                  variants={menuItemVariants}
+                  href={`#${item.toLowerCase()}`}
+                  className="block text-sm font-medium text-white/90 hover:text-white pl-4 border-l-2 border-transparent hover:border-white/50 transition-all"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {item}
+                </motion.a>
+              ))}
+              <div className="pt-6 flex flex-col space-y-4">
+                <motion.div custom={4} variants={menuItemVariants}>
+                  <Button asChild size="sm" className="w-full justify-center py-5 rounded-full backdrop-blur-md bg-white/20 text-white hover:bg-white/30 border border-white/20">
+                    <Link to="/login">Login</Link>
+                  </Button>
+                </motion.div>
+                <motion.div custom={5} variants={menuItemVariants}>
+                  <Button asChild size="sm" className="w-full justify-center py-5 rounded-full bg-white text-[#1a4480] hover:bg-blue-50 font-medium">
+                    <Link to="/register">Sign up</Link>
+                  </Button>
+                </motion.div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.header>
   );
 };
@@ -188,8 +207,6 @@ const Index = () => {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 }
   };
-
-
 
   // Features list
   const features = [
@@ -256,7 +273,7 @@ const Index = () => {
       <section className="relative pt-40 pb-32 overflow-hidden">
         {/* Refined gradient background */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#1a4480]/5 via-blue-50/30 to-white pointer-events-none">
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMxYTQ0ODAiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djZoNnYtNmgtNnptMC0xMnY2aDZ2LTZoLTZ6bTEyIDEydjZoNnYtNmgtNnptMC0xMnY2aDZ2LTZoLTZ6bS0yNCAwdjZoNnYtNmgtNnoiLz48L2c+PC9nPjwvc3ZnPg==')]"></div>
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMxYTQ0ODAiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djZoNnYtNmgtNnptMC0xMnY2aDZ2LTZoLTZ6bTEyIDEydjZoNnYtNmgtNnoiLz48L2c+PC9nPjwvc3ZnPg==')]"></div>
         </div>
 
         {/* Animated Decorative Elements */}
@@ -286,7 +303,16 @@ const Index = () => {
                       transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
                       className="w-4 h-4 rounded-full bg-[#1a4480]/20 mr-2"
                     ></motion.div>
-                    AI-Powered Education Platform
+                    <span className="flex items-center">
+                      AI-Powered Education Platform
+                      <motion.span
+                        animate={{ opacity: [0.5, 1, 0.5] }}
+                        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                        className="ml-2"
+                      >
+                        <Sparkles className="h-3.5 w-3.5 text-[#1a4480]" />
+                      </motion.span>
+                    </span>
                   </span>
                 </motion.div>
 
@@ -295,9 +321,10 @@ const Index = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.1 }}
+                  style={{ fontFamily: "'Playfair Display', serif" }}
                 >
                   <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#1a4480] to-[#2c5aa0]">
-                    Revolutionize Education
+                    Transform Education
                   </span>
                   <br />
                   <span className="text-gray-800">with EduSpry</span>
@@ -308,9 +335,10 @@ const Index = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.2 }}
+                  style={{ fontFamily: "'Open Sans', sans-serif" }}
                 >
                   The complete educational ecosystem connecting students, teachers, administrators,
-                  and EdTech platforms with AI-powered tools and analytics.
+                  and EdTech platforms with <span className="font-semibold">AI-powered insights</span> and analytics.
                 </motion.p>
 
                 <motion.div
@@ -320,7 +348,7 @@ const Index = () => {
                   transition={{ duration: 0.7, delay: 0.3 }}
                 >
                   <motion.div
-                    whileHover={{ scale: 1.05, boxShadow: '0 15px 30px -5px rgba(0, 0, 0, 0.2)' }}
+                    whileHover={{ scale: 1.05, boxShadow: '0 20px 40px -10px rgba(0, 0, 0, 0.3)' }}
                     whileTap={{ scale: 0.98 }}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -328,13 +356,13 @@ const Index = () => {
                   >
                     <Button asChild size="lg" className="px-10 py-6 rounded-full shadow-xl bg-gradient-to-r from-[#1a4480] to-[#2c5aa0] hover:from-[#0f2b50] hover:to-[#1a4480] text-white border border-[#1a4480]/20">
                       <Link to="/register">
-                        Start Free Trial
+                        Begin Your Journey
                         <ArrowRight className="ml-2 h-5 w-5" />
                       </Link>
                     </Button>
                   </motion.div>
                   <motion.div
-                    whileHover={{ scale: 1.05 }}
+                    whileHover={{ scale: 1.05, boxShadow: '0 15px 30px -8px rgba(0, 0, 0, 0.1)' }}
                     whileTap={{ scale: 0.98 }}
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -342,7 +370,8 @@ const Index = () => {
                   >
                     <Button asChild variant="outline" size="lg" className="px-10 py-6 rounded-full border-2 border-[#1a4480] text-[#1a4480] font-medium">
                       <a href="#testimonials">
-                        See success stories
+                        View Success Stories
+                        <ExternalLink className="ml-2 h-4 w-4" />
                       </a>
                     </Button>
                   </motion.div>
@@ -367,7 +396,7 @@ const Index = () => {
                       </motion.div>
                     ))}
                   </div>
-                  <span className="text-gray-600">Trusted by educational institutions worldwide</span>
+                  <span className="text-gray-600" style={{ fontFamily: "'Open Sans', sans-serif" }}>Trusted by educational institutions worldwide</span>
                 </motion.div>
               </motion.div>
             </div>
@@ -393,10 +422,10 @@ const Index = () => {
                 ></motion.div>
 
                 <div className="relative">
-                  {/* Dashboard preview */}
+                  {/* Dashboard preview with enhanced shadow and effects */}
                   <motion.div
                     className="bg-white/90 backdrop-blur-md shadow-2xl rounded-2xl overflow-hidden border border-blue-100 relative z-10"
-                    whileHover={{ y: -10, boxShadow: "0 30px 60px -15px rgba(0, 0, 0, 0.25)" }}
+                    whileHover={{ y: -10, boxShadow: "0 30px 60px -12px rgba(0, 0, 0, 0.3)" }}
                     transition={{ duration: 0.4 }}
                   >
                     <div className="flex items-center justify-between px-4 py-3 bg-[#1a4480] border-b">
@@ -415,7 +444,7 @@ const Index = () => {
                     <div className="p-6">
                       <div className="flex items-center justify-between mb-6">
                         <div>
-                          <h3 className="font-bold text-lg text-gray-900">Performance Overview</h3>
+                          <h3 className="font-bold text-lg text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>Performance Overview</h3>
                           <p className="text-sm text-gray-500">Academic progress tracking</p>
                         </div>
                         <div className="px-3 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium">
@@ -423,23 +452,49 @@ const Index = () => {
                         </div>
                       </div>
 
-                      {/* Tabs */}
+                      {/* Tabs with animation */}
                       <div className="flex border-b border-gray-200 mb-6">
-                        <div className="px-4 py-2 border-b-2 border-[#1a4480] text-[#1a4480] text-sm font-medium">Analytics</div>
-                        <div className="px-4 py-2 text-gray-500 text-sm">Reports</div>
-                        <div className="px-4 py-2 text-gray-500 text-sm">Insights</div>
+                        <motion.div
+                          className="px-4 py-2 border-b-2 border-[#1a4480] text-[#1a4480] text-sm font-medium"
+                          whileHover={{ backgroundColor: 'rgba(26, 68, 128, 0.05)' }}
+                        >
+                          Analytics
+                        </motion.div>
+                        <motion.div
+                          className="px-4 py-2 text-gray-500 text-sm"
+                          whileHover={{ backgroundColor: 'rgba(0, 0, 0, 0.03)', color: '#1a4480' }}
+                        >
+                          Reports
+                        </motion.div>
+                        <motion.div
+                          className="px-4 py-2 text-gray-500 text-sm"
+                          whileHover={{ backgroundColor: 'rgba(0, 0, 0, 0.03)', color: '#1a4480' }}
+                        >
+                          Insights
+                        </motion.div>
                       </div>
 
                       <div className="space-y-6">
-                        {/* Chart */}
-                        <div className="h-36 bg-gray-50 rounded-lg p-4 flex items-end justify-between gap-1">
+                        {/* Chart with subtle animation */}
+                        <div className="h-36 bg-gray-50 rounded-lg p-4 flex items-end justify-between gap-1 relative overflow-hidden">
+                          <motion.div
+                            className="absolute bottom-0 left-0 right-0 h-full bg-gradient-to-t from-blue-50/50 to-transparent"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 1, delay: 0.5 }}
+                          />
                           {[35, 42, 58, 48, 62, 70, 58, 65, 72].map((height, i) => (
-                            <div key={i} className="relative w-full h-full flex flex-col justify-end">
+                            <motion.div
+                              key={i}
+                              className="relative w-full h-full flex flex-col justify-end"
+                              initial={{ height: 0 }}
+                              animate={{ height: `${height}%` }}
+                              transition={{ duration: 0.7, delay: 0.1 * i, ease: "easeOut" }}
+                            >
                               <div
-                                className="bg-gradient-to-t from-[#1a4480] to-blue-400 rounded-sm w-full"
-                                style={{ height: `${height}%` }}
+                                className="bg-gradient-to-t from-[#1a4480] to-blue-400 rounded-sm w-full h-full"
                               ></div>
-                            </div>
+                            </motion.div>
                           ))}
                           <div className="absolute bottom-4 left-0 right-0 flex justify-between px-4">
                             {["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"].map((month, i) => (
@@ -448,9 +503,13 @@ const Index = () => {
                           </div>
                         </div>
 
-                        {/* Stats grid */}
+                        {/* Stats grid with hover effects */}
                         <div className="grid grid-cols-3 gap-4">
-                          <div className="bg-blue-50 rounded-lg p-3">
+                          <motion.div
+                            className="bg-blue-50 rounded-lg p-3"
+                            whileHover={{ y: -5, backgroundColor: '#e6f0ff' }}
+                            transition={{ duration: 0.2 }}
+                          >
                             <div className="flex items-center gap-2 mb-1">
                               <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
                                 <User className="h-4 w-4 text-[#1a4480]" />
@@ -458,9 +517,13 @@ const Index = () => {
                               <div className="text-xs font-medium text-gray-700">Students</div>
                             </div>
                             <div className="text-lg font-bold text-[#1a4480]">2,564</div>
-                          </div>
+                          </motion.div>
 
-                          <div className="bg-indigo-50 rounded-lg p-3">
+                          <motion.div
+                            className="bg-indigo-50 rounded-lg p-3"
+                            whileHover={{ y: -5, backgroundColor: '#eef2ff' }}
+                            transition={{ duration: 0.2 }}
+                          >
                             <div className="flex items-center gap-2 mb-1">
                               <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center">
                                 <School className="h-4 w-4 text-indigo-600" />
@@ -468,9 +531,13 @@ const Index = () => {
                               <div className="text-xs font-medium text-gray-700">Courses</div>
                             </div>
                             <div className="text-lg font-bold text-indigo-600">186</div>
-                          </div>
+                          </motion.div>
 
-                          <div className="bg-purple-50 rounded-lg p-3">
+                          <motion.div
+                            className="bg-purple-50 rounded-lg p-3"
+                            whileHover={{ y: -5, backgroundColor: '#f5f3ff' }}
+                            transition={{ duration: 0.2 }}
+                          >
                             <div className="flex items-center gap-2 mb-1">
                               <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center">
                                 <BarChart className="h-4 w-4 text-purple-600" />
@@ -478,7 +545,7 @@ const Index = () => {
                               <div className="text-xs font-medium text-gray-700">Progress</div>
                             </div>
                             <div className="text-lg font-bold text-purple-600">87.5%</div>
-                          </div>
+                          </motion.div>
                         </div>
                       </div>
                     </div>
@@ -490,7 +557,208 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Feature Showcase Section */}
+      <section className="py-20 relative overflow-hidden bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <div className="inline-block mb-4">
+              <div className="px-4 py-1 bg-[#1a4480]/10 rounded-full">
+                <span className="text-sm font-semibold text-[#1a4480]">Feature Showcase</span>
+              </div>
+            </div>
+            <h2 className="text-4xl font-bold text-gray-900 bg-clip-text text-transparent bg-gradient-to-r from-[#1a4480] to-[#2c5aa0]">
+              Powerful Tools for Modern Education
+            </h2>
+            <p className="mt-4 text-xl text-gray-600 max-w-3xl mx-auto">
+              Explore our comprehensive suite of features designed to enhance the educational experience
+            </p>
+          </div>
 
+          {/* Horizontal scrolling showcase */}
+          <div className="relative">
+            <div className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-white to-transparent w-12 h-full z-10"></div>
+            <div className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gradient-to-l from-white to-transparent w-12 h-full z-10"></div>
+
+            <div className="flex overflow-x-auto pb-8 pt-4 px-2 no-scrollbar snap-x snap-mandatory">
+              {/* Live Classes Card */}
+              <motion.div
+                whileHover={{ y: -10, scale: 1.02 }}
+                className="min-w-[300px] h-[380px] bg-white rounded-xl shadow-lg border border-blue-100 p-5 mr-6 flex flex-col snap-center"
+              >
+                <div className="w-16 h-16 bg-[#1a4480]/10 rounded-xl flex items-center justify-center mb-5">
+                  <Users className="h-8 w-8 text-[#1a4480]" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">Live Classes</h3>
+                <p className="text-gray-600 mb-4 flex-grow">
+                  Conduct interactive live sessions with students using our high-quality video platform with collaborative tools.
+                </p>
+                <div className="relative h-40 w-full bg-blue-50 rounded-lg overflow-hidden">
+                  <img
+                    src="/public/img/live-class-screenshot.png"
+                    alt="Live Class Interface"
+                    className="object-cover w-full h-full opacity-90"
+                    onError={(e) => {
+                      e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 300 200' %3E%3Crect fill='%23DBEAFE' width='300' height='200'/%3E%3Ctext fill='%231a4480' font-family='Arial' font-size='14' x='50%25' y='50%25' text-anchor='middle' dominant-baseline='middle'%3ELive Class Interface%3C/text%3E%3C/svg%3E";
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-blue-900/30 to-transparent"></div>
+                  <div className="absolute bottom-3 left-3 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-medium text-[#1a4480]">
+                    Interactive Whiteboard
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Courses Card */}
+              <motion.div
+                whileHover={{ y: -10, scale: 1.02 }}
+                className="min-w-[300px] h-[380px] bg-white rounded-xl shadow-lg border border-blue-100 p-5 mr-6 flex flex-col snap-center"
+              >
+                <div className="w-16 h-16 bg-indigo-50 rounded-xl flex items-center justify-center mb-5">
+                  <BookOpen className="h-8 w-8 text-indigo-600" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">Courses</h3>
+                <p className="text-gray-600 mb-4 flex-grow">
+                  Create, organize and deliver structured learning material with assessments and progress tracking.
+                </p>
+                <div className="relative h-40 w-full bg-indigo-50 rounded-lg overflow-hidden">
+                  <img
+                    src="/public/img/courses-screenshot.png"
+                    alt="Course Management Interface"
+                    className="object-cover w-full h-full opacity-90"
+                    onError={(e) => {
+                      e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 300 200' %3E%3Crect fill='%23EEF2FF' width='300' height='200'/%3E%3Ctext fill='%234F46E5' font-family='Arial' font-size='14' x='50%25' y='50%25' text-anchor='middle' dominant-baseline='middle'%3ECourse Management Interface%3C/text%3E%3C/svg%3E";
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/30 to-transparent"></div>
+                  <div className="absolute bottom-3 left-3 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-medium text-indigo-600">
+                    Multimedia Content
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Exams Card */}
+              <motion.div
+                whileHover={{ y: -10, scale: 1.02 }}
+                className="min-w-[300px] h-[380px] bg-white rounded-xl shadow-lg border border-blue-100 p-5 mr-6 flex flex-col snap-center"
+              >
+                <div className="w-16 h-16 bg-purple-50 rounded-xl flex items-center justify-center mb-5">
+                  <PieChart className="h-8 w-8 text-purple-600" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">Proctored Exams</h3>
+                <p className="text-gray-600 mb-4 flex-grow">
+                  Conduct secure online assessments with AI proctoring, preventing malpractice while offering detailed analytics.
+                </p>
+                <div className="relative h-40 w-full bg-purple-50 rounded-lg overflow-hidden">
+                  <img
+                    src="/public/img/exams-screenshot.png"
+                    alt="Exam Proctoring Interface"
+                    className="object-cover w-full h-full opacity-90"
+                    onError={(e) => {
+                      e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 300 200' %3E%3Crect fill='%23F3E8FF' width='300' height='200'/%3E%3Ctext fill='%237E22CE' font-family='Arial' font-size='14' x='50%25' y='50%25' text-anchor='middle' dominant-baseline='middle'%3EExam Proctoring Interface%3C/text%3E%3C/svg%3E";
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-purple-900/30 to-transparent"></div>
+                  <div className="absolute bottom-3 left-3 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-medium text-purple-600">
+                    AI Proctoring
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* AI Tools Card */}
+              <motion.div
+                whileHover={{ y: -10, scale: 1.02 }}
+                className="min-w-[300px] h-[380px] bg-white rounded-xl shadow-lg border border-blue-100 p-5 mr-6 flex flex-col snap-center"
+              >
+                <div className="w-16 h-16 bg-cyan-50 rounded-xl flex items-center justify-center mb-5">
+                  <Sparkles className="h-8 w-8 text-cyan-600" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">AI Tools</h3>
+                <p className="text-gray-600 mb-4 flex-grow">
+                  Leverage AI for content creation, personalized learning paths, and intelligent tutoring assistance.
+                </p>
+                <div className="relative h-40 w-full bg-cyan-50 rounded-lg overflow-hidden">
+                  <img
+                    src="/public/img/ai-tools-screenshot.png"
+                    alt="AI Assistant Interface"
+                    className="object-cover w-full h-full opacity-90"
+                    onError={(e) => {
+                      e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 300 200' %3E%3Crect fill='%23ECFEFF' width='300' height='200'/%3E%3Ctext fill='%230E7490' font-family='Arial' font-size='14' x='50%25' y='50%25' text-anchor='middle' dominant-baseline='middle'%3EAI Assistant Interface%3C/text%3E%3C/svg%3E";
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-cyan-900/30 to-transparent"></div>
+                  <div className="absolute bottom-3 left-3 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-medium text-cyan-600">
+                    Personalized Learning
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Attendance Card */}
+              <motion.div
+                whileHover={{ y: -10, scale: 1.02 }}
+                className="min-w-[300px] h-[380px] bg-white rounded-xl shadow-lg border border-blue-100 p-5 mr-6 flex flex-col snap-center"
+              >
+                <div className="w-16 h-16 bg-green-50 rounded-xl flex items-center justify-center mb-5">
+                  <Clock className="h-8 w-8 text-green-600" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">Attendance Tracking</h3>
+                <p className="text-gray-600 mb-4 flex-grow">
+                  Monitor and manage student attendance with automated reporting and notification systems.
+                </p>
+                <div className="relative h-40 w-full bg-green-50 rounded-lg overflow-hidden">
+                  <img
+                    src="/public/img/attendance-screenshot.png"
+                    alt="Attendance Tracking Interface"
+                    className="object-cover w-full h-full opacity-90"
+                    onError={(e) => {
+                      e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 300 200' %3E%3Crect fill='%23ECFDF5' width='300' height='200'/%3E%3Ctext fill='%23059669' font-family='Arial' font-size='14' x='50%25' y='50%25' text-anchor='middle' dominant-baseline='middle'%3EAttendance Tracking Interface%3C/text%3E%3C/svg%3E";
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-green-900/30 to-transparent"></div>
+                  <div className="absolute bottom-3 left-3 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-medium text-green-600">
+                    Automated Reports
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Announcements Card */}
+              <motion.div
+                whileHover={{ y: -10, scale: 1.02 }}
+                className="min-w-[300px] h-[380px] bg-white rounded-xl shadow-lg border border-blue-100 p-5 mr-6 flex flex-col snap-center"
+              >
+                <div className="w-16 h-16 bg-amber-50 rounded-xl flex items-center justify-center mb-5">
+                  <Bell className="h-8 w-8 text-amber-600" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">Announcements</h3>
+                <p className="text-gray-600 mb-4 flex-grow">
+                  Send targeted communications to specific groups with scheduling and delivery tracking.
+                </p>
+                <div className="relative h-40 w-full bg-amber-50 rounded-lg overflow-hidden">
+                  <img
+                    src="/public/img/announcements-screenshot.png"
+                    alt="Announcements Interface"
+                    className="object-cover w-full h-full opacity-90"
+                    onError={(e) => {
+                      e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 300 200' %3E%3Crect fill='%23FFFBEB' width='300' height='200'/%3E%3Ctext fill='%23D97706' font-family='Arial' font-size='14' x='50%25' y='50%25' text-anchor='middle' dominant-baseline='middle'%3EAnnouncements Interface%3C/text%3E%3C/svg%3E";
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-amber-900/30 to-transparent"></div>
+                  <div className="absolute bottom-3 left-3 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-medium text-amber-600">
+                    Scheduled Notifications
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+
+          {/* Navigation indicators */}
+          <div className="flex justify-center mt-8 space-x-2">
+            <div className="w-8 h-1 rounded-full bg-[#1a4480]"></div>
+            <div className="w-2 h-1 rounded-full bg-gray-300"></div>
+            <div className="w-2 h-1 rounded-full bg-gray-300"></div>
+            <div className="w-2 h-1 rounded-full bg-gray-300"></div>
+          </div>
+        </div>
+      </section>
 
       {/* User-specific feature sections */}
       <div className="mt-24 relative">
@@ -1268,7 +1536,7 @@ const Index = () => {
       {/* Enhanced Features Section */}
       <section id="features" className="py-24 bg-gradient-to-b from-white via-blue-50/20 to-white relative overflow-hidden">
         <div className="absolute inset-0 bg-pattern opacity-5" style={{
-          backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231a4480' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")"
+          backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231a4480' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2V6h4V4H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")"
         }}></div>
 
         <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-10 relative z-10">
@@ -1391,8 +1659,9 @@ const Index = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.6 }}
+              style={{ fontFamily: "'Playfair Display', serif" }}
             >
-              Trusted by educators worldwide
+              Voices of Educational Excellence
             </motion.h2>
 
             <motion.p
@@ -1400,8 +1669,9 @@ const Index = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.6 }}
+              style={{ fontFamily: "'Open Sans', sans-serif" }}
             >
-              See how educational institutions are transforming with our platform
+              Discover how leading educational institutions are transforming with our platform
             </motion.p>
           </motion.div>
 
@@ -1430,7 +1700,7 @@ const Index = () => {
                     >
                       {/* Animated ring */}
                       <motion.div
-                        className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-400 via-indigo-400 to-blue-400 -m-1"
+                        className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-400 via-indigo-400 to-blue-400 -m-1.5 blur-[1px]"
                         animate={{
                           rotate: 360,
                           background: [
@@ -1444,7 +1714,7 @@ const Index = () => {
                       ></motion.div>
 
                       <div className="w-24 h-24 rounded-full border-4 border-white shadow-xl bg-gradient-to-br from-[#1a4480] to-[#3672d0] flex items-center justify-center relative z-10">
-                        <span className="font-bold text-white text-2xl">{testimonial.avatar}</span>
+                        <span className="font-bold text-white text-2xl" style={{ fontFamily: "'Playfair Display', serif" }}>{testimonial.avatar}</span>
                       </div>
                     </motion.div>
                   </div>
@@ -1500,20 +1770,20 @@ const Index = () => {
 
                     {/* Quote with quotation marks */}
                     <div className="relative">
-                      <div className="absolute -top-5 -left-2 text-5xl text-blue-200 opacity-40 font-serif">"</div>
-                      <div className="absolute -bottom-12 -right-2 text-5xl text-blue-200 opacity-40 font-serif">"</div>
-                      <blockquote className="text-gray-700 mb-8 text-center flex-grow italic relative z-10 text-lg">
+                      <div className="absolute -top-5 -left-2 text-6xl text-blue-200 opacity-40 font-serif">"</div>
+                      <div className="absolute -bottom-12 -right-2 text-6xl text-blue-200 opacity-40 font-serif">"</div>
+                      <blockquote className="text-gray-700 mb-8 text-center flex-grow relative z-10 text-lg leading-relaxed" style={{ fontFamily: "'Open Sans', sans-serif" }}>
                         {testimonial.quote}
                       </blockquote>
                     </div>
 
                     {/* Author info with hover effect */}
                     <motion.div
-                      className="text-center pb-2 pt-4 border-t border-blue-100/50 mt-auto"
+                      className="text-center pb-2 pt-4 border-t border-blue-100/50 mt-auto group"
                       whileHover={{ scale: 1.03 }}
                     >
-                      <div className="font-medium text-xl text-[#1a4480]">{testimonial.author}</div>
-                      <div className="text-blue-500 font-medium mt-1">{testimonial.position}</div>
+                      <div className="font-medium text-xl text-[#1a4480]" style={{ fontFamily: "'Playfair Display', serif" }}>{testimonial.author}</div>
+                      <div className="text-blue-500 font-medium mt-1 group-hover:text-indigo-600 transition-colors" style={{ fontFamily: "'Open Sans', sans-serif" }}>{testimonial.position}</div>
                     </motion.div>
 
                     {/* Bottom accent bar */}
@@ -1532,20 +1802,49 @@ const Index = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 bg-white">
-        <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-10">
+      <section className="py-24 bg-white relative overflow-hidden">
+        {/* Background pattern */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-blue-50/10 to-white -z-10"></div>
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMxYTQ0ODAiIGZpbGwtb3BhY2l0eT0iMC4wMiI+PHBhdGggZD0iTTM2IDM0djZoNnYtNmgtNnptMC0xMnY2aDZ2LTZoLTZ6bTEyIDEydjZoNnYtNmgtNnptMC0xMnY2aDZ2LTZoLTZ6bS0yNCAwdjZoNnYtNmgtNnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-30 -z-10"></div>
+
+        {/* Decorative elements */}
+        <div className="absolute -top-20 -left-20 w-72 h-72 bg-blue-100/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
+        <div className="absolute -bottom-20 -right-20 w-72 h-72 bg-indigo-100/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000"></div>
+
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-10 relative z-10">
           <div className="text-center mb-16">
             <div className="inline-block mb-4">
-              <div className="px-4 py-1 bg-[#1a4480]/10 rounded-full">
-                <span className="text-sm font-semibold text-[#1a4480]">Join Our Community</span>
-              </div>
+              <motion.div
+                className="px-4 py-1 bg-[#1a4480]/10 rounded-full border border-[#1a4480]/10 shadow-sm"
+                whileHover={{ y: -3, boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)' }}
+                transition={{ duration: 0.2 }}
+              >
+                <span className="text-sm font-semibold text-[#1a4480] flex items-center">
+                  <Sparkles className="h-3.5 w-3.5 text-[#1a4480] mr-2" />
+                  Begin Your Educational Journey
+                </span>
+              </motion.div>
             </div>
-            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 bg-clip-text text-transparent bg-gradient-to-r from-[#1a4480] to-[#2c5aa0]">
-              Ready to revolutionize education?
-            </h2>
-            <p className="mt-4 text-xl text-gray-600 max-w-2xl mx-auto">
-              Join thousands of educational institutions already transforming with EduSpry.
-            </p>
+            <motion.h2
+              className="text-3xl md:text-5xl font-bold text-gray-900 bg-clip-text text-transparent bg-gradient-to-r from-[#1a4480] to-[#2c5aa0]"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              style={{ fontFamily: "'Playfair Display', serif" }}
+            >
+              Elevate Your Educational Experience
+            </motion.h2>
+            <motion.p
+              className="mt-4 text-xl text-gray-600 max-w-2xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.1 }}
+              style={{ fontFamily: "'Open Sans', sans-serif" }}
+            >
+              Join thousands of forward-thinking educational institutions already transforming with EduSpry's AI-powered platform.
+            </motion.p>
           </div>
 
           <motion.div
@@ -1555,8 +1854,16 @@ const Index = () => {
             transition={{ duration: 0.5 }}
             className="relative max-w-5xl mx-auto"
           >
-            <div className="absolute -top-6 -left-6 w-12 h-12 bg-blue-100 rounded-lg rotate-12"></div>
-            <div className="absolute -bottom-6 -right-6 w-12 h-12 bg-indigo-100 rounded-lg -rotate-12"></div>
+            <motion.div
+              className="absolute -top-6 -left-6 w-12 h-12 bg-blue-100 rounded-lg rotate-12"
+              animate={{ rotate: [12, 25, 12], scale: [1, 1.05, 1] }}
+              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            ></motion.div>
+            <motion.div
+              className="absolute -bottom-6 -right-6 w-12 h-12 bg-indigo-100 rounded-lg -rotate-12"
+              animate={{ rotate: [-12, -25, -12], scale: [1, 1.05, 1] }}
+              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+            ></motion.div>
 
             <div className="bg-white rounded-2xl shadow-xl border border-blue-100 overflow-hidden relative z-10">
               <div className="grid md:grid-cols-5 divide-y md:divide-y-0 md:divide-x divide-gray-100">
@@ -1565,56 +1872,84 @@ const Index = () => {
                     <div className="w-10 h-10 rounded-full bg-[#1a4480]/10 flex items-center justify-center">
                       <BookOpen className="h-5 w-5 text-[#1a4480]" />
                     </div>
-                    <h3 className="text-xl font-bold text-gray-900">EduSpry Platform</h3>
+                    <h3 className="text-xl font-bold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>EduSpry Platform</h3>
                   </div>
 
-                  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-                    Start your educational transformation today
+                  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
+                    Begin your educational transformation
                   </h2>
 
-                  <p className="text-gray-600 mb-8">
+                  <p className="text-gray-600 mb-8" style={{ fontFamily: "'Open Sans', sans-serif" }}>
                     Experience the power of AI-driven learning, analytics, and management tools in one
-                    integrated platform. Our 30-day free trial gives you full access to all features.
+                    integrated platform. Our 30-day free trial gives you full access to all premium features.
                   </p>
 
-                  <div className="flex flex-wrap gap-4">
+                  <div className="grid grid-cols-2 gap-x-6 gap-y-4">
                     <div className="flex items-start">
-                      <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
+                      <div className="mt-0.5 mr-3 relative">
+                        <motion.div
+                          className="absolute inset-0 bg-green-400 rounded-full opacity-30 blur-sm"
+                          animate={{ scale: [1, 1.5, 1] }}
+                          transition={{ duration: 2, repeat: Infinity, repeatType: "mirror" }}
+                        ></motion.div>
+                        <CheckCircle className="h-5 w-5 text-green-500 relative z-10" />
+                      </div>
                       <span className="text-gray-700">All user roles included</span>
                     </div>
                     <div className="flex items-start">
-                      <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
+                      <div className="mt-0.5 mr-3 relative">
+                        <motion.div
+                          className="absolute inset-0 bg-green-400 rounded-full opacity-30 blur-sm"
+                          animate={{ scale: [1, 1.5, 1] }}
+                          transition={{ duration: 2, repeat: Infinity, repeatType: "mirror", delay: 0.5 }}
+                        ></motion.div>
+                        <CheckCircle className="h-5 w-5 text-green-500 relative z-10" />
+                      </div>
                       <span className="text-gray-700">Fast setup process</span>
                     </div>
                     <div className="flex items-start">
-                      <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
+                      <div className="mt-0.5 mr-3 relative">
+                        <motion.div
+                          className="absolute inset-0 bg-green-400 rounded-full opacity-30 blur-sm"
+                          animate={{ scale: [1, 1.5, 1] }}
+                          transition={{ duration: 2, repeat: Infinity, repeatType: "mirror", delay: 1 }}
+                        ></motion.div>
+                        <CheckCircle className="h-5 w-5 text-green-500 relative z-10" />
+                      </div>
                       <span className="text-gray-700">Dedicated support</span>
                     </div>
                     <div className="flex items-start">
-                      <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
+                      <div className="mt-0.5 mr-3 relative">
+                        <motion.div
+                          className="absolute inset-0 bg-green-400 rounded-full opacity-30 blur-sm"
+                          animate={{ scale: [1, 1.5, 1] }}
+                          transition={{ duration: 2, repeat: Infinity, repeatType: "mirror", delay: 1.5 }}
+                        ></motion.div>
+                        <CheckCircle className="h-5 w-5 text-green-500 relative z-10" />
+                      </div>
                       <span className="text-gray-700">No credit card required</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="md:col-span-2 p-8 md:p-12 flex flex-col">
+                <div className="md:col-span-2 p-8 md:p-12 flex flex-col bg-gradient-to-br from-white to-blue-50/30">
                   <div className="mb-6">
-                    <h3 className="text-xl font-bold text-gray-900 mb-4">
+                    <h3 className="text-xl font-bold text-gray-900 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
                       Get started in minutes
                     </h3>
-                    <p className="text-gray-600 text-sm">
+                    <p className="text-gray-600 text-sm" style={{ fontFamily: "'Open Sans', sans-serif" }}>
                       Start with our 30-day free trial. No credit card required.
                     </p>
                   </div>
 
                   <div className="mt-auto space-y-4">
                     <motion.div
-                      whileHover={{ scale: 1.02 }}
+                      whileHover={{ scale: 1.03, boxShadow: '0 15px 30px -5px rgba(0, 0, 0, 0.2)' }}
                       whileTap={{ scale: 0.98 }}
                     >
-                      <Button asChild size="lg" className="w-full rounded-full shadow-lg bg-[#1a4480] hover:bg-[#0f2b50]">
+                      <Button asChild size="lg" className="w-full rounded-full shadow-lg bg-[#1a4480] hover:bg-[#0f2b50] px-6 py-6 font-medium">
                         <Link to="/register">
-                          Start Free Trial
+                          Start Your Free Trial
                           <ArrowRight className="ml-2 h-4 w-4" />
                         </Link>
                       </Button>
@@ -1624,8 +1959,8 @@ const Index = () => {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                     >
-                      <Button asChild variant="outline" size="lg" className="w-full rounded-full border-[#1a4480] text-[#1a4480]">
-                        <a href="#">
+                      <Button asChild variant="outline" size="lg" className="w-full rounded-full border-[#1a4480] text-[#1a4480] hover:bg-[#1a4480]/5">
+                        <a href="#" className="flex items-center justify-center">
                           Schedule Demo
                           <ChevronRight className="ml-2 h-4 w-4" />
                         </a>
@@ -1643,6 +1978,9 @@ const Index = () => {
       <footer className="pt-12 pb-8 relative overflow-hidden" style={{ backgroundColor: '#1a4480', position: 'relative', zIndex: 1 }}>
         <div className="absolute inset-0 bg-[#1a4480] -z-10"></div>
 
+        {/* Subtle pattern overlay */}
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djZoNnYtNmgtNnptMC0xMnY2aDZ2LTZoLTZ6bTEyIDEydjZoNnYtNmgtNnptMC0xMnY2aDZ2LTZoLTZ6bS0yNCAwdjZoNnYtNmgtNnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-40 -z-5"></div>
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-12 gap-8">
             <div className="col-span-12 md:col-span-4 lg:col-span-5">
@@ -1653,28 +1991,29 @@ const Index = () => {
                   transition={{ duration: 0.2 }}
                 >
                   <BookOpen className="h-8 w-8 text-white" />
-                  <span className="ml-2 text-xl font-bold text-white">EduSpry</span>
+                  <span className="ml-2 text-xl font-bold text-white" style={{ fontFamily: "'Playfair Display', serif" }}>EduSpry</span>
                 </motion.div>
 
-                <p className="text-blue-100 text-base mb-8 opacity-80">
+                <p className="text-blue-100 text-base mb-8 opacity-80" style={{ fontFamily: "'Open Sans', sans-serif" }}>
                   Transforming education through intelligent analytics, AI-powered insights, and comprehensive management tools for educational institutions worldwide.
                 </p>
 
                 <div className="flex space-x-4">
-                  {/* Social icons */}
+                  {/* Social icons with accessibility improvements */}
                   {[
-                    { icon: <motion.svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" /></motion.svg>, ariaLabel: "Facebook" },
-                    { icon: <motion.svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" /></motion.svg>, ariaLabel: "Twitter" },
-                    { icon: <motion.svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z" /></motion.svg>, ariaLabel: "LinkedIn" },
-                    { icon: <motion.svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" /></motion.svg>, ariaLabel: "Instagram" }
+                    { icon: <motion.svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" /></motion.svg>, ariaLabel: "Facebook", href: "#" },
+                    { icon: <motion.svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" /></motion.svg>, ariaLabel: "Twitter", href: "#" },
+                    { icon: <motion.svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z" /></motion.svg>, ariaLabel: "LinkedIn", href: "#" },
+                    { icon: <motion.svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" /></motion.svg>, ariaLabel: "Instagram", href: "#" }
                   ].map((social, i) => (
                     <motion.a
                       key={i}
-                      href="#"
+                      href={social.href}
                       className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white hover:bg-white/20 transition-colors"
                       whileHover={{ y: -5, scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       aria-label={social.ariaLabel}
+                      role="button"
                     >
                       {social.icon}
                     </motion.a>
@@ -1686,7 +2025,7 @@ const Index = () => {
             <div className="col-span-12 md:col-span-8 lg:col-span-7">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div>
-                  <h3 className="text-sm font-bold text-white tracking-wider uppercase mb-6 flex items-center">
+                  <h3 className="text-sm font-bold text-white tracking-wider uppercase mb-6 flex items-center" style={{ fontFamily: "'Open Sans', sans-serif" }}>
                     <span className="w-5 h-0.5 bg-blue-300 mr-2"></span>
                     Solutions
                   </h3>
@@ -1698,6 +2037,7 @@ const Index = () => {
                           className="text-blue-100 hover:text-white flex items-center"
                           whileHover={{ x: 3 }}
                           transition={{ duration: 0.2 }}
+                          style={{ fontFamily: "'Open Sans', sans-serif" }}
                         >
                           <ChevronRight className="h-4 w-4 mr-1 opacity-70" />
                           <span>{item}</span>
@@ -1708,7 +2048,7 @@ const Index = () => {
                 </div>
 
                 <div>
-                  <h3 className="text-sm font-bold text-white tracking-wider uppercase mb-6 flex items-center">
+                  <h3 className="text-sm font-bold text-white tracking-wider uppercase mb-6 flex items-center" style={{ fontFamily: "'Open Sans', sans-serif" }}>
                     <span className="w-5 h-0.5 bg-blue-300 mr-2"></span>
                     Resources
                   </h3>
@@ -1720,6 +2060,7 @@ const Index = () => {
                           className="text-blue-100 hover:text-white flex items-center"
                           whileHover={{ x: 3 }}
                           transition={{ duration: 0.2 }}
+                          style={{ fontFamily: "'Open Sans', sans-serif" }}
                         >
                           <ChevronRight className="h-4 w-4 mr-1 opacity-70" />
                           <span>{item}</span>
@@ -1730,7 +2071,7 @@ const Index = () => {
                 </div>
 
                 <div>
-                  <h3 className="text-sm font-bold text-white tracking-wider uppercase mb-6 flex items-center">
+                  <h3 className="text-sm font-bold text-white tracking-wider uppercase mb-6 flex items-center" style={{ fontFamily: "'Open Sans', sans-serif" }}>
                     <span className="w-5 h-0.5 bg-blue-300 mr-2"></span>
                     Company
                   </h3>
@@ -1742,6 +2083,7 @@ const Index = () => {
                           className="text-blue-100 hover:text-white flex items-center"
                           whileHover={{ x: 3 }}
                           transition={{ duration: 0.2 }}
+                          style={{ fontFamily: "'Open Sans', sans-serif" }}
                         >
                           <ChevronRight className="h-4 w-4 mr-1 opacity-70" />
                           <span>{item}</span>
@@ -1756,7 +2098,7 @@ const Index = () => {
 
           <div className="mt-16 pt-8 border-t border-white/10">
             <div className="flex flex-col md:flex-row justify-between items-center">
-              <p className="text-blue-200/80 text-sm">
+              <p className="text-blue-200/80 text-sm" style={{ fontFamily: "'Open Sans', sans-serif" }}>
                 &copy; {new Date().getFullYear()} EduSpry. All rights reserved.
               </p>
 
@@ -1768,6 +2110,7 @@ const Index = () => {
                     className="text-blue-200/80 text-sm hover:text-white"
                     whileHover={{ y: -2 }}
                     transition={{ duration: 0.2 }}
+                    style={{ fontFamily: "'Open Sans', sans-serif" }}
                   >
                     {item}
                   </motion.a>
