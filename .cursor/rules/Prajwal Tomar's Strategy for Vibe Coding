@@ -1,0 +1,141 @@
+Prajwal Tomar's Strategy for Vibe Coding : 
+==============================================================================================================================================
+
+1/ Why planning is critical for AI coding
+
+AI models from Gemini or Sonnet are great at writing code.
+
+But without context, they hallucinate.
+
+And this hallucinations leads to:
+
+• 100s of Bugs
+• Wasted tokens
+• Messy codebase
+
+Planning is not optional. This is how you make AI to work like a real dev.
+
+==============================================================================================================================================
+
+2/ Start with brainstorming
+
+Before writing anything, I use ChatGPT Voice to think out loud.
+
+• What am I building?
+• Who is it for?
+• What are the top 3 features?
+
+Voice helps you think faster and clearer than typing long prompts.
+
+Simple, but powerful.
+
+==============================================================================================================================================
+3/ Build a Knowledge Base
+
+Once the idea is clear, I create project documents.
+
+These docs act as a live “Knowledge Base” for the AI to use while building.
+
+Without them, Cursor has no real memory of what you want. It starts hallucinating and end up messing the entire codebase.
+
+With project docs, it becomes 10x more accurate.
+
+==============================================================================================================================================
+
+4/ Documents you need
+
+Here is the minimum set of docs I create:
+
+• PRD → What and why we are building
+• App Flow → Full user journey
+• Tech Stack → Tools, libraries, APIs
+• Frontend Guidelines → Fonts, layouts, UI rules
+• Backend Structure → DB schema, auth, storage
+• Implementation Plan → 50+ step build checklist
+• Security Guidelines → Secure defaults from day one
+
+This is the real secret to clean AI builds.
+
+==============================================================================================================================================
+
+5/ How I generate these fast
+
+I used to create all these documents manually inside ChatGPT.
+
+It worked, but it took a lot of time.
+
+Now I use CodeGuideDev to speed things up.
+
+It generates:
+
+• Full project docs
+• Rich system prompts for each file
+• A quick editor to update things easily
+• 1-click export ready for Cursor
+
+It saves hours and cuts down 85 percent of hallucinations.
+
+==============================================================================================================================================
+
+6/ Load everything as Project Rules inside Cursor
+
+Once your documents are ready:
+
+• Create a /cursor/rules/ folder inside your project
+• Drop all your planning docs there (PRD, App Flow, Tech Stack, etc.)
+
+Cursor treats these as rules for coding and it reads them actively while coding, not just your last prompt.
+
+This builds a real-time knowledge base for the AI and massively reduces errors while building.
+
+==============================================================================================================================================
+
+7/ Smart building inside Cursor
+
+When you start:
+
+• Enable Agent Mode
+• Pick Gemini 2.5 pro or Sonnet 3.5/3.7 model
+• Always reference your Implementation Plan
+• Build feature-by-feature
+• After each feature implementation do the following:
+
+1. Test
+2. Debug smartly (attach docs if needed)
+3. Commit
+
+Do not rush. Build clean.
+
+==============================================================================================================================================
+
+8/ The real MVP loop
+
+The real loop I follow:
+
+• Plan deeply
+• Load full context
+• Implement one small feature
+• Test
+• Commit
+• Repeat
+
+No guesswork. No chaos.
+
+Just steady, real progress.
+
+If you want to build real products with AI:
+
+• Plan first
+• Generate strong project docs
+• Load them as Project Rules in Cursor
+• Build with clear context, not random prompts
+• Test everything.
+• Commit after every feature
+
+==============================================================================================================================================
+
+I use ChatGPT Voice, CodeGuideDev, Cursor & Vercel.
+
+This is how you vibe code without breaking things.
+
+==============================================================================================================================================

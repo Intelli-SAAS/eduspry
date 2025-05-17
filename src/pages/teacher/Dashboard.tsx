@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight, BookOpen, Users, FileText, TrendingUp, Clock, VideoIcon, Plus, Calendar, PlayCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { format } from 'date-fns';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 // Services
 import VideoConferenceService from '@/services/videoConference';
@@ -13,8 +14,8 @@ import VideoConferenceService from '@/services/videoConference';
 // Animation variants
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     y: 0,
     transition: { duration: 0.5 }
   }
@@ -28,28 +29,28 @@ const cardHover = {
 const TeacherDashboard: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  
+
   // State for video conferences
   const [upcomingConferences, setUpcomingConferences] = useState<any[]>([]);
   const [isLoadingConferences, setIsLoadingConferences] = useState(true);
-  
+
   // Fetch upcoming video conferences
   useEffect(() => {
     const fetchUpcomingConferences = async () => {
       if (!user) return;
-      
+
       try {
         setIsLoadingConferences(true);
         const sessions = await VideoConferenceService.getUserSessions(user.id);
-        
+
         // Filter for sessions that are scheduled or active
         const activeOrUpcoming = sessions.filter(
           session => ['scheduled', 'active'].includes(session.status)
         );
-        
+
         // Sort by start time (ascending)
         activeOrUpcoming.sort((a, b) => a.startTime.getTime() - b.startTime.getTime());
-        
+
         setUpcomingConferences(activeOrUpcoming);
       } catch (error) {
         console.error('Error fetching video conferences:', error);
@@ -57,31 +58,31 @@ const TeacherDashboard: React.FC = () => {
         setIsLoadingConferences(false);
       }
     };
-    
+
     fetchUpcomingConferences();
   }, [user]);
-  
+
   // Format date for display
   const formatDateTime = (date: Date) => {
     return format(date, 'MMM dd, yyyy - h:mm a');
   };
-  
+
   // Calculate time until conference
   const getTimeUntil = (date: Date) => {
     const now = new Date();
     const diff = date.getTime() - now.getTime();
-    
+
     if (diff <= 0) return 'Now';
-    
+
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    
+
     if (days > 0) return `${days}d ${hours}h`;
     if (hours > 0) return `${hours}h ${minutes}m`;
     return `${minutes}m`;
   };
-  
+
   // Join a video conference
   const joinConference = (channel: string) => {
     navigate(`/classroom/${channel}`);
@@ -121,24 +122,30 @@ const TeacherDashboard: React.FC = () => {
 
   return (
     <div className="container mx-auto py-8">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Teacher Dashboard</h1>
-        <Button onClick={() => navigate('/video-conference/create')}>
-          <Plus className="mr-2 h-4 w-4" />
-          Create New Class
-        </Button>
-      </div>
-      
-      {/* Video Conferences Section */}
-      <div className="mb-8">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-semibold">Video Conferences</h2>
-          <Button variant="outline" onClick={() => navigate('/video-conference/create')}>
-            <VideoIcon className="mr-2 h-4 w-4" />
-            Schedule New
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+        <div>
+          <h1 className="text-3xl font-bold mb-2">Teacher Dashboard</h1>
+          <p className="text-muted-foreground">
+            Welcome back! Here's an overview of your classes and students.
+          </p>
+        </div>
+        <div className="flex space-x-2 mt-4 md:mt-0">
+          <Button onClick={() => navigate('/onboarding/type')}>
+            Test Onboarding Flow
           </Button>
         </div>
-        
+      </div>
+
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-semibold">Video Conferences</h2>
+        <Button variant="outline" onClick={() => navigate('/video-conference/create')}>
+          <VideoIcon className="mr-2 h-4 w-4" />
+          Schedule New
+        </Button>
+      </div>
+
+      {/* Video Conferences Section */}
+      <div className="mb-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {isLoadingConferences ? (
             <Card>
@@ -176,7 +183,7 @@ const TeacherDashboard: React.FC = () => {
                     <div className="flex items-center mt-1">
                       <Clock className="h-4 w-4 mr-1" />
                       <span>
-                        {conference.status === 'active' 
+                        {conference.status === 'active'
                           ? 'Started ' + formatDateTime(conference.startTime)
                           : formatDateTime(conference.startTime)}
                       </span>
@@ -215,7 +222,7 @@ const TeacherDashboard: React.FC = () => {
           )}
         </div>
       </div>
-      
+
       <div className="space-y-8">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
@@ -400,7 +407,7 @@ const TeacherDashboard: React.FC = () => {
             </div>
           </CardContent>
         </Card>
-        
+
         <div className="flex justify-center">
           <Button asChild className="rounded-full shadow-md hover:shadow-lg transition-all duration-300 bg-[#1a4480] hover:bg-[#142f59]">
             <Link to="/analytics">

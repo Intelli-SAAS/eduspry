@@ -1,101 +1,82 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { z } from 'zod';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { useNavigate, useSearchParams, Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { BookOpen, ArrowLeft, Lock, Sparkles, CheckCircle } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { ArrowLeft, Check } from 'lucide-react';
+import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
-// Form validation schema
-const resetPasswordSchema = z.object({
-  password: z.string().min(8, { message: 'Password must be at least 8 characters' }),
-  confirmPassword: z.string(),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ['confirmPassword'],
-});
-
-type ResetPasswordFormValues = z.infer<typeof resetPasswordSchema>;
+const fadeIn = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5 }
+  }
+};
 
 const ResetPasswordPage: React.FC = () => {
-  const { resetPassword } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const { resetPassword } = useAuth();
+
+  const [token, setToken] = useState<string>('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [token, setToken] = useState<string | null>(null);
-  const [isInvalidToken, setIsInvalidToken] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  // Initialize form
-  const form = useForm<ResetPasswordFormValues>({
-    resolver: zodResolver(resetPasswordSchema),
-    defaultValues: {
-      password: '',
-      confirmPassword: '',
-    },
-  });
-
-  // Extract token from URL on mount
   useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const resetToken = searchParams.get('token');
-    
-    if (!resetToken) {
-      setIsInvalidToken(true);
-      toast({
-        title: 'Invalid reset link',
-        description: 'The password reset link is invalid or expired.',
-        variant: 'destructive',
-      });
+    // Get token from URL query parameter
+    const tokenFromUrl = searchParams.get('token');
+    if (tokenFromUrl) {
+      setToken(tokenFromUrl);
     } else {
-      setToken(resetToken);
+      setError('No reset token found. Please request a new password reset link.');
     }
-  }, [location]);
+  }, [searchParams]);
 
-  // Handle form submission
-  const onSubmit = async (values: ResetPasswordFormValues) => {
-    if (!token) {
-      toast({
-        title: 'Error',
-        description: 'Missing reset token. Please request a new password reset link.',
-        variant: 'destructive',
-      });
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    // Validate passwords match
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
+    // Validate password strength
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters long');
       return;
     }
 
     setIsLoading(true);
+    setError(null);
+
     try {
-      // Call the auth service to reset the password
-      await resetPassword(token, values.password);
-      
-      // Show success message
+      await resetPassword(token, password);
       setIsSuccess(true);
-      
       toast({
-        title: 'Password reset successful',
+        title: 'Password Reset Successful',
         description: 'Your password has been updated. You can now log in with your new password.',
       });
-      
-      // Redirect to login after 3 seconds
+
+      // Redirect to login page after 3 seconds
       setTimeout(() => {
         navigate('/login');
       }, 3000);
-    } catch (error) {
-      console.error('Password reset error:', error);
+    } catch (err) {
+      console.error('Password reset error:', err);
+      setError('Failed to reset password. The token may be invalid or expired.');
       toast({
-        title: 'Reset failed',
-        description: error instanceof Error ? error.message : 'An unknown error occurred',
+        title: 'Reset Failed',
+        description: 'Unable to reset your password. Please try again or request a new reset link.',
         variant: 'destructive',
       });
     } finally {
@@ -104,123 +85,265 @@ const ResetPasswordPage: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 p-4">
-      <div className="w-full max-w-md space-y-8">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-            Reset your password
-          </h1>
-          <p className="mt-2 text-sm text-gray-600">
-            Create a new password for your account
-          </p>
-        </div>
+    <div className="min-h-screen overflow-hidden relative flex items-center justify-center p-4">
+      {/* Enhanced background with education and AI themed elements */}
+      <div className="absolute inset-0 bg-gradient-to-br from-white via-blue-100/15 to-white pointer-events-none overflow-hidden">
+        {/* Subtle dots pattern */}
+        <svg className="absolute inset-0 w-full h-full opacity-[0.09]" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <pattern id="dot-pattern" width="30" height="30" patternUnits="userSpaceOnUse">
+            <circle cx="2" cy="2" r="1" fill="#1a4480" />
+            <circle cx="15" cy="15" r="1" fill="#2c5aa0" />
+            <circle cx="28" cy="28" r="1" fill="#3c71c7" />
+          </pattern>
+          <rect width="100%" height="100%" fill="url(#dot-pattern)" />
+        </svg>
 
-        <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-          {isInvalidToken ? (
-            <div className="flex flex-col items-center space-y-4 text-center">
-              <div className="rounded-full bg-red-100 p-3">
-                <svg 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  className="h-6 w-6 text-red-600" 
-                  fill="none" 
-                  viewBox="0 0 24 24" 
-                  stroke="currentColor"
-                >
-                  <path 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
-                    strokeWidth={2} 
-                    d="M6 18L18 6M6 6l12 12" 
-                  />
-                </svg>
-              </div>
-              <h2 className="text-xl font-semibold text-gray-900">Invalid reset link</h2>
-              <p className="text-gray-600">
-                The password reset link is invalid or has expired. Please request a new one.
-              </p>
-              <Button 
-                className="mt-4 bg-gradient-to-r from-[#1a4480] to-[#2c5aa0]"
-                onClick={() => navigate('/forgot-password')}
-              >
-                Request new link
-              </Button>
-            </div>
-          ) : isSuccess ? (
-            <div className="flex flex-col items-center space-y-4 text-center">
-              <div className="rounded-full bg-green-100 p-3">
-                <Check className="h-6 w-6 text-green-600" />
-              </div>
-              <h2 className="text-xl font-semibold text-gray-900">Password updated</h2>
-              <p className="text-gray-600">
-                Your password has been successfully reset. You will be redirected to the login page shortly.
-              </p>
-              <Button 
-                className="mt-4 bg-gradient-to-r from-[#1a4480] to-[#2c5aa0]"
-                onClick={() => navigate('/login')}
-              >
-                Go to login
-              </Button>
-            </div>
-          ) : (
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>New Password</FormLabel>
-                      <FormControl>
-                        <Input placeholder="••••••••" type="password" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="confirmPassword"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Confirm New Password</FormLabel>
-                      <FormControl>
-                        <Input placeholder="••••••••" type="password" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <div className="text-xs text-gray-500">
-                  <p>Your password must have:</p>
-                  <ul className="list-disc pl-5 space-y-1 mt-1">
-                    <li>At least 8 characters</li>
-                    <li>A mix of letters, numbers, and special characters</li>
-                  </ul>
-                </div>
-
-                <Button
-                  type="submit"
-                  className="w-full bg-gradient-to-r from-[#1a4480] to-[#2c5aa0]"
-                  disabled={isLoading}
-                >
-                  {isLoading ? 'Resetting password...' : 'Reset Password'}
-                </Button>
-              </form>
-            </Form>
-          )}
-        </div>
-
-        <div className="text-center text-sm">
-          <Link
-            to="/login"
-            className="inline-flex items-center font-medium text-[#1a4480] hover:text-[#2c5aa0]"
+        {/* Scattered small elegant shapes with gradients */}
+        {Array.from({ length: 15 }).map((_, index) => (
+          <svg
+            key={`shape-${index}`}
+            className="absolute opacity-[0.12]"
+            width="12"
+            height="12"
+            viewBox="0 0 12 12"
+            style={{
+              left: `${Math.random() * 90 + 5}%`,
+              top: `${Math.random() * 90 + 5}%`,
+              transform: `rotate(${Math.random() * 45}deg) scale(${0.8 + Math.random() * 1})`,
+            }}
+            xmlns="http://www.w3.org/2000/svg"
           >
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to login
-          </Link>
+            <defs>
+              <linearGradient id={`gradient-${index}`} x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#1a4480" stopOpacity="0.9" />
+                <stop offset="100%" stopColor="#3c71c7" stopOpacity="0.9" />
+              </linearGradient>
+              <radialGradient id={`radial-${index}`} cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                <stop offset="0%" stopColor="#3c71c7" stopOpacity="0.9" />
+                <stop offset="100%" stopColor="#1a4480" stopOpacity="0.9" />
+              </radialGradient>
+            </defs>
+            {/* Render different shapes based on index */}
+            {index % 5 === 0 && <circle cx="6" cy="6" r="3" fill={`url(#radial-${index})`} />}
+            {index % 5 === 1 && <rect x="2" y="2" width="8" height="8" rx="1" fill={`url(#gradient-${index})`} />}
+            {index % 5 === 2 && <polygon points="6,1 11,6 6,11 1,6" fill={`url(#gradient-${index})`} />}
+            {index % 5 === 3 && <circle cx="6" cy="6" r="5" strokeWidth="0.8" stroke="#1a4480" fill="none" />}
+            {index % 5 === 4 && <path d="M1,6 C1,3 3,1 6,1 C9,1 11,3 11,6 C11,9 9,11 6,11 C3,11 1,9 1,6 Z" fill="none" stroke="#3c71c7" strokeWidth="0.8" />}
+          </svg>
+        ))}
+
+        {/* Digital dots and lines pattern with enhanced gradient */}
+        <div className="absolute inset-0">
+          {Array.from({ length: 8 }).map((_, index) => (
+            <motion.div
+              key={`line-${index}`}
+              className="absolute w-[1px] bg-gradient-to-b from-transparent via-blue-500/40 to-transparent"
+              style={{
+                height: `${Math.random() * 12 + 8}%`,
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 80}%`,
+              }}
+              animate={{
+                y: [0, 50],
+                opacity: [0, 0.5, 0],
+              }}
+              transition={{
+                duration: Math.random() * 3 + 2,
+                repeat: Infinity,
+                delay: Math.random() * 5,
+                ease: "linear"
+              }}
+            />
+          ))}
         </div>
+      </div>
+
+      <div className="w-full max-w-md space-y-8 z-10">
+        <motion.div
+          className="text-center space-y-2"
+          variants={fadeIn}
+          initial="hidden"
+          animate="visible"
+        >
+          <motion.div
+            className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[#1a4480] to-[#4d7cc7] shadow-lg"
+            whileHover={{ scale: 1.1, boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.2)' }}
+            transition={{ type: "spring", stiffness: 400, damping: 10 }}
+          >
+            <BookOpen className="h-9 w-9 text-white" />
+          </motion.div>
+
+          <motion.h1
+            className="mt-6 text-4xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[#1a4480] to-[#2c5aa0]"
+            variants={fadeIn}
+            initial="hidden"
+            animate="visible"
+            transition={{ delay: 0.1 }}
+            style={{ fontFamily: "'Playfair Display', serif" }}
+          >
+            EduSpry
+          </motion.h1>
+
+          <motion.div
+            className="flex items-center justify-center gap-2"
+            variants={fadeIn}
+            initial="hidden"
+            animate="visible"
+            transition={{ delay: 0.2 }}
+          >
+            <span className="text-gray-600" style={{ fontFamily: "'Open Sans', sans-serif" }}>
+              Reset Your Password
+            </span>
+            <motion.span
+              animate={{
+                opacity: [0.5, 1, 0.5],
+                scale: [1, 1.1, 1]
+              }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <Sparkles className="h-3.5 w-3.5 text-[#1a4480]" />
+            </motion.span>
+          </motion.div>
+        </motion.div>
+
+        <motion.div
+          variants={fadeIn}
+          initial="hidden"
+          animate="visible"
+          transition={{ delay: 0.3 }}
+        >
+          <Card className="backdrop-blur-sm bg-white/90 border border-blue-100/20 shadow-xl hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] transition-all duration-500">
+            <CardHeader className="space-y-1">
+              <CardTitle className="text-2xl text-center font-semibold bg-clip-text text-transparent bg-gradient-to-r from-[#1a4480] to-[#2c5aa0]" style={{ fontFamily: "'Playfair Display', serif" }}>
+                {isSuccess ? 'Password Reset Complete' : 'Create New Password'}
+              </CardTitle>
+              <CardDescription className="text-center text-gray-500">
+                {isSuccess
+                  ? "Your password has been successfully reset"
+                  : "Enter your new password below"
+                }
+              </CardDescription>
+            </CardHeader>
+
+            {isSuccess ? (
+              <CardContent className="space-y-4 py-4">
+                <div className="flex flex-col items-center justify-center space-y-4 p-6">
+                  <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-green-50">
+                    <CheckCircle className="h-10 w-10 text-green-600" />
+                  </div>
+                  <p className="text-center text-sm text-gray-600 max-w-xs">
+                    Your password has been successfully reset. You will be redirected to the login page shortly.
+                  </p>
+                </div>
+              </CardContent>
+            ) : (
+              <form onSubmit={handleSubmit}>
+                <CardContent className="space-y-4 py-4">
+                  {error && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <Alert variant="destructive">
+                        <AlertDescription>{error}</AlertDescription>
+                      </Alert>
+                    </motion.div>
+                  )}
+
+                  <motion.div
+                    className="space-y-2"
+                    whileHover={{ y: -2 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Label htmlFor="password" className="text-[#1a4480] font-medium">New Password</Label>
+                    <div className="relative">
+                      <div className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-400/40">
+                        <Lock className="h-4 w-4" />
+                      </div>
+                      <Input
+                        id="password"
+                        type="password"
+                        className="pl-10 bg-white/70 backdrop-blur-sm border-[#1a4480]/20 focus:border-[#1a4480] focus:ring-[#1a4480]/20 transition-all duration-300"
+                        placeholder="••••••••"
+                        required
+                        minLength={8}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
+                    </div>
+                    <p className="text-xs text-gray-500">Password must be at least 8 characters long</p>
+                  </motion.div>
+
+                  <motion.div
+                    className="space-y-2"
+                    whileHover={{ y: -2 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Label htmlFor="confirmPassword" className="text-[#1a4480] font-medium">Confirm Password</Label>
+                    <div className="relative">
+                      <div className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-400/40">
+                        <Lock className="h-4 w-4" />
+                      </div>
+                      <Input
+                        id="confirmPassword"
+                        type="password"
+                        className="pl-10 bg-white/70 backdrop-blur-sm border-[#1a4480]/20 focus:border-[#1a4480] focus:ring-[#1a4480]/20 transition-all duration-300"
+                        placeholder="••••••••"
+                        required
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                      />
+                    </div>
+                  </motion.div>
+                </CardContent>
+
+                <CardFooter>
+                  <motion.div
+                    className="w-full"
+                    whileHover={{ scale: 1.03, y: -2 }}
+                    whileTap={{ scale: 0.97 }}
+                    transition={{ type: "spring", stiffness: 500, damping: 15 }}
+                  >
+                    <Button
+                      type="submit"
+                      className="w-full bg-gradient-to-r from-[#1a4480] to-[#2c5aa0] hover:from-[#0f2b50] hover:to-[#1a4480] text-white shadow-md"
+                      disabled={isLoading || !token}
+                    >
+                      {isLoading ? (
+                        <>
+                          <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+                          Resetting...
+                        </>
+                      ) : (
+                        'Reset Password'
+                      )}
+                    </Button>
+                  </motion.div>
+                </CardFooter>
+              </form>
+            )}
+          </Card>
+        </motion.div>
+
+        <motion.div
+          className="text-center text-sm text-gray-500 mt-6"
+          variants={fadeIn}
+          initial="hidden"
+          animate="visible"
+          transition={{ delay: 0.4 }}
+        >
+          <motion.div
+            className="inline-flex items-center justify-center space-x-1 font-medium text-[#1a4480] hover:text-[#142f59]"
+            whileHover={{ y: -2 }}
+            transition={{ duration: 0.2 }}
+          >
+            <Link to="/login" className="flex items-center">
+              <ArrowLeft className="h-3.5 w-3.5 mr-1" />
+              Back to Login
+            </Link>
+          </motion.div>
+        </motion.div>
       </div>
     </div>
   );
