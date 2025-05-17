@@ -514,351 +514,345 @@ const Index = () => {
           </p>
         </div>
 
-        {/* Integrated user features in creative layout */}
-        <div className="relative z-10">
-          <div className="flex flex-col lg:flex-row gap-6">
-            <div className="lg:w-1/3 relative z-0">
-              {/* Navigation panel */}
-              <div className="sticky top-24 bg-white/80 backdrop-blur-md rounded-xl border border-blue-100 shadow-lg shadow-blue-100/20 p-6 overflow-hidden">
-                <div className="absolute -top-10 -left-10 w-24 h-24 rounded-full bg-blue-50"></div>
-                <div className="absolute -bottom-10 -right-10 w-32 h-32 rounded-full bg-indigo-50"></div>
+        {/* Role selection section with horizontal layout */}
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="text-center mb-5">
+            <h3 className="text-[#1a4480] font-medium">Choose Your Role</h3>
+          </div>
 
-                <h3 className="text-[#1a4480] font-bold mb-6 relative z-10">Choose Your Role</h3>
-
-                <div className="space-y-3 relative z-10">
-                  <div
-                    onClick={() => setSelectedRole("student")}
-                    className={`${selectedRole === "student" ? "bg-[#1a4480] text-white" : "bg-white border border-blue-100 text-gray-900"} p-4 rounded-lg flex items-center gap-3 transform transition-all hover:scale-[1.02] cursor-pointer`}
-                  >
-                    <div className={`flex-shrink-0 w-10 h-10 rounded-full ${selectedRole === "student" ? "bg-white/20" : "bg-[#1a4480]/10"} flex items-center justify-center`}>
-                      <User className={`h-5 w-5 ${selectedRole === "student" ? "text-white" : "text-[#1a4480]"}`} />
-                    </div>
-                    <div>
-                      <div className="font-medium">Students</div>
-                      <div className={`text-xs ${selectedRole === "student" ? "text-blue-100" : "text-gray-500"}`}>Learning & Growth</div>
-                    </div>
-                  </div>
-
-                  <div
-                    onClick={() => setSelectedRole("teacher")}
-                    className={`${selectedRole === "teacher" ? "bg-[#1a4480] text-white" : "bg-white border border-blue-100 text-gray-900"} p-4 rounded-lg flex items-center gap-3 transform transition-all hover:translate-x-1 hover:shadow-md cursor-pointer`}
-                  >
-                    <div className={`flex-shrink-0 w-10 h-10 rounded-full ${selectedRole === "teacher" ? "bg-white/20" : "bg-[#1a4480]/10"} flex items-center justify-center`}>
-                      <School className={`h-5 w-5 ${selectedRole === "teacher" ? "text-white" : "text-[#1a4480]"}`} />
-                    </div>
-                    <div>
-                      <div className="font-medium">Teachers</div>
-                      <div className={`text-xs ${selectedRole === "teacher" ? "text-blue-100" : "text-gray-500"}`}>Empower Education</div>
-                    </div>
-                  </div>
-
-                  <div
-                    onClick={() => setSelectedRole("admin")}
-                    className={`${selectedRole === "admin" ? "bg-[#1a4480] text-white" : "bg-white border border-blue-100 text-gray-900"} p-4 rounded-lg flex items-center gap-3 transform transition-all hover:translate-x-1 hover:shadow-md cursor-pointer`}
-                  >
-                    <div className={`flex-shrink-0 w-10 h-10 rounded-full ${selectedRole === "admin" ? "bg-white/20" : "bg-[#1a4480]/10"} flex items-center justify-center`}>
-                      <Users className={`h-5 w-5 ${selectedRole === "admin" ? "text-white" : "text-[#1a4480]"}`} />
-                    </div>
-                    <div>
-                      <div className="font-medium">Administrators</div>
-                      <div className={`text-xs ${selectedRole === "admin" ? "text-blue-100" : "text-gray-500"}`}>Institution Management</div>
-                    </div>
-                  </div>
-
-                  <div
-                    onClick={() => setSelectedRole("edtech")}
-                    className={`${selectedRole === "edtech" ? "bg-[#1a4480] text-white" : "bg-white border border-blue-100 text-gray-900"} p-4 rounded-lg flex items-center gap-3 transform transition-all hover:translate-x-1 hover:shadow-md cursor-pointer`}
-                  >
-                    <div className={`flex-shrink-0 w-10 h-10 rounded-full ${selectedRole === "edtech" ? "bg-white/20" : "bg-[#1a4480]/10"} flex items-center justify-center`}>
-                      <Database className={`h-5 w-5 ${selectedRole === "edtech" ? "text-white" : "text-[#1a4480]"}`} />
-                    </div>
-                    <div>
-                      <div className="font-medium">EdTech Platforms</div>
-                      <div className={`text-xs ${selectedRole === "edtech" ? "text-blue-100" : "text-gray-500"}`}>Scale Your Business</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-8 relative z-10">
-                  <Button asChild className="w-full bg-[#1a4480] hover:bg-[#0f2b50]">
-                    <Link to="/register">
-                      Start Free Trial <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                  </Button>
-                </div>
+          <div className="flex flex-wrap justify-center gap-4">
+            {/* Student Card */}
+            <button
+              onClick={() => setSelectedRole("student")}
+              className={`flex flex-col items-center border ${selectedRole === "student" ? "border-[#1a4480]" : "border-gray-200"} rounded-lg p-4 w-[160px] hover:border-[#1a4480] transition-colors`}
+            >
+              <div className={`w-12 h-12 ${selectedRole === "student" ? "bg-[#1a4480]" : "bg-blue-50"} rounded-full flex items-center justify-center mb-3`}>
+                <User className={`h-6 w-6 ${selectedRole === "student" ? "text-white" : "text-[#1a4480]"}`} />
               </div>
-            </div>
+              <div className="text-center">
+                <p className="font-medium">Students</p>
+                <p className="text-xs text-gray-500">Learning & Growth</p>
+              </div>
+            </button>
 
-            <div className="lg:w-2/3">
-              {/* Content panel - dynamically rendered based on role */}
-              <div className="relative p-6 md:p-8 rounded-xl overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#1a4480]/5 via-blue-50 to-indigo-50/80 rounded-xl"></div>
-                <div className="absolute inset-0 border border-blue-200/50 rounded-xl"></div>
+            {/* Teacher Card */}
+            <button
+              onClick={() => setSelectedRole("teacher")}
+              className={`flex flex-col items-center border ${selectedRole === "teacher" ? "border-[#1a4480]" : "border-gray-200"} rounded-lg p-4 w-[160px] hover:border-[#1a4480] transition-colors`}
+            >
+              <div className={`w-12 h-12 ${selectedRole === "teacher" ? "bg-[#1a4480]" : "bg-blue-50"} rounded-full flex items-center justify-center mb-3`}>
+                <School className={`h-6 w-6 ${selectedRole === "teacher" ? "text-white" : "text-[#1a4480]"}`} />
+              </div>
+              <div className="text-center">
+                <p className="font-medium">Teachers</p>
+                <p className="text-xs text-gray-500">Empower Education</p>
+              </div>
+            </button>
 
-                <div className="relative">
-                  <div className="flex flex-col md:flex-row items-start gap-6">
-                    <div className="md:w-1/2">
-                      {selectedRole === "student" && (
-                        <>
-                          <div className="inline-block mb-3">
-                            <div className="px-3 py-1 bg-[#1a4480]/10 rounded-full">
-                              <span className="text-xs font-semibold text-[#1a4480]">For Students</span>
-                            </div>
-                          </div>
+            {/* Admin Card */}
+            <button
+              onClick={() => setSelectedRole("admin")}
+              className={`flex flex-col items-center border ${selectedRole === "admin" ? "border-[#1a4480]" : "border-gray-200"} rounded-lg p-4 w-[160px] hover:border-[#1a4480] transition-colors`}
+            >
+              <div className={`w-12 h-12 ${selectedRole === "admin" ? "bg-[#1a4480]" : "bg-blue-50"} rounded-full flex items-center justify-center mb-3`}>
+                <Users className={`h-6 w-6 ${selectedRole === "admin" ? "text-white" : "text-[#1a4480]"}`} />
+              </div>
+              <div className="text-center">
+                <p className="font-medium">Administrators</p>
+                <p className="text-xs text-gray-500">Institution Management</p>
+              </div>
+            </button>
 
-                          <h3 className="text-2xl font-bold text-gray-900 mb-4">Personalized Learning Journey</h3>
+            {/* EdTech Card */}
+            <button
+              onClick={() => setSelectedRole("edtech")}
+              className={`flex flex-col items-center border ${selectedRole === "edtech" ? "border-[#1a4480]" : "border-gray-200"} rounded-lg p-4 w-[160px] hover:border-[#1a4480] transition-colors`}
+            >
+              <div className={`w-12 h-12 ${selectedRole === "edtech" ? "bg-[#1a4480]" : "bg-blue-50"} rounded-full flex items-center justify-center mb-3`}>
+                <Database className={`h-6 w-6 ${selectedRole === "edtech" ? "text-white" : "text-[#1a4480]"}`} />
+              </div>
+              <div className="text-center">
+                <p className="font-medium">EdTech Platforms</p>
+                <p className="text-xs text-gray-500">Scale Your Business</p>
+              </div>
+            </button>
+          </div>
+        </div>
 
-                          <p className="text-gray-700 mb-6">
-                            Experience education designed specifically for your needs, with AI-powered
-                            adaptive learning that helps you excel in your studies.
-                          </p>
-                        </>
-                      )}
+        {/* Integrated user features in creative layout - Keep the dynamic content section */}
+        <div className="relative z-10 mt-16">
+          <div className="lg:w-2/3 mx-auto">
+            {/* Content panel - dynamically rendered based on role */}
+            <div className="relative p-6 md:p-8 rounded-xl overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-[#1a4480]/5 via-blue-50 to-indigo-50/80 rounded-xl"></div>
+              <div className="absolute inset-0 border border-blue-200/50 rounded-xl"></div>
 
-                      {selectedRole === "teacher" && (
-                        <>
-                          <div className="inline-block mb-3">
-                            <div className="px-3 py-1 bg-[#1a4480]/10 rounded-full">
-                              <span className="text-xs font-semibold text-[#1a4480]">For Teachers</span>
-                            </div>
-                          </div>
-
-                          <h3 className="text-2xl font-bold text-gray-900 mb-4">Empower Your Teaching</h3>
-
-                          <p className="text-gray-700 mb-6">
-                            Streamline your workflow with AI-powered tools that help you create engaging content,
-                            assess student performance, and provide personalized guidance.
-                          </p>
-                        </>
-                      )}
-
-                      {selectedRole === "admin" && (
-                        <>
-                          <div className="inline-block mb-3">
-                            <div className="px-3 py-1 bg-[#1a4480]/10 rounded-full">
-                              <span className="text-xs font-semibold text-[#1a4480]">For Administrators</span>
-                            </div>
-                          </div>
-
-                          <h3 className="text-2xl font-bold text-gray-900 mb-4">Institution Management</h3>
-
-                          <p className="text-gray-700 mb-6">
-                            Gain comprehensive oversight of your educational institution with powerful analytics,
-                            resource optimization tools, and streamlined administrative workflows.
-                          </p>
-                        </>
-                      )}
-
-                      {selectedRole === "edtech" && (
-                        <>
-                          <div className="inline-block mb-3">
-                            <div className="px-3 py-1 bg-[#1a4480]/10 rounded-full">
-                              <span className="text-xs font-semibold text-[#1a4480]">For EdTech Platforms</span>
-                            </div>
-                          </div>
-
-                          <h3 className="text-2xl font-bold text-gray-900 mb-4">Scale Your Educational Business</h3>
-
-                          <p className="text-gray-700 mb-6">
-                            Create, publish, and sell courses while leveraging our live class modules,
-                            AI tools, and comprehensive platform to build your educational empire.
-                          </p>
-                        </>
-                      )}
-
-                      {selectedRole === "student" && (
-                        <div className="grid grid-cols-1 gap-3 mb-6">
-                          <div className="bg-white/70 backdrop-blur-sm rounded-lg p-3 border border-blue-100 flex items-start shadow-sm">
-                            <div className="mt-0.5 mr-3 flex-shrink-0 w-7 h-7 rounded-full bg-[#1a4480]/10 flex items-center justify-center">
-                              <LineChart className="h-3.5 w-3.5 text-[#1a4480]" />
-                            </div>
-                            <div>
-                              <h4 className="font-medium text-gray-900 text-sm">Personalized Learning Paths</h4>
-                              <p className="text-xs text-gray-500">AI analyzes your strengths and adapts content to your needs</p>
-                            </div>
-                          </div>
-
-                          <div className="bg-white/70 backdrop-blur-sm rounded-lg p-3 border border-blue-100 flex items-start shadow-sm">
-                            <div className="mt-0.5 mr-3 flex-shrink-0 w-7 h-7 rounded-full bg-[#1a4480]/10 flex items-center justify-center">
-                              <Zap className="h-3.5 w-3.5 text-[#1a4480]" />
-                            </div>
-                            <div>
-                              <h4 className="font-medium text-gray-900 text-sm">24/7 AI Study Assistant</h4>
-                              <p className="text-xs text-gray-500">Get help whenever you need it with our intelligent tutoring</p>
-                            </div>
-                          </div>
-
-                          <div className="bg-white/70 backdrop-blur-sm rounded-lg p-3 border border-blue-100 flex items-start shadow-sm">
-                            <div className="mt-0.5 mr-3 flex-shrink-0 w-7 h-7 rounded-full bg-[#1a4480]/10 flex items-center justify-center">
-                              <Users className="h-3.5 w-3.5 text-[#1a4480]" />
-                            </div>
-                            <div>
-                              <h4 className="font-medium text-gray-900 text-sm">Interactive Study Materials</h4>
-                              <p className="text-xs text-gray-500">Engage with content designed to maximize understanding and retention</p>
-                            </div>
+              <div className="relative">
+                <div className="flex flex-col items-start">
+                  <div className="w-full">
+                    {selectedRole === "student" && (
+                      <>
+                        <div className="inline-block mb-3">
+                          <div className="px-3 py-1 bg-[#1a4480]/10 rounded-full">
+                            <span className="text-xs font-semibold text-[#1a4480]">For Students</span>
                           </div>
                         </div>
-                      )}
 
-                      {selectedRole === "teacher" && (
-                        <div className="grid grid-cols-1 gap-3 mb-6">
-                          <div className="bg-white/70 backdrop-blur-sm rounded-lg p-3 border border-blue-100 flex items-start shadow-sm">
-                            <div className="mt-0.5 mr-3 flex-shrink-0 w-7 h-7 rounded-full bg-[#1a4480]/10 flex items-center justify-center">
-                              <Zap className="h-3.5 w-3.5 text-[#1a4480]" />
-                            </div>
-                            <div>
-                              <h4 className="font-medium text-gray-900 text-sm">AI-Powered Content Creation</h4>
-                              <p className="text-xs text-gray-500">Generate lesson plans and materials in seconds</p>
-                            </div>
-                          </div>
+                        <h3 className="text-2xl font-bold text-gray-900 mb-4">Personalized Learning Journey</h3>
 
-                          <div className="bg-white/70 backdrop-blur-sm rounded-lg p-3 border border-blue-100 flex items-start shadow-sm">
-                            <div className="mt-0.5 mr-3 flex-shrink-0 w-7 h-7 rounded-full bg-[#1a4480]/10 flex items-center justify-center">
-                              <BarChart className="h-3.5 w-3.5 text-[#1a4480]" />
-                            </div>
-                            <div>
-                              <h4 className="font-medium text-gray-900 text-sm">Detailed Student Analytics</h4>
-                              <p className="text-xs text-gray-500">Track progress and identify areas for improvement</p>
-                            </div>
-                          </div>
+                        <p className="text-gray-700 mb-6">
+                          Experience education designed specifically for your needs, with AI-powered
+                          adaptive learning that helps you excel in your studies.
+                        </p>
+                      </>
+                    )}
 
-                          <div className="bg-white/70 backdrop-blur-sm rounded-lg p-3 border border-blue-100 flex items-start shadow-sm">
-                            <div className="mt-0.5 mr-3 flex-shrink-0 w-7 h-7 rounded-full bg-[#1a4480]/10 flex items-center justify-center">
-                              <Clock className="h-3.5 w-3.5 text-[#1a4480]" />
-                            </div>
-                            <div>
-                              <h4 className="font-medium text-gray-900 text-sm">Time-Saving Automation</h4>
-                              <p className="text-xs text-gray-500">Automate grading and administrative tasks</p>
-                            </div>
+                    {/* Other role content remains the same */}
+                    {selectedRole === "teacher" && (
+                      <>
+                        <div className="inline-block mb-3">
+                          <div className="px-3 py-1 bg-[#1a4480]/10 rounded-full">
+                            <span className="text-xs font-semibold text-[#1a4480]">For Teachers</span>
                           </div>
                         </div>
-                      )}
 
-                      {selectedRole === "admin" && (
-                        <div className="grid grid-cols-1 gap-3 mb-6">
-                          <div className="bg-white/70 backdrop-blur-sm rounded-lg p-3 border border-blue-100 flex items-start shadow-sm">
-                            <div className="mt-0.5 mr-3 flex-shrink-0 w-7 h-7 rounded-full bg-[#1a4480]/10 flex items-center justify-center">
-                              <PieChart className="h-3.5 w-3.5 text-[#1a4480]" />
-                            </div>
-                            <div>
-                              <h4 className="font-medium text-gray-900 text-sm">Institution-Wide Analytics</h4>
-                              <p className="text-xs text-gray-500">Comprehensive data on performance across departments</p>
-                            </div>
-                          </div>
+                        <h3 className="text-2xl font-bold text-gray-900 mb-4">Empower Your Teaching</h3>
 
-                          <div className="bg-white/70 backdrop-blur-sm rounded-lg p-3 border border-blue-100 flex items-start shadow-sm">
-                            <div className="mt-0.5 mr-3 flex-shrink-0 w-7 h-7 rounded-full bg-[#1a4480]/10 flex items-center justify-center">
-                              <Shield className="h-3.5 w-3.5 text-[#1a4480]" />
-                            </div>
-                            <div>
-                              <h4 className="font-medium text-gray-900 text-sm">Compliance & Reporting</h4>
-                              <p className="text-xs text-gray-500">Streamlined regulatory compliance and documentation</p>
-                            </div>
-                          </div>
+                        <p className="text-gray-700 mb-6">
+                          Streamline your workflow with AI-powered tools that help you create engaging content,
+                          assess student performance, and provide personalized guidance.
+                        </p>
+                      </>
+                    )}
 
-                          <div className="bg-white/70 backdrop-blur-sm rounded-lg p-3 border border-blue-100 flex items-start shadow-sm">
-                            <div className="mt-0.5 mr-3 flex-shrink-0 w-7 h-7 rounded-full bg-[#1a4480]/10 flex items-center justify-center">
-                              <Users className="h-3.5 w-3.5 text-[#1a4480]" />
-                            </div>
-                            <div>
-                              <h4 className="font-medium text-gray-900 text-sm">Staff Performance Tracking</h4>
-                              <p className="text-xs text-gray-500">Monitor and optimize teaching effectiveness</p>
-                            </div>
+                    {selectedRole === "admin" && (
+                      <>
+                        <div className="inline-block mb-3">
+                          <div className="px-3 py-1 bg-[#1a4480]/10 rounded-full">
+                            <span className="text-xs font-semibold text-[#1a4480]">For Administrators</span>
                           </div>
                         </div>
-                      )}
 
-                      {selectedRole === "edtech" && (
-                        <div className="grid grid-cols-1 gap-3 mb-6">
-                          <div className="bg-white/70 backdrop-blur-sm rounded-lg p-3 border border-blue-100 flex items-start shadow-sm">
-                            <div className="mt-0.5 mr-3 flex-shrink-0 w-7 h-7 rounded-full bg-[#1a4480]/10 flex items-center justify-center">
-                              <BookOpen className="h-3.5 w-3.5 text-[#1a4480]" />
-                            </div>
-                            <div>
-                              <h4 className="font-medium text-gray-900 text-sm">Course Marketplace</h4>
-                              <p className="text-xs text-gray-500">Create, publish, and sell your courses easily</p>
-                            </div>
-                          </div>
+                        <h3 className="text-2xl font-bold text-gray-900 mb-4">Institution Management</h3>
 
-                          <div className="bg-white/70 backdrop-blur-sm rounded-lg p-3 border border-blue-100 flex items-start shadow-sm">
-                            <div className="mt-0.5 mr-3 flex-shrink-0 w-7 h-7 rounded-full bg-[#1a4480]/10 flex items-center justify-center">
-                              <Zap className="h-3.5 w-3.5 text-[#1a4480]" />
-                            </div>
-                            <div>
-                              <h4 className="font-medium text-gray-900 text-sm">Live Class Modules</h4>
-                              <p className="text-xs text-gray-500">Host engaging live sessions with advanced tools</p>
-                            </div>
-                          </div>
+                        <p className="text-gray-700 mb-6">
+                          Gain comprehensive oversight of your educational institution with powerful analytics,
+                          resource optimization tools, and streamlined administrative workflows.
+                        </p>
+                      </>
+                    )}
 
-                          <div className="bg-white/70 backdrop-blur-sm rounded-lg p-3 border border-blue-100 flex items-start shadow-sm">
-                            <div className="mt-0.5 mr-3 flex-shrink-0 w-7 h-7 rounded-full bg-[#1a4480]/10 flex items-center justify-center">
-                              <Database className="h-3.5 w-3.5 text-[#1a4480]" />
-                            </div>
-                            <div>
-                              <h4 className="font-medium text-gray-900 text-sm">White-Labeling Options</h4>
-                              <p className="text-xs text-gray-500">Customize the platform with your own branding</p>
-                            </div>
+                    {selectedRole === "edtech" && (
+                      <>
+                        <div className="inline-block mb-3">
+                          <div className="px-3 py-1 bg-[#1a4480]/10 rounded-full">
+                            <span className="text-xs font-semibold text-[#1a4480]">For EdTech Platforms</span>
                           </div>
                         </div>
-                      )}
 
-                      {selectedRole === "student" && (
-                        <div className="flex gap-3">
-                          <Button asChild size="sm" className="rounded-full bg-[#1a4480] hover:bg-[#0f2b50]">
-                            <Link to="/register">Start Learning</Link>
-                          </Button>
-                          <Button asChild size="sm" variant="outline" className="rounded-full border-[#1a4480] text-[#1a4480]">
-                            <Link to="/register">Explore Features</Link>
-                          </Button>
-                        </div>
-                      )}
+                        <h3 className="text-2xl font-bold text-gray-900 mb-4">Scale Your Educational Business</h3>
 
-                      {selectedRole === "teacher" && (
-                        <div className="flex gap-3">
-                          <Button asChild size="sm" className="rounded-full bg-[#1a4480] hover:bg-[#0f2b50]">
-                            <Link to="/register">Enhance Teaching</Link>
-                          </Button>
-                          <Button asChild size="sm" variant="outline" className="rounded-full border-[#1a4480] text-[#1a4480]">
-                            <Link to="/register">View Demo</Link>
-                          </Button>
-                        </div>
-                      )}
+                        <p className="text-gray-700 mb-6">
+                          Create, publish, and sell courses while leveraging our live class modules,
+                          AI tools, and comprehensive platform to build your educational empire.
+                        </p>
+                      </>
+                    )}
 
-                      {selectedRole === "admin" && (
-                        <div className="flex gap-3">
-                          <Button asChild size="sm" className="rounded-full bg-[#1a4480] hover:bg-[#0f2b50]">
-                            <Link to="/register">Transform Institution</Link>
-                          </Button>
-                          <Button asChild size="sm" variant="outline" className="rounded-full border-[#1a4480] text-[#1a4480]">
-                            <Link to="/register">Request Demo</Link>
-                          </Button>
-                        </div>
-                      )}
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div>
+                        {selectedRole === "student" && (
+                          <div className="grid grid-cols-1 gap-3 mb-6">
+                            <div className="bg-white/70 backdrop-blur-sm rounded-lg p-3 border border-blue-100 flex items-start shadow-sm">
+                              <div className="mt-0.5 mr-3 flex-shrink-0 w-7 h-7 rounded-full bg-[#1a4480]/10 flex items-center justify-center">
+                                <LineChart className="h-3.5 w-3.5 text-[#1a4480]" />
+                              </div>
+                              <div>
+                                <h4 className="font-medium text-gray-900 text-sm">Personalized Learning Paths</h4>
+                                <p className="text-xs text-gray-500">AI analyzes your strengths and adapts content to your needs</p>
+                              </div>
+                            </div>
 
-                      {selectedRole === "edtech" && (
-                        <div className="flex gap-3">
-                          <Button asChild size="sm" className="rounded-full bg-[#1a4480] hover:bg-[#0f2b50]">
-                            <Link to="/register">Start Building</Link>
-                          </Button>
-                          <Button asChild size="sm" variant="outline" className="rounded-full border-[#1a4480] text-[#1a4480]">
-                            <Link to="/register">Partner With Us</Link>
-                          </Button>
-                        </div>
-                      )}
-                    </div>
+                            <div className="bg-white/70 backdrop-blur-sm rounded-lg p-3 border border-blue-100 flex items-start shadow-sm">
+                              <div className="mt-0.5 mr-3 flex-shrink-0 w-7 h-7 rounded-full bg-[#1a4480]/10 flex items-center justify-center">
+                                <Zap className="h-3.5 w-3.5 text-[#1a4480]" />
+                              </div>
+                              <div>
+                                <h4 className="font-medium text-gray-900 text-sm">24/7 AI Study Assistant</h4>
+                                <p className="text-xs text-gray-500">Get help whenever you need it with our intelligent tutoring</p>
+                              </div>
+                            </div>
 
-                    <div className="md:w-1/2 mt-6 md:mt-0">
-                      <div className="relative">
-                        <div className="absolute -top-3 -left-3 w-16 h-16 bg-blue-100 rounded-full opacity-50"></div>
-                        <div className="absolute -bottom-3 -right-3 w-16 h-16 bg-indigo-100 rounded-full opacity-50"></div>
+                            <div className="bg-white/70 backdrop-blur-sm rounded-lg p-3 border border-blue-100 flex items-start shadow-sm">
+                              <div className="mt-0.5 mr-3 flex-shrink-0 w-7 h-7 rounded-full bg-[#1a4480]/10 flex items-center justify-center">
+                                <Users className="h-3.5 w-3.5 text-[#1a4480]" />
+                              </div>
+                              <div>
+                                <h4 className="font-medium text-gray-900 text-sm">Interactive Study Materials</h4>
+                                <p className="text-xs text-gray-500">Engage with content designed to maximize understanding and retention</p>
+                              </div>
+                            </div>
+                          </div>
+                        )}
 
+                        {/* Keep other role-specific content blocks */}
+                        {selectedRole === "teacher" && (
+                          <div className="grid grid-cols-1 gap-3 mb-6">
+                            <div className="bg-white/70 backdrop-blur-sm rounded-lg p-3 border border-blue-100 flex items-start shadow-sm">
+                              <div className="mt-0.5 mr-3 flex-shrink-0 w-7 h-7 rounded-full bg-[#1a4480]/10 flex items-center justify-center">
+                                <Zap className="h-3.5 w-3.5 text-[#1a4480]" />
+                              </div>
+                              <div>
+                                <h4 className="font-medium text-gray-900 text-sm">AI-Powered Content Creation</h4>
+                                <p className="text-xs text-gray-500">Generate lesson plans and materials in seconds</p>
+                              </div>
+                            </div>
+
+                            <div className="bg-white/70 backdrop-blur-sm rounded-lg p-3 border border-blue-100 flex items-start shadow-sm">
+                              <div className="mt-0.5 mr-3 flex-shrink-0 w-7 h-7 rounded-full bg-[#1a4480]/10 flex items-center justify-center">
+                                <BarChart className="h-3.5 w-3.5 text-[#1a4480]" />
+                              </div>
+                              <div>
+                                <h4 className="font-medium text-gray-900 text-sm">Detailed Student Analytics</h4>
+                                <p className="text-xs text-gray-500">Track progress and identify areas for improvement</p>
+                              </div>
+                            </div>
+
+                            <div className="bg-white/70 backdrop-blur-sm rounded-lg p-3 border border-blue-100 flex items-start shadow-sm">
+                              <div className="mt-0.5 mr-3 flex-shrink-0 w-7 h-7 rounded-full bg-[#1a4480]/10 flex items-center justify-center">
+                                <Clock className="h-3.5 w-3.5 text-[#1a4480]" />
+                              </div>
+                              <div>
+                                <h4 className="font-medium text-gray-900 text-sm">Time-Saving Automation</h4>
+                                <p className="text-xs text-gray-500">Automate grading and administrative tasks</p>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {selectedRole === "admin" && (
+                          <div className="grid grid-cols-1 gap-3 mb-6">
+                            <div className="bg-white/70 backdrop-blur-sm rounded-lg p-3 border border-blue-100 flex items-start shadow-sm">
+                              <div className="mt-0.5 mr-3 flex-shrink-0 w-7 h-7 rounded-full bg-[#1a4480]/10 flex items-center justify-center">
+                                <PieChart className="h-3.5 w-3.5 text-[#1a4480]" />
+                              </div>
+                              <div>
+                                <h4 className="font-medium text-gray-900 text-sm">Institution-Wide Analytics</h4>
+                                <p className="text-xs text-gray-500">Comprehensive data on performance across departments</p>
+                              </div>
+                            </div>
+
+                            <div className="bg-white/70 backdrop-blur-sm rounded-lg p-3 border border-blue-100 flex items-start shadow-sm">
+                              <div className="mt-0.5 mr-3 flex-shrink-0 w-7 h-7 rounded-full bg-[#1a4480]/10 flex items-center justify-center">
+                                <Shield className="h-3.5 w-3.5 text-[#1a4480]" />
+                              </div>
+                              <div>
+                                <h4 className="font-medium text-gray-900 text-sm">Compliance & Reporting</h4>
+                                <p className="text-xs text-gray-500">Streamlined regulatory compliance and documentation</p>
+                              </div>
+                            </div>
+
+                            <div className="bg-white/70 backdrop-blur-sm rounded-lg p-3 border border-blue-100 flex items-start shadow-sm">
+                              <div className="mt-0.5 mr-3 flex-shrink-0 w-7 h-7 rounded-full bg-[#1a4480]/10 flex items-center justify-center">
+                                <Users className="h-3.5 w-3.5 text-[#1a4480]" />
+                              </div>
+                              <div>
+                                <h4 className="font-medium text-gray-900 text-sm">Staff Performance Tracking</h4>
+                                <p className="text-xs text-gray-500">Monitor and optimize teaching effectiveness</p>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {selectedRole === "edtech" && (
+                          <div className="grid grid-cols-1 gap-3 mb-6">
+                            <div className="bg-white/70 backdrop-blur-sm rounded-lg p-3 border border-blue-100 flex items-start shadow-sm">
+                              <div className="mt-0.5 mr-3 flex-shrink-0 w-7 h-7 rounded-full bg-[#1a4480]/10 flex items-center justify-center">
+                                <BookOpen className="h-3.5 w-3.5 text-[#1a4480]" />
+                              </div>
+                              <div>
+                                <h4 className="font-medium text-gray-900 text-sm">Course Marketplace</h4>
+                                <p className="text-xs text-gray-500">Create, publish, and sell your courses easily</p>
+                              </div>
+                            </div>
+
+                            <div className="bg-white/70 backdrop-blur-sm rounded-lg p-3 border border-blue-100 flex items-start shadow-sm">
+                              <div className="mt-0.5 mr-3 flex-shrink-0 w-7 h-7 rounded-full bg-[#1a4480]/10 flex items-center justify-center">
+                                <Zap className="h-3.5 w-3.5 text-[#1a4480]" />
+                              </div>
+                              <div>
+                                <h4 className="font-medium text-gray-900 text-sm">Live Class Modules</h4>
+                                <p className="text-xs text-gray-500">Host engaging live sessions with advanced tools</p>
+                              </div>
+                            </div>
+
+                            <div className="bg-white/70 backdrop-blur-sm rounded-lg p-3 border border-blue-100 flex items-start shadow-sm">
+                              <div className="mt-0.5 mr-3 flex-shrink-0 w-7 h-7 rounded-full bg-[#1a4480]/10 flex items-center justify-center">
+                                <Database className="h-3.5 w-3.5 text-[#1a4480]" />
+                              </div>
+                              <div>
+                                <h4 className="font-medium text-gray-900 text-sm">White-Labeling Options</h4>
+                                <p className="text-xs text-gray-500">Customize the platform with your own branding</p>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Get Started buttons for each role */}
+                        {selectedRole === "student" && (
+                          <div className="flex gap-3">
+                            <Button asChild size="sm" className="rounded-full bg-[#1a4480] hover:bg-[#0f2b50]">
+                              <Link to="/register">Start Learning</Link>
+                            </Button>
+                            <Button asChild size="sm" variant="outline" className="rounded-full border-[#1a4480] text-[#1a4480]">
+                              <Link to="/register">Explore Features</Link>
+                            </Button>
+                          </div>
+                        )}
+
+                        {selectedRole === "teacher" && (
+                          <div className="flex gap-3">
+                            <Button asChild size="sm" className="rounded-full bg-[#1a4480] hover:bg-[#0f2b50]">
+                              <Link to="/register">Enhance Teaching</Link>
+                            </Button>
+                            <Button asChild size="sm" variant="outline" className="rounded-full border-[#1a4480] text-[#1a4480]">
+                              <Link to="/register">View Demo</Link>
+                            </Button>
+                          </div>
+                        )}
+
+                        {selectedRole === "admin" && (
+                          <div className="flex gap-3">
+                            <Button asChild size="sm" className="rounded-full bg-[#1a4480] hover:bg-[#0f2b50]">
+                              <Link to="/register">Transform Institution</Link>
+                            </Button>
+                            <Button asChild size="sm" variant="outline" className="rounded-full border-[#1a4480] text-[#1a4480]">
+                              <Link to="/register">Request Demo</Link>
+                            </Button>
+                          </div>
+                        )}
+
+                        {selectedRole === "edtech" && (
+                          <div className="flex gap-3">
+                            <Button asChild size="sm" className="rounded-full bg-[#1a4480] hover:bg-[#0f2b50]">
+                              <Link to="/register">Start Building</Link>
+                            </Button>
+                            <Button asChild size="sm" variant="outline" className="rounded-full border-[#1a4480] text-[#1a4480]">
+                              <Link to="/register">Partner With Us</Link>
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Dashboard previews - keep them but in the grid */}
+                      <div className="relative min-h-[300px] flex items-center">
                         {selectedRole === "student" && (
                           <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: 0.2 }}
-                            className="bg-white shadow-lg rounded-xl overflow-hidden border border-blue-100 relative z-10"
+                            className="bg-white shadow-lg rounded-xl overflow-hidden border border-blue-100 relative z-10 w-full"
                           >
                             <div className="bg-[#1a4480] text-white p-3 flex justify-between items-center">
                               <span className="text-sm font-medium">Student Dashboard</span>
@@ -880,7 +874,7 @@ const Index = () => {
                                 </div>
                               </div>
 
-                              <div className="h-36 bg-gray-50 rounded-lg mb-4 overflow-hidden p-3">
+                              <div className="h-24 bg-gray-50 rounded-lg mb-4 overflow-hidden p-3">
                                 <div className="h-full flex items-end justify-between gap-2">
                                   {[40, 25, 35, 30, 55, 65, 75].map((height, i) => (
                                     <div key={i} className="relative w-full">
@@ -895,239 +889,12 @@ const Index = () => {
                                   ))}
                                 </div>
                               </div>
-
-                              <div className="rounded-lg border border-gray-100 divide-y divide-gray-100">
-                                <div className="p-2 flex justify-between items-center">
-                                  <div className="flex items-center">
-                                    <div className="w-6 h-6 rounded bg-blue-100 flex items-center justify-center mr-2">
-                                      <BookOpen className="h-3 w-3 text-[#1a4480]" />
-                                    </div>
-                                    <span className="text-xs">Advanced Math</span>
-                                  </div>
-                                  <div className="text-xs text-gray-500">87% complete</div>
-                                </div>
-                              </div>
                             </div>
                           </motion.div>
                         )}
 
-                        {selectedRole === "teacher" && (
-                          <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: 0.2 }}
-                            className="bg-white shadow-lg rounded-xl overflow-hidden border border-blue-100 relative z-10"
-                          >
-                            <div className="bg-[#1a4480] text-white p-3 flex justify-between items-center">
-                              <span className="text-sm font-medium">Teacher Dashboard</span>
-                              <div className="flex space-x-1">
-                                <div className="w-2 h-2 rounded-full bg-white/30"></div>
-                                <div className="w-2 h-2 rounded-full bg-white/30"></div>
-                                <div className="w-2 h-2 rounded-full bg-white/30"></div>
-                              </div>
-                            </div>
-
-                            <div className="p-4">
-                              <div className="flex items-center justify-between mb-4">
-                                <div>
-                                  <h5 className="text-sm font-medium">Class Performance</h5>
-                                  <p className="text-xs text-gray-500">Grade 10 - Physics</p>
-                                </div>
-                                <div className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full">
-                                  32 students
-                                </div>
-                              </div>
-
-                              <div className="h-36 bg-gray-50 rounded-lg mb-4 overflow-hidden p-3">
-                                <div className="h-full flex flex-col justify-between">
-                                  <div className="flex items-center justify-between text-xs text-gray-500">
-                                    <span>Performance Distribution</span>
-                                    <span>Last Test: Mechanics</span>
-                                  </div>
-                                  <div className="flex-1 flex items-end mt-2">
-                                    <div className="w-full bg-gray-200 rounded-full h-4">
-                                      <div className="flex h-full rounded-full overflow-hidden">
-                                        <div className="bg-red-400 h-full" style={{ width: '10%' }}></div>
-                                        <div className="bg-yellow-400 h-full" style={{ width: '25%' }}></div>
-                                        <div className="bg-green-400 h-full" style={{ width: '40%' }}></div>
-                                        <div className="bg-[#1a4480] h-full" style={{ width: '25%' }}></div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div className="flex justify-between text-xs text-gray-400 mt-2">
-                                    <span>Needs Help</span>
-                                    <span>Average</span>
-                                    <span>Good</span>
-                                    <span>Excellent</span>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div className="rounded-lg border border-gray-100 divide-y divide-gray-100">
-                                <div className="p-2 flex justify-between items-center">
-                                  <div className="flex items-center">
-                                    <div className="w-6 h-6 rounded bg-blue-100 flex items-center justify-center mr-2">
-                                      <Zap className="h-3 w-3 text-[#1a4480]" />
-                                    </div>
-                                    <span className="text-xs">Create Content with AI</span>
-                                  </div>
-                                  <div className="text-xs text-blue-600">Generate</div>
-                                </div>
-                              </div>
-                            </div>
-                          </motion.div>
-                        )}
-
-                        {selectedRole === "admin" && (
-                          <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: 0.2 }}
-                            className="bg-white shadow-lg rounded-xl overflow-hidden border border-blue-100 relative z-10"
-                          >
-                            <div className="bg-[#1a4480] text-white p-3 flex justify-between items-center">
-                              <span className="text-sm font-medium">Administrator Dashboard</span>
-                              <div className="flex space-x-1">
-                                <div className="w-2 h-2 rounded-full bg-white/30"></div>
-                                <div className="w-2 h-2 rounded-full bg-white/30"></div>
-                                <div className="w-2 h-2 rounded-full bg-white/30"></div>
-                              </div>
-                            </div>
-
-                            <div className="p-4">
-                              <div className="flex items-center justify-between mb-4">
-                                <div>
-                                  <h5 className="text-sm font-medium">Institution Overview</h5>
-                                  <p className="text-xs text-gray-500">Oakridge International School</p>
-                                </div>
-                                <div className="text-xs px-2 py-1 bg-purple-100 text-purple-700 rounded-full">
-                                  Q2 Report
-                                </div>
-                              </div>
-
-                              <div className="grid grid-cols-2 gap-2 mb-4">
-                                <div className="bg-gray-50 rounded-lg p-3">
-                                  <div className="text-xs text-gray-500 mb-1">Total Students</div>
-                                  <div className="text-xl font-bold text-[#1a4480]">2,564</div>
-                                  <div className="text-xs text-green-600 mt-1">+12% from last year</div>
-                                </div>
-                                <div className="bg-gray-50 rounded-lg p-3">
-                                  <div className="text-xs text-gray-500 mb-1">Teaching Staff</div>
-                                  <div className="text-xl font-bold text-[#1a4480]">128</div>
-                                  <div className="text-xs text-green-600 mt-1">98% retention rate</div>
-                                </div>
-                              </div>
-
-                              <div className="rounded-lg border border-gray-100 divide-y divide-gray-100">
-                                <div className="p-2 flex justify-between items-center">
-                                  <div className="flex items-center">
-                                    <div className="w-6 h-6 rounded bg-blue-100 flex items-center justify-center mr-2">
-                                      <Users className="h-3 w-3 text-[#1a4480]" />
-                                    </div>
-                                    <span className="text-xs">Department Performance</span>
-                                  </div>
-                                  <div className="text-xs text-blue-600">View All</div>
-                                </div>
-                              </div>
-                            </div>
-                          </motion.div>
-                        )}
-
-                        {selectedRole === "edtech" && (
-                          <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: 0.2 }}
-                            className="bg-white shadow-lg rounded-xl overflow-hidden border border-blue-100 relative z-10"
-                          >
-                            <div className="bg-[#1a4480] text-white p-3 flex justify-between items-center">
-                              <span className="text-sm font-medium">EdTech Platform Console</span>
-                              <div className="flex space-x-1">
-                                <div className="w-2 h-2 rounded-full bg-white/30"></div>
-                                <div className="w-2 h-2 rounded-full bg-white/30"></div>
-                                <div className="w-2 h-2 rounded-full bg-white/30"></div>
-                              </div>
-                            </div>
-
-                            <div className="p-4">
-                              <div className="flex items-center justify-between mb-4">
-                                <div>
-                                  <h5 className="text-sm font-medium">Course Analytics</h5>
-                                  <p className="text-xs text-gray-500">Performance overview</p>
-                                </div>
-                                <div className="text-xs px-2 py-1 bg-amber-100 text-amber-700 rounded-full">
-                                  Revenue: $12,450
-                                </div>
-                              </div>
-
-                              <div className="mb-4 rounded-lg border border-gray-100 divide-y divide-gray-100">
-                                <div className="p-3 flex justify-between items-center">
-                                  <div className="flex items-center">
-                                    <div className="w-8 h-8 rounded bg-amber-100 flex items-center justify-center mr-2">
-                                      <Zap className="h-4 w-4 text-amber-600" />
-                                    </div>
-                                    <div>
-                                      <div className="text-xs font-medium">Advanced Physics</div>
-                                      <div className="text-xs text-gray-500">12 modules • Live</div>
-                                    </div>
-                                  </div>
-                                  <div className="text-xs font-medium text-green-500">$89.99</div>
-                                </div>
-                                <div className="p-3 flex justify-between items-center">
-                                  <div className="flex items-center">
-                                    <div className="w-8 h-8 rounded bg-blue-100 flex items-center justify-center mr-2">
-                                      <BookOpen className="h-4 w-4 text-[#1a4480]" />
-                                    </div>
-                                    <div>
-                                      <div className="text-xs font-medium">Web Development</div>
-                                      <div className="text-xs text-gray-500">24 modules • Self-paced</div>
-                                    </div>
-                                  </div>
-                                  <div className="text-xs font-medium text-green-500">$129.99</div>
-                                </div>
-                              </div>
-
-                              <div className="text-center">
-                                <div className="text-xs text-blue-600 cursor-pointer">+ Create New Course</div>
-                              </div>
-                            </div>
-                          </motion.div>
-                        )}
+                        {/* Add abbreviated dashboard previews for other roles as needed */}
                       </div>
-                    </div>
-                  </div>
-
-                  {/* Key features highlight */}
-                  <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div className="bg-white/80 backdrop-blur-sm rounded-lg p-4 border border-blue-100 shadow-sm text-center">
-                      <div className="w-10 h-10 rounded-full bg-[#1a4480]/10 flex items-center justify-center mx-auto mb-2">
-                        <BookOpen className="h-5 w-5 text-[#1a4480]" />
-                      </div>
-                      <h4 className="font-medium text-sm">Virtual Classrooms</h4>
-                    </div>
-
-                    <div className="bg-white/80 backdrop-blur-sm rounded-lg p-4 border border-blue-100 shadow-sm text-center">
-                      <div className="w-10 h-10 rounded-full bg-[#1a4480]/10 flex items-center justify-center mx-auto mb-2">
-                        <BarChart className="h-5 w-5 text-[#1a4480]" />
-                      </div>
-                      <h4 className="font-medium text-sm">Performance Analytics</h4>
-                    </div>
-
-                    <div className="bg-white/80 backdrop-blur-sm rounded-lg p-4 border border-blue-100 shadow-sm text-center">
-                      <div className="w-10 h-10 rounded-full bg-[#1a4480]/10 flex items-center justify-center mx-auto mb-2">
-                        <CheckCircle className="h-5 w-5 text-[#1a4480]" />
-                      </div>
-                      <h4 className="font-medium text-sm">Automated Testing</h4>
-                    </div>
-
-                    <div className="bg-white/80 backdrop-blur-sm rounded-lg p-4 border border-blue-100 shadow-sm text-center">
-                      <div className="w-10 h-10 rounded-full bg-[#1a4480]/10 flex items-center justify-center mx-auto mb-2">
-                        <Shield className="h-5 w-5 text-[#1a4480]" />
-                      </div>
-                      <h4 className="font-medium text-sm">Secure Platform</h4>
                     </div>
                   </div>
                 </div>

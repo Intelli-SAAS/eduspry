@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, CheckCircle, Users, Lightbulb, Award, ChevronRight, Star, BookOpen } from 'lucide-react';
+import { ArrowRight, CheckCircle, Users, Lightbulb, Award, ChevronRight, Star, BookOpen, User, School, Database } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const LandingPage: React.FC = () => {
