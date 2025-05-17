@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+
+import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useInView, useAnimation } from 'framer-motion';
 import { ArrowRight, CheckCircle, Users, Lightbulb, Award, ChevronRight, Star, BookOpen, User, School, Database, Shield, Zap, LineChart, Bell, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -184,11 +185,154 @@ const EducationAIBackground = () => (
   </div>
 );
 
+// Animated section title component
+const AnimatedSectionTitle = ({ title, subtitle }: { title: string, subtitle: string }) => {
+  const controls = useAnimation();
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  
+  useEffect(() => {
+    if (isInView) {
+      controls.start("visible");
+    }
+  }, [controls, isInView]);
+
+  return (
+    <div ref={ref} className="text-center mb-16">
+      <motion.div
+        initial="hidden"
+        animate={controls}
+        variants={{
+          hidden: { opacity: 0 },
+          visible: { opacity: 1, transition: { duration: 0.5 } }
+        }}
+        className="inline-block mb-4 px-4 py-1 bg-[#1a4480]/10 rounded-full"
+      >
+        <span className="text-sm font-semibold text-[#1a4480]">
+          {subtitle}
+        </span>
+      </motion.div>
+
+      <motion.h2
+        initial="hidden"
+        animate={controls}
+        variants={{
+          hidden: { opacity: 0, y: 20 },
+          visible: { opacity: 1, y: 0, transition: { duration: 0.6, delay: 0.2 } }
+        }}
+        className="text-4xl font-bold text-gray-900 bg-clip-text text-transparent bg-gradient-to-r from-[#1a4480] to-[#2c5aa0]"
+      >
+        {title}
+      </motion.h2>
+
+      <motion.div 
+        initial="hidden"
+        animate={controls}
+        variants={{
+          hidden: { width: "0%" },
+          visible: { width: "150px", transition: { duration: 0.8, delay: 0.4 } }
+        }}
+        className="h-1 bg-gradient-to-r from-[#1a4480] to-[#3c71c7] rounded-full mx-auto mt-4"
+      />
+    </div>
+  );
+};
+
+// Feature card component with enhanced animations
+const FeatureCard = ({ feature, index }: { feature: any, index: number }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  
+  return (
+    <motion.div
+      ref={ref}
+      className={`flex-shrink-0 w-[340px] bg-gradient-to-br ${feature.color} rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow`}
+      initial={{ opacity: 0, y: 50 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+      transition={{ duration: 0.6, delay: 0.1 * index }}
+      whileHover={{ y: -8, scale: 1.02 }}
+    >
+      <div className="h-[200px] w-full bg-white relative overflow-hidden">
+        <img
+          src={feature.image}
+          alt={feature.title}
+          className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+        />
+        <motion.div 
+          className="absolute top-3 right-3 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-sm"
+          whileHover={{ rotate: 15 }}
+          transition={{ type: "spring", stiffness: 300 }}
+        >
+          {feature.icon}
+        </motion.div>
+      </div>
+      <div className="p-5">
+        <h3 className="font-bold text-gray-900 text-lg mb-2">{feature.title}</h3>
+        <p className="text-gray-600 text-sm">{feature.description}</p>
+      </div>
+    </motion.div>
+  );
+};
+
+// Testimonial card component with animations
+const TestimonialCard = ({ testimonial, index }: { testimonial: any, index: number }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  
+  return (
+    <motion.div
+      ref={ref}
+      className="bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow border border-gray-100 relative overflow-hidden"
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      variants={{
+        hidden: { opacity: 0, y: 30 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: index * 0.2 } }
+      }}
+    >
+      {/* Decorative quotation mark */}
+      <div className="absolute -top-4 -left-4 text-8xl text-gray-100 font-serif z-0">
+        "
+      </div>
+      
+      <div className="relative z-10">
+        <div className="flex mb-4">
+          {[...Array(testimonial.rating)].map((_, i) => (
+            <motion.div
+              key={i}
+              initial={{ scale: 0 }}
+              animate={isInView ? { scale: 1 } : { scale: 0 }}
+              transition={{ delay: index * 0.2 + i * 0.1 }}
+            >
+              <Star key={i} className="h-5 w-5 text-yellow-400 fill-yellow-400" />
+            </motion.div>
+          ))}
+        </div>
+        <p className="text-gray-700 italic mb-6">"{testimonial.quote}"</p>
+        <div className="flex items-center">
+          <div className="w-12 h-12 rounded-full bg-gradient-to-r from-[#1a4480] to-[#2c5aa0] flex items-center justify-center text-white font-semibold text-lg mr-4">
+            {testimonial.name.charAt(0)}
+          </div>
+          <div>
+            <h4 className="font-semibold text-gray-900">{testimonial.name}</h4>
+            <p className="text-gray-600 text-sm">{testimonial.role}</p>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
 const LandingPage: React.FC = () => {
   useEffect(() => {
     // Scroll to top on component mount
     window.scrollTo(0, 0);
   }, []);
+
+  // For parallax effects
+  const { scrollY } = useScroll();
+  const heroTextY = useTransform(scrollY, [0, 300], [0, 100]);
+  const heroOpacity = useTransform(scrollY, [0, 300], [1, 0.3]);
 
   // Animation variants
   const containerVariants = {
@@ -222,39 +366,64 @@ const LandingPage: React.FC = () => {
 
   return (
     <div className="overflow-hidden">
-      {/* Header */}
-      <header className="bg-[#1a4480] shadow-sm">
+      {/* Header with enhanced animations */}
+      <header className="bg-[#1a4480] shadow-sm sticky top-0 z-50">
         <div className="container mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center">
-              <Link to="/" className="text-2xl font-bold text-white">EduSpry</Link>
+              <motion.div
+                initial={{ x: -20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                <Link to="/" className="text-2xl font-bold text-white flex items-center">
+                  <BookOpen className="w-6 h-6 mr-2" />
+                  <span>EduSpry</span>
+                </Link>
+              </motion.div>
             </div>
             <div className="flex items-center space-x-4">
               <nav className="hidden md:flex items-center space-x-8">
-                <Link to="/features" className="text-white hover:text-blue-200 font-medium">Features</Link>
-                <Link to="/pricing" className="text-white hover:text-blue-200 font-medium">Pricing</Link>
-                <Link to="/about" className="text-white hover:text-blue-200 font-medium">About</Link>
-                <Link to="/contact" className="text-white hover:text-blue-200 font-medium">Contact</Link>
+                {["Features", "Pricing", "About", "Contact"].map((item, index) => (
+                  <motion.div
+                    key={item}
+                    initial={{ y: -20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.3, delay: 0.1 + index * 0.1 }}
+                  >
+                    <Link 
+                      to={`/${item.toLowerCase()}`} 
+                      className="text-white hover:text-blue-200 font-medium relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0 after:bg-white after:transition-all hover:after:w-full"
+                    >
+                      {item}
+                    </Link>
+                  </motion.div>
+                ))}
               </nav>
-              <Button
-                className="bg-white text-[#1a4480] hover:bg-blue-50 px-6 py-2 rounded-md font-medium"
-                asChild
-              >
-                <Link to="/login">Login</Link>
-              </Button>
-              <Button
-                className="bg-white text-[#1a4480] hover:bg-blue-50 px-6 py-2 rounded-md font-medium"
-                asChild
-              >
-                <Link to="/register">Sign up</Link>
-              </Button>
+              {["Login", "Sign up"].map((item, index) => (
+                <motion.div
+                  key={item}
+                  initial={{ x: 20, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Button
+                    className="bg-white text-[#1a4480] hover:bg-blue-50 px-6 py-2 rounded-md font-medium"
+                    asChild
+                  >
+                    <Link to={item === "Login" ? "/login" : "/register"}>{item}</Link>
+                  </Button>
+                </motion.div>
+              ))}
             </div>
           </div>
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="relative overflow-hidden">
+      {/* Hero Section with enhanced parallax and animations */}
+      <section className="relative overflow-hidden min-h-[90vh] flex items-center">
         {/* Background with subtle pattern and gradient */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#1a4480] to-[#2c5aa0] bg-grid-white/[0.05] bg-[length:16px_16px]"></div>
 
@@ -262,24 +431,58 @@ const LandingPage: React.FC = () => {
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 to-indigo-400"></div>
         <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-400 to-blue-400"></div>
 
+        {/* Animated particles */}
+        <div className="absolute inset-0 overflow-hidden">
+          {Array.from({ length: 20 }).map((_, i) => (
+            <motion.div
+              key={`particle-${i}`}
+              className="absolute rounded-full bg-white"
+              style={{
+                width: Math.random() * 4 + 2,
+                height: Math.random() * 4 + 2,
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+              }}
+              animate={{
+                opacity: [0.1, 0.5, 0.1],
+                scale: [1, 2, 1],
+              }}
+              transition={{
+                repeat: Infinity,
+                duration: Math.random() * 3 + 2,
+                delay: Math.random() * 2,
+              }}
+            />
+          ))}
+        </div>
+
         {/* Content */}
         <div className="container relative mx-auto px-6 py-24 md:py-32">
           <motion.div
             className="flex flex-col items-center text-center"
+            style={{ y: heroTextY, opacity: heroOpacity }}
             initial="hidden"
             animate="visible"
             variants={containerVariants}
           >
             <motion.h1
-              className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6"
+              className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight mb-6"
               variants={itemVariants}
             >
               Transform Your Education <br className="hidden md:block" />
-              <span className="text-blue-200">With AI-Powered Learning</span>
+              <span className="text-blue-200 relative">
+                With AI-Powered Learning
+                <motion.div
+                  className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-blue-300/40 to-indigo-300/40"
+                  initial={{ width: "0%" }}
+                  animate={{ width: "100%" }}
+                  transition={{ delay: 1, duration: 0.8 }}
+                />
+              </span>
             </motion.h1>
 
             <motion.p
-              className="text-lg md:text-xl text-white/80 max-w-3xl mb-8"
+              className="text-lg md:text-xl lg:text-2xl text-white/80 max-w-3xl mb-8"
               variants={itemVariants}
             >
               EduSpry helps teachers create engaging content, students learn more effectively,
@@ -290,29 +493,131 @@ const LandingPage: React.FC = () => {
               className="flex flex-col sm:flex-row gap-4 w-full justify-center"
               variants={itemVariants}
             >
-              <Button
-                className="bg-white text-[#1a4480] hover:bg-blue-50 px-8 py-6 text-lg rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all"
-                asChild
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                <Link to="/register">Get Started Free</Link>
-              </Button>
-              <Button
-                variant="outline"
-                className="border-white text-white hover:bg-white/10 px-8 py-6 text-lg rounded-lg font-semibold"
-                asChild
+                <Button
+                  className="bg-white text-[#1a4480] hover:bg-blue-50 px-8 py-6 text-lg rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all"
+                  asChild
+                >
+                  <Link to="/register">Get Started Free</Link>
+                </Button>
+              </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                <Link to="/demo">Watch Demo <ChevronRight className="ml-2 h-5 w-5" /></Link>
-              </Button>
+                <Button
+                  variant="outline"
+                  className="border-white text-white hover:bg-white/10 px-8 py-6 text-lg rounded-lg font-semibold"
+                  asChild
+                >
+                  <Link to="/demo">
+                    <motion.span
+                      className="flex items-center"
+                      initial={{ x: 0 }}
+                      whileHover={{ x: 5 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                    >
+                      Watch Demo <ChevronRight className="ml-2 h-5 w-5" />
+                    </motion.span>
+                  </Link>
+                </Button>
+              </motion.div>
+            </motion.div>
+            
+            {/* Floating devices mockup */}
+            <motion.div
+              className="relative mt-16 max-w-4xl mx-auto w-full"
+              initial={{ y: 100, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.6, duration: 0.8 }}
+            >
+              <div className="relative">
+                {/* Laptop */}
+                <div className="relative z-10 shadow-2xl rounded-lg mx-auto max-w-3xl overflow-hidden">
+                  <div className="bg-gray-800 p-1.5 rounded-t-lg">
+                    <div className="flex space-x-1.5">
+                      <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                      <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                      <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                    </div>
+                  </div>
+                  <div className="bg-gradient-to-br from-gray-100 to-gray-200 h-[240px] sm:h-[320px] flex items-center justify-center p-4">
+                    <div className="rounded-lg overflow-hidden shadow-inner w-full h-full bg-white">
+                      <div className="h-12 bg-[#1a4480] flex items-center px-4">
+                        <div className="w-24 h-4 bg-white/20 rounded"></div>
+                      </div>
+                      <div className="p-4 grid grid-cols-2 gap-4 h-[calc(100%-48px)]">
+                        <div className="col-span-1 bg-gray-50 rounded-lg p-2 h-full">
+                          <div className="w-full h-5 bg-gray-200 rounded mb-3"></div>
+                          <div className="w-3/4 h-4 bg-gray-200 rounded mb-2"></div>
+                          <div className="w-5/6 h-4 bg-gray-200 rounded mb-4"></div>
+                          <div className="w-1/2 h-8 bg-blue-500 rounded"></div>
+                        </div>
+                        <div className="col-span-1 bg-gray-50 rounded-lg flex items-center justify-center h-full">
+                          <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center">
+                            <div className="w-8 h-8 rounded-full bg-[#1a4480]"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Tablet floating on the left */}
+                <motion.div
+                  className="absolute left-0 -ml-16 top-1/2 transform -translate-y-1/2 hidden md:block"
+                  animate={{ y: [0, -10, 0] }}
+                  transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+                >
+                  <div className="bg-gray-800 p-1 rounded-xl shadow-xl">
+                    <div className="bg-gradient-to-br from-gray-100 to-gray-200 h-[160px] w-[120px] rounded-lg p-2">
+                      <div className="bg-white h-full rounded overflow-hidden">
+                        <div className="h-4 bg-[#1a4480] w-full"></div>
+                        <div className="p-1">
+                          <div className="w-full h-3 bg-gray-200 rounded mb-1"></div>
+                          <div className="w-3/4 h-3 bg-gray-200 rounded"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+                
+                {/* Phone floating on the right */}
+                <motion.div
+                  className="absolute right-0 -mr-12 top-1/4 hidden md:block"
+                  animate={{ y: [0, 10, 0] }}
+                  transition={{ repeat: Infinity, duration: 3, ease: "easeInOut", delay: 1 }}
+                >
+                  <div className="bg-gray-800 p-1 rounded-xl shadow-xl">
+                    <div className="bg-gradient-to-br from-gray-100 to-gray-200 h-[120px] w-[60px] rounded-lg p-1">
+                      <div className="bg-white h-full rounded overflow-hidden">
+                        <div className="h-3 bg-[#1a4480] w-full"></div>
+                        <div className="p-1">
+                          <div className="w-full h-2 bg-gray-200 rounded mb-1"></div>
+                          <div className="w-2/3 h-2 bg-gray-200 rounded"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
             </motion.div>
           </motion.div>
         </div>
 
-        {/* Straight divider */}
-        <div className="absolute bottom-0 left-0 w-full h-1 bg-gray-50"></div>
+        {/* Wave divider */}
+        <div className="absolute bottom-0 left-0 w-full">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" fill="white">
+            <path d="M0,96L48,85.3C96,75,192,53,288,48C384,43,480,53,576,69.3C672,85,768,107,864,101.3C960,96,1056,64,1152,48C1248,32,1344,32,1392,32L1440,32L1440,120L1392,120C1344,120,1248,120,1152,120C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120L0,120Z"></path>
+          </svg>
+        </div>
       </section>
 
-      {/* Trust Indicators */}
-      <section className="py-12 bg-gray-50 relative">
+      {/* Trust Indicators with improved animation */}
+      <section className="py-16 bg-gray-50 relative">
         <EducationAIBackground />
         <div className="container mx-auto px-6 relative z-10">
           <motion.div
@@ -320,55 +625,49 @@ const LandingPage: React.FC = () => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
-            variants={fadeIn}
+            variants={{
+              hidden: { opacity: 0 },
+              visible: { 
+                opacity: 1,
+                transition: { 
+                  staggerChildren: 0.2
+                } 
+              }
+            }}
           >
-            <img src="/brands/harvard.svg" alt="Harvard" className="h-8 grayscale opacity-70 hover:opacity-100 transition-opacity" />
-            <img src="/brands/stanford.svg" alt="Stanford" className="h-8 grayscale opacity-70 hover:opacity-100 transition-opacity" />
-            <img src="/brands/mit.svg" alt="MIT" className="h-8 grayscale opacity-70 hover:opacity-100 transition-opacity" />
-            <img src="/brands/oxford.svg" alt="Oxford" className="h-8 grayscale opacity-70 hover:opacity-100 transition-opacity" />
-            <img src="/brands/cambridge.svg" alt="Cambridge" className="h-8 grayscale opacity-70 hover:opacity-100 transition-opacity" />
+            {["harvard", "stanford", "mit", "oxford", "cambridge"].map((brand, index) => (
+              <motion.img 
+                key={brand}
+                src={`/brands/${brand}.svg`} 
+                alt={brand} 
+                className="h-8 grayscale opacity-70 hover:opacity-100 transition-opacity hover:grayscale-0"
+                variants={{
+                  hidden: { y: 20, opacity: 0 },
+                  visible: { 
+                    y: 0, 
+                    opacity: 1,
+                    transition: {
+                      duration: 0.5,
+                      delay: index * 0.1
+                    }
+                  }
+                }}
+              />
+            ))}
           </motion.div>
         </div>
       </section>
 
+      {/* Features section with enhanced animations */}
       <section className="py-20 bg-gradient-to-b from-white via-blue-50/20 to-white relative overflow-hidden">
         <EducationAIBackground />
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMxYTQ0ODAiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djZoNnYtNmgtNnptMC0xMnY2aDZ2LTZoLTZ6bTEyIDEydjZoNnYtNmgtNnptMC0xMnY2aDZ2LTZoLTZ6bS0yNCAwdjZoNnYtNmgtNnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-50 -z-10"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 relative z-10">
-          <div className="text-center mb-12">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="inline-block mb-4 px-4 py-1 bg-[#1a4480]/10 rounded-full"
-            >
-              <span className="text-sm font-semibold text-[#1a4480]">
-                Powerful Platform Features
-              </span>
-            </motion.div>
-
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-4xl font-bold text-gray-900 bg-clip-text text-transparent bg-gradient-to-r from-[#1a4480] to-[#2c5aa0]"
-            >
-              Advanced Educational Tools
-            </motion.h2>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="mt-4 text-xl text-gray-600 max-w-3xl mx-auto"
-            >
-              Discover how our comprehensive suite of tools empowers the entire educational ecosystem
-            </motion.p>
-          </div>
+          <AnimatedSectionTitle 
+            title="Advanced Educational Tools"
+            subtitle="Powerful Platform Features"
+          />
         </div>
 
         {/* Custom horizontal scroll section */}
@@ -377,12 +676,8 @@ const LandingPage: React.FC = () => {
           <div className="absolute right-0 top-0 bottom-0 w-20 z-10 bg-gradient-to-l from-white to-transparent pointer-events-none"></div>
 
           {/* Scroll container */}
-          <motion.div
+          <div
             className="flex gap-6 py-8 px-10 overflow-x-auto hide-scrollbar"
-            initial={{ x: 50, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
             style={{ paddingLeft: 'calc(50% - 500px)', paddingRight: '120px' }}
           >
             {/* Feature cards */}
@@ -416,32 +711,9 @@ const LandingPage: React.FC = () => {
                 icon: <Zap className="h-6 w-6 text-blue-600" />,
               }
             ].map((feature, index) => (
-              <motion.div
-                key={index}
-                className={`flex-shrink-0 w-[340px] bg-gradient-to-br ${feature.color} rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow`}
-                whileHover={{ y: -8, scale: 1.02 }}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.1 * index }}
-              >
-                <div className="h-[200px] w-full bg-white relative">
-                  <img
-                    src={feature.image}
-                    alt={feature.title}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute top-3 right-3 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-sm">
-                    {feature.icon}
-                  </div>
-                </div>
-                <div className="p-5">
-                  <h3 className="font-bold text-gray-900 text-lg mb-2">{feature.title}</h3>
-                  <p className="text-gray-600 text-sm">{feature.description}</p>
-                </div>
-              </motion.div>
+              <FeatureCard key={index} feature={feature} index={index} />
             ))}
-          </motion.div>
+          </div>
         </div>
 
         <div className="flex justify-center mt-12">
@@ -464,99 +736,81 @@ const LandingPage: React.FC = () => {
       <section className="py-20 bg-white relative">
         <EducationAIBackground />
         <div className="container mx-auto px-6 relative z-10">
-          <motion.div
-            className="text-center mb-16"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={fadeIn}
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Why Choose EduSpry?
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Our platform is designed to transform every aspect of educational experience
-              with innovative AI-powered tools.
-            </p>
-          </motion.div>
+          <AnimatedSectionTitle 
+            title="Why Choose EduSpry?"
+            subtitle="Innovative Educational Solutions"
+          />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {/* Feature 1 */}
-            <motion.div
-              className="bg-gray-50 rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow border border-gray-100"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-50px" }}
-              variants={fadeIn}
-            >
-              <div className="w-14 h-14 rounded-lg bg-gradient-to-r from-[#1a4480] to-[#2c5aa0] flex items-center justify-center mb-6">
-                <Lightbulb className="h-7 w-7 text-white" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">AI-Generated Content</h3>
-              <p className="text-gray-600 mb-4">
-                Create lesson plans, tests, quizzes and flashcards in seconds with our advanced AI assistance.
-              </p>
-              <ul className="space-y-2">
-                {['Test generators', 'Lesson planners', 'Flashcard creators'].map((item, index) => (
-                  <li key={index} className="flex items-start">
-                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
-                    <span className="text-gray-700">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
+            {/* Feature cards with animations */}
+            {[
+              {
+                title: "AI-Generated Content",
+                description: "Create lesson plans, tests, quizzes and flashcards in seconds with our advanced AI assistance.",
+                icon: <Lightbulb className="h-7 w-7 text-white" />,
+                features: ['Test generators', 'Lesson planners', 'Flashcard creators']
+              },
+              {
+                title: "Student Engagement",
+                description: "Boost student engagement with interactive learning tools and personalized content.",
+                icon: <Users className="h-7 w-7 text-white" />,
+                features: ['Voice assistant', 'Doubt solving', 'Interactive quizzes']
+              },
+              {
+                title: "Performance Analytics",
+                description: "Track student performance with detailed analytics and actionable insights.",
+                icon: <Award className="h-7 w-7 text-white" />,
+                features: ['Performance dashboards', 'Progress tracking', 'Personalized recommendations']
+              }
+            ].map((feature, index) => (
+              <motion.div
+                key={index}
+                className="bg-gray-50 rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow border border-gray-100 overflow-hidden relative"
+                initial="rest"
+                whileHover="hover"
+                variants={{
+                  rest: { backgroundColor: "#f9fafb" },
+                  hover: { backgroundColor: "#f0f7ff" }
+                }}
+              >
+                <motion.div 
+                  className="absolute -bottom-16 -right-16 w-32 h-32 bg-gradient-to-tr from-[#1a4480]/10 to-[#2c5aa0]/5 rounded-full"
+                  variants={{
+                    rest: { scale: 1 },
+                    hover: { scale: 1.5 }
+                  }}
+                />
 
-            {/* Feature 2 */}
-            <motion.div
-              className="bg-gray-50 rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow border border-gray-100"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-50px" }}
-              variants={fadeIn}
-              transition={{ delay: 0.1 }}
-            >
-              <div className="w-14 h-14 rounded-lg bg-gradient-to-r from-[#1a4480] to-[#2c5aa0] flex items-center justify-center mb-6">
-                <Users className="h-7 w-7 text-white" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Student Engagement</h3>
-              <p className="text-gray-600 mb-4">
-                Boost student engagement with interactive learning tools and personalized content.
-              </p>
-              <ul className="space-y-2">
-                {['Voice assistant', 'Doubt solving', 'Interactive quizzes'].map((item, index) => (
-                  <li key={index} className="flex items-start">
-                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
-                    <span className="text-gray-700">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-
-            {/* Feature 3 */}
-            <motion.div
-              className="bg-gray-50 rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow border border-gray-100"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-50px" }}
-              variants={fadeIn}
-              transition={{ delay: 0.2 }}
-            >
-              <div className="w-14 h-14 rounded-lg bg-gradient-to-r from-[#1a4480] to-[#2c5aa0] flex items-center justify-center mb-6">
-                <Award className="h-7 w-7 text-white" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Performance Analytics</h3>
-              <p className="text-gray-600 mb-4">
-                Track student performance with detailed analytics and actionable insights.
-              </p>
-              <ul className="space-y-2">
-                {['Performance dashboards', 'Progress tracking', 'Personalized recommendations'].map((item, index) => (
-                  <li key={index} className="flex items-start">
-                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
-                    <span className="text-gray-700">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
+                <div className="w-14 h-14 rounded-lg bg-gradient-to-r from-[#1a4480] to-[#2c5aa0] flex items-center justify-center mb-6 relative overflow-hidden">
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-indigo-400/20"
+                    variants={{
+                      rest: { x: -70 },
+                      hover: { x: 70 }
+                    }}
+                    transition={{ duration: 0.8 }}
+                  />
+                  {feature.icon}
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">{feature.title}</h3>
+                <p className="text-gray-600 mb-4">{feature.description}</p>
+                <ul className="space-y-2">
+                  {feature.features.map((item, idx) => (
+                    <motion.li 
+                      key={idx} 
+                      className="flex items-start"
+                      initial={{ opacity: 0, x: -10 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.3 + idx * 0.1 }}
+                      viewport={{ once: true }}
+                    >
+                      <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
+                      <span className="text-gray-700">{item}</span>
+                    </motion.li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
@@ -565,20 +819,10 @@ const LandingPage: React.FC = () => {
       <section className="py-20 bg-gray-50 relative">
         <EducationAIBackground />
         <div className="container mx-auto px-6 relative z-10">
-          <motion.div
-            className="text-center mb-16"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={fadeIn}
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              What Our Users Say
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Hear from educators and students who've transformed their learning experience with EduSpry.
-            </p>
-          </motion.div>
+          <AnimatedSectionTitle 
+            title="What Our Users Say"
+            subtitle="Success Stories"
+          />
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
@@ -601,72 +845,108 @@ const LandingPage: React.FC = () => {
                 rating: 5
               }
             ].map((testimonial, index) => (
-              <motion.div
-                key={index}
-                className="bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow border border-gray-100"
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-50px" }}
-                variants={fadeIn}
-                transition={{ delay: index * 0.1 }}
-              >
-                <div className="flex mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 text-yellow-400 fill-yellow-400" />
-                  ))}
-                </div>
-                <p className="text-gray-700 italic mb-6">"{testimonial.quote}"</p>
-                <div className="flex items-center">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-r from-[#1a4480] to-[#2c5aa0] flex items-center justify-center text-white font-semibold text-lg mr-4">
-                    {testimonial.name.charAt(0)}
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900">{testimonial.name}</h4>
-                    <p className="text-gray-600 text-sm">{testimonial.role}</p>
-                  </div>
-                </div>
-              </motion.div>
+              <TestimonialCard key={index} testimonial={testimonial} index={index} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* CTA Section with improved design and animations */}
       <section className="py-20 bg-white relative">
         <EducationAIBackground />
         <div className="container mx-auto px-6 relative z-10">
           <motion.div
             className="bg-gradient-to-r from-[#1a4480] to-[#2c5aa0] rounded-2xl overflow-hidden relative"
-            initial="hidden"
-            whileInView="visible"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
             viewport={{ once: true, margin: "-100px" }}
-            variants={fadeIn}
           >
             {/* Background pattern */}
             <div className="absolute inset-0 bg-grid-white/[0.05] bg-[length:16px_16px]"></div>
+            
+            {/* Animated shapes */}
+            <motion.div
+              className="absolute top-10 right-10 w-32 h-32 bg-blue-400/10 rounded-full blur-3xl"
+              animate={{ 
+                scale: [1, 1.2, 1],
+                opacity: [0.3, 0.6, 0.3]
+              }}
+              transition={{ 
+                repeat: Infinity, 
+                duration: 5,
+                ease: "easeInOut"
+              }}
+            />
+            
+            <motion.div
+              className="absolute bottom-10 left-10 w-48 h-48 bg-indigo-400/10 rounded-full blur-3xl"
+              animate={{ 
+                scale: [1, 1.3, 1],
+                opacity: [0.2, 0.4, 0.2]
+              }}
+              transition={{ 
+                repeat: Infinity, 
+                duration: 7,
+                ease: "easeInOut",
+                delay: 1
+              }}
+            />
 
             <div className="relative py-16 px-8 md:px-16 text-center">
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+              <motion.h2
+                className="text-3xl md:text-4xl font-bold text-white mb-6"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+              >
                 Ready to Transform Your Educational Experience?
-              </h2>
-              <p className="text-xl text-white/80 max-w-3xl mx-auto mb-8">
+              </motion.h2>
+              <motion.p
+                className="text-xl text-white/80 max-w-3xl mx-auto mb-8"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                viewport={{ once: true }}
+              >
                 Join thousands of educators and students who are already benefiting from EduSpry's AI-powered platform.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button
-                  className="bg-white text-[#1a4480] hover:bg-blue-50 px-8 py-6 text-lg rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all"
-                  asChild
+              </motion.p>
+              <motion.div
+                className="flex flex-col sm:flex-row gap-4 justify-center"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                viewport={{ once: true }}
+              >
+                <motion.div
+                  whileHover={{ scale: 1.05, y: -5 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  <Link to="/register">Start Your Free Trial</Link>
-                </Button>
-                <Button
-                  variant="outline"
-                  className="border-white text-white hover:bg-white/10 px-8 py-6 text-lg rounded-lg font-semibold"
-                  asChild
+                  <Button
+                    className="bg-white text-[#1a4480] hover:bg-blue-50 px-8 py-6 text-lg rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all"
+                    asChild
+                  >
+                    <Link to="/register">Start Your Free Trial</Link>
+                  </Button>
+                </motion.div>
+                <motion.div
+                  whileHover={{ scale: 1.05, y: -5 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  <Link to="/contact">Contact Sales <ArrowRight className="ml-2 h-5 w-5" /></Link>
-                </Button>
-              </div>
+                  <Button
+                    variant="outline"
+                    className="border-white text-white hover:bg-white/10 px-8 py-6 text-lg rounded-lg font-semibold"
+                    asChild
+                  >
+                    <Link to="/contact">
+                      <span className="flex items-center">
+                        Contact Sales <ArrowRight className="ml-2 h-5 w-5" />
+                      </span>
+                    </Link>
+                  </Button>
+                </motion.div>
+              </motion.div>
             </div>
           </motion.div>
         </div>
@@ -679,6 +959,19 @@ const LandingPage: React.FC = () => {
           style={{ backgroundColor: '#1a4480', position: 'relative', zIndex: 1 }}
         >
           <div className="absolute inset-0 bg-[#1a4480] -z-10"></div>
+          
+          {/* Animated gradients */}
+          <motion.div 
+            className="absolute top-0 left-0 w-full h-32 bg-gradient-to-r from-blue-300/10 via-indigo-300/5 to-blue-600/10 blur-3xl"
+            animate={{ 
+              x: ['-10%', '10%', '-10%'] 
+            }}
+            transition={{ 
+              repeat: Infinity, 
+              duration: 10, 
+              ease: "easeInOut" 
+            }}
+          />
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="grid grid-cols-12 gap-8">
@@ -722,71 +1015,56 @@ const LandingPage: React.FC = () => {
 
               <div className="col-span-12 md:col-span-8 lg:col-span-7">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                  <div>
-                    <h3 className="text-sm font-bold text-white tracking-wider uppercase mb-6 flex items-center">
-                      <span className="w-5 h-0.5 bg-blue-300 mr-2"></span>
-                      Solutions
-                    </h3>
-                    <ul className="space-y-3">
-                      {['For Students', 'For Teachers', 'For Administrators', 'For Parents'].map((item, i) => (
-                        <motion.li key={i}>
-                          <motion.a
-                            href="#"
-                            className="text-blue-100 hover:text-white flex items-center"
-                            whileHover={{ x: 3 }}
-                            transition={{ duration: 0.2 }}
-                          >
-                            <ChevronRight className="h-4 w-4 mr-1 opacity-70" />
-                            <span>{item}</span>
-                          </motion.a>
-                        </motion.li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h3 className="text-sm font-bold text-white tracking-wider uppercase mb-6 flex items-center">
-                      <span className="w-5 h-0.5 bg-blue-300 mr-2"></span>
-                      Resources
-                    </h3>
-                    <ul className="space-y-3">
-                      {['Documentation', 'Guides', 'API Status', 'Help Center', 'Community'].map((item, i) => (
-                        <motion.li key={i}>
-                          <motion.a
-                            href="#"
-                            className="text-blue-100 hover:text-white flex items-center"
-                            whileHover={{ x: 3 }}
-                            transition={{ duration: 0.2 }}
-                          >
-                            <ChevronRight className="h-4 w-4 mr-1 opacity-70" />
-                            <span>{item}</span>
-                          </motion.a>
-                        </motion.li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h3 className="text-sm font-bold text-white tracking-wider uppercase mb-6 flex items-center">
-                      <span className="w-5 h-0.5 bg-blue-300 mr-2"></span>
-                      Company
-                    </h3>
-                    <ul className="space-y-3">
-                      {['About', 'Blog', 'Careers', 'Press', 'Contact', 'Partners'].map((item, i) => (
-                        <motion.li key={i}>
-                          <motion.a
-                            href="#"
-                            className="text-blue-100 hover:text-white flex items-center"
-                            whileHover={{ x: 3 }}
-                            transition={{ duration: 0.2 }}
-                          >
-                            <ChevronRight className="h-4 w-4 mr-1 opacity-70" />
-                            <span>{item}</span>
-                          </motion.a>
-                        </motion.li>
-                      ))}
-                    </ul>
-                  </div>
+                  {[
+                    {
+                      title: "Solutions",
+                      links: ['For Students', 'For Teachers', 'For Administrators', 'For Parents']
+                    },
+                    {
+                      title: "Resources",
+                      links: ['Documentation', 'Guides', 'API Status', 'Help Center', 'Community']
+                    },
+                    {
+                      title: "Company",
+                      links: ['About', 'Blog', 'Careers', 'Press', 'Contact', 'Partners']
+                    }
+                  ].map((section, sectionIndex) => (
+                    <div key={section.title}>
+                      <h3 className="text-sm font-bold text-white tracking-wider uppercase mb-6 flex items-center">
+                        <span className="w-5 h-0.5 bg-blue-300 mr-2"></span>
+                        {section.title}
+                      </h3>
+                      <ul className="space-y-3">
+                        {section.links.map((item, i) => (
+                          <motion.li key={i}>
+                            <motion.a
+                              href="#"
+                              className="text-blue-100 hover:text-white flex items-center"
+                              whileHover={{ x: 3 }}
+                              transition={{ duration: 0.2 }}
+                              initial={{ opacity: 0, x: -10 }}
+                              whileInView={{ opacity: 1, x: 0 }}
+                              viewport={{ once: true }}
+                              custom={i}
+                              variants={{
+                                hidden: { opacity: 0, x: -10 },
+                                visible: (i) => ({
+                                  opacity: 1,
+                                  x: 0,
+                                  transition: {
+                                    delay: 0.1 * i + 0.3 * sectionIndex
+                                  }
+                                })
+                              }}
+                            >
+                              <ChevronRight className="h-4 w-4 mr-1 opacity-70" />
+                              <span>{item}</span>
+                            </motion.a>
+                          </motion.li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
