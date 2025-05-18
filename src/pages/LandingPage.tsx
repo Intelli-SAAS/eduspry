@@ -14,6 +14,7 @@ import { BadgeDisplay } from '@/components/ui/badge-display';
 import { LearningPath } from '@/components/ui/learning-path';
 import { AnimatedBackground } from '@/components/ui/animated-background';
 import { InteractiveDeviceMockup } from '@/components/ui/interactive-device-mockup';
+import { Footer } from '@/components/ui/footer';
 
 const LandingPage: React.FC = () => {
   useEffect(() => {
@@ -232,94 +233,8 @@ const LandingPage: React.FC = () => {
         secondaryCta={{ text: "Contact Sales", link: "/contact" }}
       />
 
-      {/* Footer Section */}
-      <footer className="bg-[#1a4480] text-white pt-12 pb-8 relative overflow-hidden">
-        <AnimatedBackground />
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="grid grid-cols-12 gap-8">
-            <div className="col-span-12 md:col-span-4 lg:col-span-5">
-              <div className="pr-8">
-                <div className="flex items-center mb-6">
-                  <BookOpen className="h-8 w-8 text-white" />
-                  <span className="ml-2 text-xl font-bold text-white">EduSpry</span>
-                </div>
-
-                <p className="text-blue-100 text-base mb-8 opacity-80">
-                  Transforming education through intelligent analytics, AI-powered insights, and comprehensive management tools for educational institutions worldwide.
-                </p>
-
-                <div className="flex space-x-4">
-                  {/* Social icons placeholder */}
-                  {[1, 2, 3, 4].map((_, i) => (
-                    <a
-                      key={i}
-                      href="#"
-                      className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white hover:bg-white/20 transition-colors"
-                    >
-                      {/* Icon placeholder */}
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div className="col-span-12 md:col-span-8 lg:col-span-7">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                {[
-                  {
-                    title: "Solutions",
-                    links: ['For Students', 'For Teachers', 'For Administrators', 'For Parents']
-                  },
-                  {
-                    title: "Resources",
-                    links: ['Documentation', 'Guides', 'API Status', 'Help Center', 'Community']
-                  },
-                  {
-                    title: "Company",
-                    links: ['About', 'Blog', 'Careers', 'Press', 'Contact', 'Partners']
-                  }
-                ].map((section) => (
-                  <div key={section.title}>
-                    <h3 className="text-sm font-bold text-white tracking-wider uppercase mb-6 flex items-center">
-                      <span className="w-5 h-0.5 bg-blue-300 mr-2"></span>
-                      {section.title}
-                    </h3>
-                    <ul className="space-y-3">
-                      {section.links.map((item) => (
-                        <li key={item}>
-                          <Link to="#" className="text-blue-100 hover:text-white flex items-center">
-                            {item}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-16 pt-8 border-t border-white/10">
-            <div className="flex flex-col md:flex-row justify-between items-center">
-              <p className="text-blue-200/80 text-sm">
-                &copy; {new Date().getFullYear()} EduSpry. All rights reserved.
-              </p>
-
-              <div className="flex space-x-6 mt-4 md:mt-0">
-                {['Privacy Policy', 'Terms of Service', 'Cookie Policy', 'Accessibility'].map((item) => (
-                  <a
-                    key={item}
-                    href="#"
-                    className="text-blue-200/80 text-sm hover:text-white"
-                  >
-                    {item}
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
+      {/* Footer Section - Now using the refactored Footer component */}
+      <Footer />
     </div>
   );
 };
