@@ -1,0 +1,1243 @@
+strict digraph "dependency-cruiser output"{
+    rankdir="LR" splines="true" overlap="false" nodesep="0.16" ranksep="0.18" fontname="Helvetica-bold" fontsize="9" style="rounded,bold,filled" fillcolor="#ffffff" compound="true"
+    node [shape="box" style="rounded, filled" height="0.2" color="black" fillcolor="#ffffcc" fontcolor="black" fontname="Helvetica" fontsize="9"]
+    edge [arrowhead="normal" arrowsize="0.6" penwidth="2.0" color="#00000033" fontname="Helvetica" fontsize="9"]
+
+    ".dependency-cruiser.cjs" [label=<.dependency-cruiser.cjs> tooltip=".dependency-cruiser.cjs" URL=".dependency-cruiser.cjs" ]
+    ".dependency-cruiser.cjs" -> "node_modules/dependency-cruiser" [penwidth="1.0" arrowhead="onormal"]
+    subgraph "cluster_@" {label="@" subgraph "cluster_@/components" {label="components" subgraph "cluster_@/components/ui" {label="ui" "@/components/ui/footer" [label=<footer> tooltip="footer" ] } } }
+    "child_process" [label=<child_process> tooltip="child_process" URL="https://nodejs.org/api/child_process.html" color="grey" fontcolor="grey"]
+    "eslint.config.js" [label=<eslint.config.js> tooltip="eslint.config.js" URL="eslint.config.js" ]
+    "eslint.config.js" -> "node_modules/@eslint/js" [penwidth="1.0"]
+    "eslint.config.js" -> "node_modules/eslint-plugin-react-hooks" [penwidth="1.0"]
+    "eslint.config.js" -> "node_modules/eslint-plugin-react-refresh" [penwidth="1.0"]
+    "eslint.config.js" -> "node_modules/globals" [penwidth="1.0"]
+    "eslint.config.js" -> "node_modules/typescript-eslint" [penwidth="1.0"]
+    "fs" [label=<fs> tooltip="fs" URL="https://nodejs.org/api/fs.html" color="grey" fontcolor="grey"]
+    subgraph "cluster_node_modules" {label="node_modules" subgraph "cluster_node_modules/@eslint" {label="@eslint" "node_modules/@eslint/js" [label=<js> tooltip="js" URL="https://www.npmjs.com/package/@eslint/js" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] } }
+    subgraph "cluster_node_modules" {label="node_modules" subgraph "cluster_node_modules/@hookform" {label="@hookform" "node_modules/@hookform/resolvers" [label=<resolvers> tooltip="resolvers" URL="https://www.npmjs.com/package/@hookform/resolvers" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] } }
+    subgraph "cluster_node_modules" {label="node_modules" subgraph "cluster_node_modules/@radix-ui" {label="@radix-ui" "node_modules/@radix-ui/react-accordion" [label=<react-accordion> tooltip="react-accordion" URL="https://www.npmjs.com/package/@radix-ui/react-accordion" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] } }
+    subgraph "cluster_node_modules" {label="node_modules" subgraph "cluster_node_modules/@radix-ui" {label="@radix-ui" "node_modules/@radix-ui/react-alert-dialog" [label=<react-alert-dialog> tooltip="react-alert-dialog" URL="https://www.npmjs.com/package/@radix-ui/react-alert-dialog" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] } }
+    subgraph "cluster_node_modules" {label="node_modules" subgraph "cluster_node_modules/@radix-ui" {label="@radix-ui" "node_modules/@radix-ui/react-aspect-ratio" [label=<react-aspect-ratio> tooltip="react-aspect-ratio" URL="https://www.npmjs.com/package/@radix-ui/react-aspect-ratio" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] } }
+    subgraph "cluster_node_modules" {label="node_modules" subgraph "cluster_node_modules/@radix-ui" {label="@radix-ui" "node_modules/@radix-ui/react-avatar" [label=<react-avatar> tooltip="react-avatar" URL="https://www.npmjs.com/package/@radix-ui/react-avatar" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] } }
+    subgraph "cluster_node_modules" {label="node_modules" subgraph "cluster_node_modules/@radix-ui" {label="@radix-ui" "node_modules/@radix-ui/react-checkbox" [label=<react-checkbox> tooltip="react-checkbox" URL="https://www.npmjs.com/package/@radix-ui/react-checkbox" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] } }
+    subgraph "cluster_node_modules" {label="node_modules" subgraph "cluster_node_modules/@radix-ui" {label="@radix-ui" "node_modules/@radix-ui/react-collapsible" [label=<react-collapsible> tooltip="react-collapsible" URL="https://www.npmjs.com/package/@radix-ui/react-collapsible" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] } }
+    subgraph "cluster_node_modules" {label="node_modules" subgraph "cluster_node_modules/@radix-ui" {label="@radix-ui" "node_modules/@radix-ui/react-context-menu" [label=<react-context-menu> tooltip="react-context-menu" URL="https://www.npmjs.com/package/@radix-ui/react-context-menu" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] } }
+    subgraph "cluster_node_modules" {label="node_modules" subgraph "cluster_node_modules/@radix-ui" {label="@radix-ui" "node_modules/@radix-ui/react-dialog" [label=<react-dialog> tooltip="react-dialog" URL="https://www.npmjs.com/package/@radix-ui/react-dialog" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] } }
+    subgraph "cluster_node_modules" {label="node_modules" subgraph "cluster_node_modules/@radix-ui" {label="@radix-ui" "node_modules/@radix-ui/react-dropdown-menu" [label=<react-dropdown-menu> tooltip="react-dropdown-menu" URL="https://www.npmjs.com/package/@radix-ui/react-dropdown-menu" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] } }
+    subgraph "cluster_node_modules" {label="node_modules" subgraph "cluster_node_modules/@radix-ui" {label="@radix-ui" "node_modules/@radix-ui/react-hover-card" [label=<react-hover-card> tooltip="react-hover-card" URL="https://www.npmjs.com/package/@radix-ui/react-hover-card" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] } }
+    subgraph "cluster_node_modules" {label="node_modules" subgraph "cluster_node_modules/@radix-ui" {label="@radix-ui" "node_modules/@radix-ui/react-label" [label=<react-label> tooltip="react-label" URL="https://www.npmjs.com/package/@radix-ui/react-label" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] } }
+    subgraph "cluster_node_modules" {label="node_modules" subgraph "cluster_node_modules/@radix-ui" {label="@radix-ui" "node_modules/@radix-ui/react-menubar" [label=<react-menubar> tooltip="react-menubar" URL="https://www.npmjs.com/package/@radix-ui/react-menubar" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] } }
+    subgraph "cluster_node_modules" {label="node_modules" subgraph "cluster_node_modules/@radix-ui" {label="@radix-ui" "node_modules/@radix-ui/react-navigation-menu" [label=<react-navigation-menu> tooltip="react-navigation-menu" URL="https://www.npmjs.com/package/@radix-ui/react-navigation-menu" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] } }
+    subgraph "cluster_node_modules" {label="node_modules" subgraph "cluster_node_modules/@radix-ui" {label="@radix-ui" "node_modules/@radix-ui/react-popover" [label=<react-popover> tooltip="react-popover" URL="https://www.npmjs.com/package/@radix-ui/react-popover" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] } }
+    subgraph "cluster_node_modules" {label="node_modules" subgraph "cluster_node_modules/@radix-ui" {label="@radix-ui" "node_modules/@radix-ui/react-progress" [label=<react-progress> tooltip="react-progress" URL="https://www.npmjs.com/package/@radix-ui/react-progress" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] } }
+    subgraph "cluster_node_modules" {label="node_modules" subgraph "cluster_node_modules/@radix-ui" {label="@radix-ui" "node_modules/@radix-ui/react-radio-group" [label=<react-radio-group> tooltip="react-radio-group" URL="https://www.npmjs.com/package/@radix-ui/react-radio-group" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] } }
+    subgraph "cluster_node_modules" {label="node_modules" subgraph "cluster_node_modules/@radix-ui" {label="@radix-ui" "node_modules/@radix-ui/react-scroll-area" [label=<react-scroll-area> tooltip="react-scroll-area" URL="https://www.npmjs.com/package/@radix-ui/react-scroll-area" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] } }
+    subgraph "cluster_node_modules" {label="node_modules" subgraph "cluster_node_modules/@radix-ui" {label="@radix-ui" "node_modules/@radix-ui/react-select" [label=<react-select> tooltip="react-select" URL="https://www.npmjs.com/package/@radix-ui/react-select" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] } }
+    subgraph "cluster_node_modules" {label="node_modules" subgraph "cluster_node_modules/@radix-ui" {label="@radix-ui" "node_modules/@radix-ui/react-separator" [label=<react-separator> tooltip="react-separator" URL="https://www.npmjs.com/package/@radix-ui/react-separator" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] } }
+    subgraph "cluster_node_modules" {label="node_modules" subgraph "cluster_node_modules/@radix-ui" {label="@radix-ui" "node_modules/@radix-ui/react-slider" [label=<react-slider> tooltip="react-slider" URL="https://www.npmjs.com/package/@radix-ui/react-slider" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] } }
+    subgraph "cluster_node_modules" {label="node_modules" subgraph "cluster_node_modules/@radix-ui" {label="@radix-ui" "node_modules/@radix-ui/react-slot" [label=<react-slot> tooltip="react-slot" URL="https://www.npmjs.com/package/@radix-ui/react-slot" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] } }
+    subgraph "cluster_node_modules" {label="node_modules" subgraph "cluster_node_modules/@radix-ui" {label="@radix-ui" "node_modules/@radix-ui/react-switch" [label=<react-switch> tooltip="react-switch" URL="https://www.npmjs.com/package/@radix-ui/react-switch" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] } }
+    subgraph "cluster_node_modules" {label="node_modules" subgraph "cluster_node_modules/@radix-ui" {label="@radix-ui" "node_modules/@radix-ui/react-tabs" [label=<react-tabs> tooltip="react-tabs" URL="https://www.npmjs.com/package/@radix-ui/react-tabs" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] } }
+    subgraph "cluster_node_modules" {label="node_modules" subgraph "cluster_node_modules/@radix-ui" {label="@radix-ui" "node_modules/@radix-ui/react-toast" [label=<react-toast> tooltip="react-toast" URL="https://www.npmjs.com/package/@radix-ui/react-toast" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] } }
+    subgraph "cluster_node_modules" {label="node_modules" subgraph "cluster_node_modules/@radix-ui" {label="@radix-ui" "node_modules/@radix-ui/react-toggle" [label=<react-toggle> tooltip="react-toggle" URL="https://www.npmjs.com/package/@radix-ui/react-toggle" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] } }
+    subgraph "cluster_node_modules" {label="node_modules" subgraph "cluster_node_modules/@radix-ui" {label="@radix-ui" "node_modules/@radix-ui/react-toggle-group" [label=<react-toggle-group> tooltip="react-toggle-group" URL="https://www.npmjs.com/package/@radix-ui/react-toggle-group" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] } }
+    subgraph "cluster_node_modules" {label="node_modules" subgraph "cluster_node_modules/@radix-ui" {label="@radix-ui" "node_modules/@radix-ui/react-tooltip" [label=<react-tooltip> tooltip="react-tooltip" URL="https://www.npmjs.com/package/@radix-ui/react-tooltip" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] } }
+    subgraph "cluster_node_modules" {label="node_modules" subgraph "cluster_node_modules/@tanstack" {label="@tanstack" "node_modules/@tanstack/react-query" [label=<react-query> tooltip="react-query" URL="https://www.npmjs.com/package/@tanstack/react-query" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] } }
+    subgraph "cluster_node_modules" {label="node_modules" subgraph "cluster_node_modules/@vitejs" {label="@vitejs" "node_modules/@vitejs/plugin-react-swc" [label=<plugin-react-swc> tooltip="plugin-react-swc" URL="https://www.npmjs.com/package/@vitejs/plugin-react-swc" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] } }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/agora-rtc-sdk-ng" [label=<agora-rtc-sdk-ng> tooltip="agora-rtc-sdk-ng" URL="https://www.npmjs.com/package/agora-rtc-sdk-ng" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/axios" [label=<axios> tooltip="axios" URL="https://www.npmjs.com/package/axios" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/canvas-confetti" [label=<canvas-confetti> tooltip="canvas-confetti" URL="https://www.npmjs.com/package/canvas-confetti" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/class-variance-authority" [label=<class-variance-authority> tooltip="class-variance-authority" URL="https://www.npmjs.com/package/class-variance-authority" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/clsx" [label=<clsx> tooltip="clsx" URL="https://www.npmjs.com/package/clsx" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/cmdk" [label=<cmdk> tooltip="cmdk" URL="https://www.npmjs.com/package/cmdk" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/date-fns" [label=<date-fns> tooltip="date-fns" URL="https://www.npmjs.com/package/date-fns" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/dependency-cruiser" [label=<dependency-cruiser> tooltip="dependency-cruiser" URL="https://www.npmjs.com/package/dependency-cruiser" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/embla-carousel-react" [label=<embla-carousel-react> tooltip="embla-carousel-react" URL="https://www.npmjs.com/package/embla-carousel-react" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/eslint-plugin-react-hooks" [label=<eslint-plugin-react-hooks> tooltip="eslint-plugin-react-hooks" URL="https://www.npmjs.com/package/eslint-plugin-react-hooks" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/eslint-plugin-react-refresh" [label=<eslint-plugin-react-refresh> tooltip="eslint-plugin-react-refresh" URL="https://www.npmjs.com/package/eslint-plugin-react-refresh" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/framer-motion" [label=<framer-motion> tooltip="framer-motion" URL="https://www.npmjs.com/package/framer-motion" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/globals" [label=<globals> tooltip="globals" URL="https://www.npmjs.com/package/globals" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/input-otp" [label=<input-otp> tooltip="input-otp" URL="https://www.npmjs.com/package/input-otp" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/lovable-tagger" [label=<lovable-tagger> tooltip="lovable-tagger" URL="https://www.npmjs.com/package/lovable-tagger" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/lucide-react" [label=<lucide-react> tooltip="lucide-react" URL="https://www.npmjs.com/package/lucide-react" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/nanoid" [label=<nanoid> tooltip="nanoid" URL="https://www.npmjs.com/package/nanoid" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/next-themes" [label=<next-themes> tooltip="next-themes" URL="https://www.npmjs.com/package/next-themes" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/qrcode.react" [label=<qrcode.react> tooltip="qrcode.react" URL="https://www.npmjs.com/package/qrcode.react" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/react" [label=<react> tooltip="react" URL="https://www.npmjs.com/package/react" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/react-beautiful-dnd" [label=<react-beautiful-dnd> tooltip="react-beautiful-dnd" URL="https://www.npmjs.com/package/react-beautiful-dnd" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/react-day-picker" [label=<react-day-picker> tooltip="react-day-picker" URL="https://www.npmjs.com/package/react-day-picker" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/react-dom" [label=<react-dom> tooltip="react-dom" URL="https://www.npmjs.com/package/react-dom" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/react-dropzone" [label=<react-dropzone> tooltip="react-dropzone" URL="https://www.npmjs.com/package/react-dropzone" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/react-hook-form" [label=<react-hook-form> tooltip="react-hook-form" URL="https://www.npmjs.com/package/react-hook-form" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/react-resizable-panels" [label=<react-resizable-panels> tooltip="react-resizable-panels" URL="https://www.npmjs.com/package/react-resizable-panels" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/react-router-dom" [label=<react-router-dom> tooltip="react-router-dom" URL="https://www.npmjs.com/package/react-router-dom" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/recharts" [label=<recharts> tooltip="recharts" URL="https://www.npmjs.com/package/recharts" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/sonner" [label=<sonner> tooltip="sonner" URL="https://www.npmjs.com/package/sonner" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/tailwind-merge" [label=<tailwind-merge> tooltip="tailwind-merge" URL="https://www.npmjs.com/package/tailwind-merge" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/tailwindcss" [label=<tailwindcss> tooltip="tailwindcss" URL="https://www.npmjs.com/package/tailwindcss" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/tailwindcss-animate" [label=<tailwindcss-animate> tooltip="tailwindcss-animate" URL="https://www.npmjs.com/package/tailwindcss-animate" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/tldraw" [label=<tldraw> tooltip="tldraw" URL="https://www.npmjs.com/package/tldraw" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/typescript-eslint" [label=<typescript-eslint> tooltip="typescript-eslint" URL="https://www.npmjs.com/package/typescript-eslint" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/vaul" [label=<vaul> tooltip="vaul" URL="https://www.npmjs.com/package/vaul" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/vite" [label=<vite> tooltip="vite" URL="https://www.npmjs.com/package/vite" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    subgraph "cluster_node_modules" {label="node_modules" "node_modules/zod" [label=<zod> tooltip="zod" URL="https://www.npmjs.com/package/zod" shape="box3d" fillcolor="#c40b0a1a" fontcolor="#c40b0a"] }
+    "path" [label=<path> tooltip="path" URL="https://nodejs.org/api/path.html" color="grey" fontcolor="grey"]
+    "postcss.config.js" [label=<postcss.config.js> tooltip="no-orphans" URL="postcss.config.js" fillcolor="#ccffcc" fontcolor="orange" color="orange"]
+    subgraph "cluster_src" {label="src" "src/App.tsx" [label=<App.tsx> tooltip="App.tsx" URL="src/App.tsx" fillcolor="#bbfeff"] }
+    "src/App.tsx" -> "src/components/layout/AppLayout.tsx"
+    "src/App.tsx" -> "src/components/theme/ThemeProvider.tsx"
+    "src/App.tsx" -> "src/components/ui/sonner.tsx"
+    "src/App.tsx" -> "src/components/ui/toaster.tsx"
+    "src/App.tsx" -> "src/components/ui/tooltip.tsx"
+    "src/App.tsx" -> "src/contexts/AuthContext.tsx"
+    "src/App.tsx" -> "src/contexts/OnboardingContext.tsx"
+    "src/App.tsx" -> "src/modules/shared/types/index.ts"
+    "src/App.tsx" -> "src/pages/auth/ForgotPasswordPage.tsx"
+    "src/App.tsx" -> "src/pages/auth/LoginPage.tsx"
+    "src/App.tsx" -> "src/pages/auth/RegisterPage.tsx"
+    "src/App.tsx" -> "src/pages/auth/ResetPasswordPage.tsx"
+    "src/App.tsx" -> "src/pages/auth/UnauthorizedPage.tsx"
+    "src/App.tsx" -> "src/pages/Index.tsx"
+    "src/App.tsx" -> "src/pages/LandingPage.tsx"
+    "src/App.tsx" -> "src/pages/NotFound.tsx"
+    "src/App.tsx" -> "src/pages/onboarding/index.ts"
+    "src/App.tsx" -> "src/pages/principal/Dashboard.tsx"
+    "src/App.tsx" -> "src/pages/principal/Departments.tsx"
+    "src/App.tsx" -> "src/pages/principal/ModuleManagement.tsx"
+    "src/App.tsx" -> "src/pages/principal/SchoolAnalytics.tsx"
+    "src/App.tsx" -> "src/pages/principal/Settings.tsx"
+    "src/App.tsx" -> "src/pages/principal/Students.tsx"
+    "src/App.tsx" -> "src/pages/principal/Teachers.tsx"
+    "src/App.tsx" -> "src/pages/shared/Calendar.tsx"
+    "src/App.tsx" -> "src/pages/shared/CourseDetail.tsx"
+    "src/App.tsx" -> "src/pages/shared/CoursesList.tsx"
+    "src/App.tsx" -> "src/pages/student/AIStudyTools.tsx"
+    "src/App.tsx" -> "src/pages/student/Dashboard.tsx"
+    "src/App.tsx" -> "src/pages/student/Performance.tsx"
+    "src/App.tsx" -> "src/pages/student/TestResult.tsx"
+    "src/App.tsx" -> "src/pages/student/Tests.tsx"
+    "src/App.tsx" -> "src/pages/student/TestTaking.tsx"
+    "src/App.tsx" -> "src/pages/teacher/AIAssistant.tsx"
+    "src/App.tsx" -> "src/pages/teacher/Analytics.tsx"
+    "src/App.tsx" -> "src/pages/teacher/CreateTest.tsx"
+    "src/App.tsx" -> "src/pages/teacher/CreateVideoConference.tsx"
+    "src/App.tsx" -> "src/pages/teacher/Dashboard.tsx"
+    "src/App.tsx" -> "src/pages/teacher/QuestionBank.tsx"
+    "src/App.tsx" -> "src/pages/teacher/Students.tsx"
+    "src/App.tsx" -> "src/pages/teacher/TestManagement.tsx"
+    "src/App.tsx" -> "src/pages/VirtualClassroom.tsx"
+    "src/App.tsx" -> "node_modules/@tanstack/react-query" [penwidth="1.0"]
+    "src/App.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/App.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/api" {label="api" "src/api/aiAssistant.ts" [label=<aiAssistant.ts> tooltip="aiAssistant.ts" URL="src/api/aiAssistant.ts" fillcolor="#ddfeff"] } }
+    "src/api/aiAssistant.ts" -> "node_modules/axios" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" "src/components/VoiceAssistant.tsx" [label=<VoiceAssistant.tsx> tooltip="VoiceAssistant.tsx" URL="src/components/VoiceAssistant.tsx" fillcolor="#bbfeff"] } }
+    "src/components/VoiceAssistant.tsx" -> "src/components/ui/button.tsx"
+    "src/components/VoiceAssistant.tsx" -> "src/components/ui/use-toast.ts"
+    "src/components/VoiceAssistant.tsx" -> "src/services/voiceCommandService.ts"
+    "src/components/VoiceAssistant.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/VoiceAssistant.tsx" -> "node_modules/next-themes" [penwidth="1.0"]
+    "src/components/VoiceAssistant.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/classroom" {label="classroom" "src/components/classroom/AttendanceTracker.tsx" [label=<AttendanceTracker.tsx> tooltip="AttendanceTracker.tsx" URL="src/components/classroom/AttendanceTracker.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/classroom/AttendanceTracker.tsx" -> "src/components/classroom/BiometricAttendance.tsx"
+    "src/components/classroom/AttendanceTracker.tsx" -> "src/components/classroom/FacialRecognitionAttendance.tsx"
+    "src/components/classroom/AttendanceTracker.tsx" -> "src/components/classroom/ManualAttendance.tsx"
+    "src/components/classroom/AttendanceTracker.tsx" -> "src/components/classroom/QRCodeAttendance.tsx"
+    "src/components/classroom/AttendanceTracker.tsx" -> "src/components/ui/button.tsx"
+    "src/components/classroom/AttendanceTracker.tsx" -> "src/components/ui/card.tsx"
+    "src/components/classroom/AttendanceTracker.tsx" -> "src/components/ui/input.tsx"
+    "src/components/classroom/AttendanceTracker.tsx" -> "src/contexts/AuthContext.tsx"
+    "src/components/classroom/AttendanceTracker.tsx" -> "src/types/index.ts"
+    "src/components/classroom/AttendanceTracker.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/classroom/AttendanceTracker.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/classroom" {label="classroom" "src/components/classroom/BiometricAttendance.tsx" [label=<BiometricAttendance.tsx> tooltip="BiometricAttendance.tsx" URL="src/components/classroom/BiometricAttendance.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/classroom/BiometricAttendance.tsx" -> "src/components/ui/badge.tsx"
+    "src/components/classroom/BiometricAttendance.tsx" -> "src/components/ui/button.tsx"
+    "src/components/classroom/BiometricAttendance.tsx" -> "src/components/ui/card.tsx"
+    "src/components/classroom/BiometricAttendance.tsx" -> "src/components/ui/input.tsx"
+    "src/components/classroom/BiometricAttendance.tsx" -> "src/components/ui/label.tsx"
+    "src/components/classroom/BiometricAttendance.tsx" -> "src/components/ui/progress.tsx"
+    "src/components/classroom/BiometricAttendance.tsx" -> "src/components/ui/select.tsx"
+    "src/components/classroom/BiometricAttendance.tsx" -> "src/components/ui/tabs.tsx"
+    "src/components/classroom/BiometricAttendance.tsx" -> "src/components/ui/use-toast.ts"
+    "src/components/classroom/BiometricAttendance.tsx" -> "src/contexts/AuthContext.tsx"
+    "src/components/classroom/BiometricAttendance.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/classroom/BiometricAttendance.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/classroom" {label="classroom" "src/components/classroom/BreakoutRooms.tsx" [label=<BreakoutRooms.tsx> tooltip="BreakoutRooms.tsx" URL="src/components/classroom/BreakoutRooms.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/classroom/BreakoutRooms.tsx" -> "src/components/ui/button.tsx"
+    "src/components/classroom/BreakoutRooms.tsx" -> "src/components/ui/input.tsx"
+    "src/components/classroom/BreakoutRooms.tsx" -> "src/components/ui/use-toast.ts"
+    "src/components/classroom/BreakoutRooms.tsx" -> "src/contexts/AuthContext.tsx"
+    "src/components/classroom/BreakoutRooms.tsx" -> "src/types/index.ts"
+    "src/components/classroom/BreakoutRooms.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/classroom/BreakoutRooms.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/components/classroom/BreakoutRooms.tsx" -> "node_modules/react-beautiful-dnd" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/classroom" {label="classroom" "src/components/classroom/DisciplinaryRecords.tsx" [label=<DisciplinaryRecords.tsx> tooltip="DisciplinaryRecords.tsx" URL="src/components/classroom/DisciplinaryRecords.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/classroom/DisciplinaryRecords.tsx" -> "src/components/ui/alert.tsx"
+    "src/components/classroom/DisciplinaryRecords.tsx" -> "src/components/ui/badge.tsx"
+    "src/components/classroom/DisciplinaryRecords.tsx" -> "src/components/ui/button.tsx"
+    "src/components/classroom/DisciplinaryRecords.tsx" -> "src/components/ui/card.tsx"
+    "src/components/classroom/DisciplinaryRecords.tsx" -> "src/components/ui/dialog.tsx"
+    "src/components/classroom/DisciplinaryRecords.tsx" -> "src/components/ui/dropdown-menu.tsx"
+    "src/components/classroom/DisciplinaryRecords.tsx" -> "src/components/ui/input.tsx"
+    "src/components/classroom/DisciplinaryRecords.tsx" -> "src/components/ui/label.tsx"
+    "src/components/classroom/DisciplinaryRecords.tsx" -> "src/components/ui/select.tsx"
+    "src/components/classroom/DisciplinaryRecords.tsx" -> "src/components/ui/table.tsx"
+    "src/components/classroom/DisciplinaryRecords.tsx" -> "src/components/ui/tabs.tsx"
+    "src/components/classroom/DisciplinaryRecords.tsx" -> "src/components/ui/textarea.tsx"
+    "src/components/classroom/DisciplinaryRecords.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/classroom/DisciplinaryRecords.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/components/classroom/DisciplinaryRecords.tsx" -> "node_modules/sonner" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/classroom" {label="classroom" "src/components/classroom/EnhancedVideoConference.tsx" [label=<EnhancedVideoConference.tsx> tooltip="EnhancedVideoConference.tsx" URL="src/components/classroom/EnhancedVideoConference.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/classroom/EnhancedVideoConference.tsx" -> "src/components/classroom/VideoConference.tsx"
+    "src/components/classroom/EnhancedVideoConference.tsx" -> "src/components/ui/button.tsx"
+    "src/components/classroom/EnhancedVideoConference.tsx" -> "src/components/ui/dialog.tsx"
+    "src/components/classroom/EnhancedVideoConference.tsx" -> "src/components/ui/input.tsx"
+    "src/components/classroom/EnhancedVideoConference.tsx" -> "src/components/ui/label.tsx"
+    "src/components/classroom/EnhancedVideoConference.tsx" -> "src/components/ui/scroll-area.tsx"
+    "src/components/classroom/EnhancedVideoConference.tsx" -> "src/components/ui/select.tsx"
+    "src/components/classroom/EnhancedVideoConference.tsx" -> "src/components/ui/tabs.tsx"
+    "src/components/classroom/EnhancedVideoConference.tsx" -> "src/components/ui/tooltip.tsx"
+    "src/components/classroom/EnhancedVideoConference.tsx" -> "src/components/ui/use-toast.ts"
+    "src/components/classroom/EnhancedVideoConference.tsx" -> "src/services/videoConference.ts"
+    "src/components/classroom/EnhancedVideoConference.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/classroom/EnhancedVideoConference.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/classroom" {label="classroom" "src/components/classroom/FacialRecognitionAttendance.tsx" [label=<FacialRecognitionAttendance.tsx> tooltip="FacialRecognitionAttendance.tsx" URL="src/components/classroom/FacialRecognitionAttendance.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/classroom/FacialRecognitionAttendance.tsx" -> "src/components/ui/badge.tsx"
+    "src/components/classroom/FacialRecognitionAttendance.tsx" -> "src/components/ui/button.tsx"
+    "src/components/classroom/FacialRecognitionAttendance.tsx" -> "src/components/ui/card.tsx"
+    "src/components/classroom/FacialRecognitionAttendance.tsx" -> "src/components/ui/input.tsx"
+    "src/components/classroom/FacialRecognitionAttendance.tsx" -> "src/components/ui/label.tsx"
+    "src/components/classroom/FacialRecognitionAttendance.tsx" -> "src/components/ui/progress.tsx"
+    "src/components/classroom/FacialRecognitionAttendance.tsx" -> "src/components/ui/select.tsx"
+    "src/components/classroom/FacialRecognitionAttendance.tsx" -> "src/components/ui/tabs.tsx"
+    "src/components/classroom/FacialRecognitionAttendance.tsx" -> "src/components/ui/use-toast.ts"
+    "src/components/classroom/FacialRecognitionAttendance.tsx" -> "src/contexts/AuthContext.tsx"
+    "src/components/classroom/FacialRecognitionAttendance.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/classroom/FacialRecognitionAttendance.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/classroom" {label="classroom" "src/components/classroom/InteractiveWhiteboard.tsx" [label=<InteractiveWhiteboard.tsx> tooltip="InteractiveWhiteboard.tsx" URL="src/components/classroom/InteractiveWhiteboard.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/classroom/InteractiveWhiteboard.tsx" -> "src/components/ui/button.tsx"
+    "src/components/classroom/InteractiveWhiteboard.tsx" -> "src/components/ui/use-toast.ts"
+    "src/components/classroom/InteractiveWhiteboard.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/classroom/InteractiveWhiteboard.tsx" -> "node_modules/next-themes" [penwidth="1.0"]
+    "src/components/classroom/InteractiveWhiteboard.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/components/classroom/InteractiveWhiteboard.tsx" -> "node_modules/tldraw" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/classroom" {label="classroom" "src/components/classroom/LeaveManagement.tsx" [label=<LeaveManagement.tsx> tooltip="LeaveManagement.tsx" URL="src/components/classroom/LeaveManagement.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/classroom/LeaveManagement.tsx" -> "src/components/ui/badge.tsx"
+    "src/components/classroom/LeaveManagement.tsx" -> "src/components/ui/button.tsx"
+    "src/components/classroom/LeaveManagement.tsx" -> "src/components/ui/card.tsx"
+    "src/components/classroom/LeaveManagement.tsx" -> "src/components/ui/dialog.tsx"
+    "src/components/classroom/LeaveManagement.tsx" -> "src/components/ui/input.tsx"
+    "src/components/classroom/LeaveManagement.tsx" -> "src/components/ui/label.tsx"
+    "src/components/classroom/LeaveManagement.tsx" -> "src/components/ui/radio-group.tsx"
+    "src/components/classroom/LeaveManagement.tsx" -> "src/components/ui/select.tsx"
+    "src/components/classroom/LeaveManagement.tsx" -> "src/components/ui/tabs.tsx"
+    "src/components/classroom/LeaveManagement.tsx" -> "src/components/ui/textarea.tsx"
+    "src/components/classroom/LeaveManagement.tsx" -> "src/components/ui/use-toast.ts"
+    "src/components/classroom/LeaveManagement.tsx" -> "src/contexts/AuthContext.tsx"
+    "src/components/classroom/LeaveManagement.tsx" -> "src/types/index.ts"
+    "src/components/classroom/LeaveManagement.tsx" -> "node_modules/date-fns" [penwidth="1.0"]
+    "src/components/classroom/LeaveManagement.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/classroom/LeaveManagement.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/classroom" {label="classroom" "src/components/classroom/LivePoll.tsx" [label=<LivePoll.tsx> tooltip="LivePoll.tsx" URL="src/components/classroom/LivePoll.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/classroom/LivePoll.tsx" -> "src/components/ui/button.tsx"
+    "src/components/classroom/LivePoll.tsx" -> "src/components/ui/input.tsx"
+    "src/components/classroom/LivePoll.tsx" -> "src/components/ui/progress.tsx"
+    "src/components/classroom/LivePoll.tsx" -> "src/components/ui/use-toast.ts"
+    "src/components/classroom/LivePoll.tsx" -> "src/contexts/AuthContext.tsx"
+    "src/components/classroom/LivePoll.tsx" -> "src/types/index.ts"
+    "src/components/classroom/LivePoll.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/classroom/LivePoll.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/classroom" {label="classroom" "src/components/classroom/ManualAttendance.tsx" [label=<ManualAttendance.tsx> tooltip="ManualAttendance.tsx" URL="src/components/classroom/ManualAttendance.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/classroom/ManualAttendance.tsx" -> "src/components/ui/badge.tsx"
+    "src/components/classroom/ManualAttendance.tsx" -> "src/components/ui/button.tsx"
+    "src/components/classroom/ManualAttendance.tsx" -> "src/components/ui/card.tsx"
+    "src/components/classroom/ManualAttendance.tsx" -> "src/components/ui/input.tsx"
+    "src/components/classroom/ManualAttendance.tsx" -> "src/components/ui/label.tsx"
+    "src/components/classroom/ManualAttendance.tsx" -> "src/components/ui/select.tsx"
+    "src/components/classroom/ManualAttendance.tsx" -> "src/components/ui/tabs.tsx"
+    "src/components/classroom/ManualAttendance.tsx" -> "src/components/ui/use-toast.ts"
+    "src/components/classroom/ManualAttendance.tsx" -> "src/contexts/AuthContext.tsx"
+    "src/components/classroom/ManualAttendance.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/classroom/ManualAttendance.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/classroom" {label="classroom" "src/components/classroom/QRCodeAttendance.tsx" [label=<QRCodeAttendance.tsx> tooltip="QRCodeAttendance.tsx" URL="src/components/classroom/QRCodeAttendance.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/classroom/QRCodeAttendance.tsx" -> "src/components/ui/badge.tsx"
+    "src/components/classroom/QRCodeAttendance.tsx" -> "src/components/ui/button.tsx"
+    "src/components/classroom/QRCodeAttendance.tsx" -> "src/components/ui/card.tsx"
+    "src/components/classroom/QRCodeAttendance.tsx" -> "src/components/ui/input.tsx"
+    "src/components/classroom/QRCodeAttendance.tsx" -> "src/components/ui/label.tsx"
+    "src/components/classroom/QRCodeAttendance.tsx" -> "src/components/ui/popover.tsx"
+    "src/components/classroom/QRCodeAttendance.tsx" -> "src/components/ui/select.tsx"
+    "src/components/classroom/QRCodeAttendance.tsx" -> "src/components/ui/tabs.tsx"
+    "src/components/classroom/QRCodeAttendance.tsx" -> "src/components/ui/use-toast.ts"
+    "src/components/classroom/QRCodeAttendance.tsx" -> "src/contexts/AuthContext.tsx"
+    "src/components/classroom/QRCodeAttendance.tsx" -> "src/lib/utils.ts"
+    "src/components/classroom/QRCodeAttendance.tsx" -> "node_modules/date-fns" [penwidth="1.0"]
+    "src/components/classroom/QRCodeAttendance.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/classroom/QRCodeAttendance.tsx" -> "node_modules/qrcode.react" [penwidth="1.0"]
+    "src/components/classroom/QRCodeAttendance.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/classroom" {label="classroom" "src/components/classroom/SimpleWhiteboard.tsx" [label=<SimpleWhiteboard.tsx> tooltip="SimpleWhiteboard.tsx" URL="src/components/classroom/SimpleWhiteboard.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/classroom/SimpleWhiteboard.tsx" -> "src/components/ui/button.tsx"
+    "src/components/classroom/SimpleWhiteboard.tsx" -> "src/components/ui/dialog.tsx"
+    "src/components/classroom/SimpleWhiteboard.tsx" -> "src/components/ui/input.tsx"
+    "src/components/classroom/SimpleWhiteboard.tsx" -> "src/components/ui/label.tsx"
+    "src/components/classroom/SimpleWhiteboard.tsx" -> "src/components/ui/use-toast.ts"
+    "src/components/classroom/SimpleWhiteboard.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/classroom/SimpleWhiteboard.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/classroom" {label="classroom" "src/components/classroom/VideoConference.tsx" [label=<VideoConference.tsx> tooltip="VideoConference.tsx" URL="src/components/classroom/VideoConference.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/classroom/VideoConference.tsx" -> "src/components/ui/button.tsx"
+    "src/components/classroom/VideoConference.tsx" -> "src/components/ui/use-toast.ts"
+    "src/components/classroom/VideoConference.tsx" -> "node_modules/agora-rtc-sdk-ng" [penwidth="1.0"]
+    "src/components/classroom/VideoConference.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/classroom/VideoConference.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/courses" {label="courses" "src/components/courses/CourseDetail.tsx" [label=<CourseDetail.tsx> tooltip="CourseDetail.tsx" URL="src/components/courses/CourseDetail.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/courses/CourseDetail.tsx" -> "src/components/ui/badge.tsx"
+    "src/components/courses/CourseDetail.tsx" -> "src/components/ui/button.tsx"
+    "src/components/courses/CourseDetail.tsx" -> "src/components/ui/card.tsx"
+    "src/components/courses/CourseDetail.tsx" -> "src/components/ui/tabs.tsx"
+    "src/components/courses/CourseDetail.tsx" -> "src/types/course.ts"
+    "src/components/courses/CourseDetail.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/courses/CourseDetail.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/courses" {label="courses" "src/components/courses/CourseList.tsx" [label=<CourseList.tsx> tooltip="CourseList.tsx" URL="src/components/courses/CourseList.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/courses/CourseList.tsx" -> "src/components/ui/badge.tsx"
+    "src/components/courses/CourseList.tsx" -> "src/components/ui/button.tsx"
+    "src/components/courses/CourseList.tsx" -> "src/components/ui/card.tsx"
+    "src/components/courses/CourseList.tsx" -> "src/components/ui/select.tsx"
+    "src/components/courses/CourseList.tsx" -> "src/types/course.ts"
+    "src/components/courses/CourseList.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/courses/CourseList.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/components/courses/CourseList.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/courses" {label="courses" "src/components/courses/CourseProgress.tsx" [label=<CourseProgress.tsx> tooltip="CourseProgress.tsx" URL="src/components/courses/CourseProgress.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/courses/CourseProgress.tsx" -> "src/components/ui/badge.tsx"
+    "src/components/courses/CourseProgress.tsx" -> "src/components/ui/card.tsx"
+    "src/components/courses/CourseProgress.tsx" -> "src/components/ui/progress.tsx"
+    "src/components/courses/CourseProgress.tsx" -> "src/types/course.ts"
+    "src/components/courses/CourseProgress.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/courses/CourseProgress.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/courses" {label="courses" "src/components/courses/CourseVideoPlayer.tsx" [label=<CourseVideoPlayer.tsx> tooltip="CourseVideoPlayer.tsx" URL="src/components/courses/CourseVideoPlayer.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/courses/CourseVideoPlayer.tsx" -> "src/components/ui/button.tsx"
+    "src/components/courses/CourseVideoPlayer.tsx" -> "src/components/ui/card.tsx"
+    "src/components/courses/CourseVideoPlayer.tsx" -> "src/components/ui/slider.tsx"
+    "src/components/courses/CourseVideoPlayer.tsx" -> "src/types/course.ts"
+    "src/components/courses/CourseVideoPlayer.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/courses/CourseVideoPlayer.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/layout" {label="layout" "src/components/layout/AppLayout.tsx" [label=<AppLayout.tsx> tooltip="AppLayout.tsx" URL="src/components/layout/AppLayout.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/layout/AppLayout.tsx" -> "src/components/VoiceAssistant.tsx"
+    "src/components/layout/AppLayout.tsx" -> "src/components/layout/Header.tsx"
+    "src/components/layout/AppLayout.tsx" -> "src/components/layout/Sidebar.tsx"
+    "src/components/layout/AppLayout.tsx" -> "src/components/ui/use-toast.ts"
+    "src/components/layout/AppLayout.tsx" -> "src/contexts/AuthContext.tsx"
+    "src/components/layout/AppLayout.tsx" -> "src/services/voiceCommandService.ts"
+    "src/components/layout/AppLayout.tsx" -> "src/types/index.ts"
+    "src/components/layout/AppLayout.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/components/layout/AppLayout.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/layout" {label="layout" "src/components/layout/Header.tsx" [label=<Header.tsx> tooltip="Header.tsx" URL="src/components/layout/Header.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/layout/Header.tsx" -> "src/components/ui/avatar.tsx"
+    "src/components/layout/Header.tsx" -> "src/components/ui/button.tsx"
+    "src/components/layout/Header.tsx" -> "src/components/ui/dropdown-menu.tsx"
+    "src/components/layout/Header.tsx" -> "src/contexts/AuthContext.tsx"
+    "src/components/layout/Header.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/layout/Header.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/components/layout/Header.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/layout" {label="layout" "src/components/layout/OnboardingLayout.tsx" [label=<OnboardingLayout.tsx> tooltip="OnboardingLayout.tsx" URL="src/components/layout/OnboardingLayout.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/layout/OnboardingLayout.tsx" -> "src/components/ui/card.tsx"
+    "src/components/layout/OnboardingLayout.tsx" -> "src/contexts/AuthContext.tsx"
+    "src/components/layout/OnboardingLayout.tsx" -> "src/contexts/OnboardingContext.tsx"
+    "src/components/layout/OnboardingLayout.tsx" -> "src/lib/utils.ts"
+    "src/components/layout/OnboardingLayout.tsx" -> "node_modules/framer-motion" [penwidth="1.0"]
+    "src/components/layout/OnboardingLayout.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/layout/OnboardingLayout.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/components/layout/OnboardingLayout.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/layout" {label="layout" "src/components/layout/Sidebar.tsx" [label=<Sidebar.tsx> tooltip="Sidebar.tsx" URL="src/components/layout/Sidebar.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/layout/Sidebar.tsx" -> "src/components/layout/SidebarLink.tsx"
+    "src/components/layout/Sidebar.tsx" -> "src/components/ui/button.tsx"
+    "src/components/layout/Sidebar.tsx" -> "src/components/ui/collapsible.tsx"
+    "src/components/layout/Sidebar.tsx" -> "src/contexts/AuthContext.tsx"
+    "src/components/layout/Sidebar.tsx" -> "src/lib/utils.ts"
+    "src/components/layout/Sidebar.tsx" -> "src/types/index.ts"
+    "src/components/layout/Sidebar.tsx" -> "node_modules/framer-motion" [penwidth="1.0"]
+    "src/components/layout/Sidebar.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/layout/Sidebar.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/components/layout/Sidebar.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/layout" {label="layout" "src/components/layout/SidebarItem.tsx" [label=<SidebarItem.tsx> tooltip="SidebarItem.tsx" URL="src/components/layout/SidebarItem.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/layout/SidebarItem.tsx" -> "src/components/ui/button.tsx"
+    "src/components/layout/SidebarItem.tsx" -> "src/lib/utils.ts"
+    "src/components/layout/SidebarItem.tsx" -> "node_modules/framer-motion" [penwidth="1.0"]
+    "src/components/layout/SidebarItem.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/components/layout/SidebarItem.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/layout" {label="layout" "src/components/layout/SidebarLink.tsx" [label=<SidebarLink.tsx> tooltip="SidebarLink.tsx" URL="src/components/layout/SidebarLink.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/layout/SidebarLink.tsx" -> "src/components/ui/button.tsx"
+    "src/components/layout/SidebarLink.tsx" -> "src/lib/utils.ts"
+    "src/components/layout/SidebarLink.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/components/layout/SidebarLink.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/theme" {label="theme" "src/components/theme/ThemeProvider.tsx" [label=<ThemeProvider.tsx> tooltip="ThemeProvider.tsx" URL="src/components/theme/ThemeProvider.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/theme/ThemeProvider.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/theme" {label="theme" "src/components/theme/ThemeToggle.tsx" [label=<ThemeToggle.tsx> tooltip="ThemeToggle.tsx" URL="src/components/theme/ThemeToggle.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/theme/ThemeToggle.tsx" -> "src/components/theme/ThemeProvider.tsx"
+    "src/components/theme/ThemeToggle.tsx" -> "src/components/ui/button.tsx"
+    "src/components/theme/ThemeToggle.tsx" -> "src/components/ui/dropdown-menu.tsx"
+    "src/components/theme/ThemeToggle.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/theme/ThemeToggle.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/accordion.tsx" [label=<accordion.tsx> tooltip="accordion.tsx" URL="src/components/ui/accordion.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/accordion.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/accordion.tsx" -> "node_modules/@radix-ui/react-accordion" [penwidth="1.0"]
+    "src/components/ui/accordion.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/ui/accordion.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/alert-dialog.tsx" [label=<alert-dialog.tsx> tooltip="alert-dialog.tsx" URL="src/components/ui/alert-dialog.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/alert-dialog.tsx" -> "src/components/ui/button.tsx"
+    "src/components/ui/alert-dialog.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/alert-dialog.tsx" -> "node_modules/@radix-ui/react-alert-dialog" [penwidth="1.0"]
+    "src/components/ui/alert-dialog.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/alert.tsx" [label=<alert.tsx> tooltip="alert.tsx" URL="src/components/ui/alert.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/alert.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/alert.tsx" -> "node_modules/class-variance-authority" [penwidth="1.0"]
+    "src/components/ui/alert.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/animated-background.tsx" [label=<animated-background.tsx> tooltip="animated-background.tsx" URL="src/components/ui/animated-background.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/animated-background.tsx" -> "node_modules/framer-motion" [penwidth="1.0"]
+    "src/components/ui/animated-background.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/animated-nav-header.tsx" [label=<animated-nav-header.tsx> tooltip="animated-nav-header.tsx" URL="src/components/ui/animated-nav-header.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/animated-nav-header.tsx" -> "src/components/ui/button.tsx"
+    "src/components/ui/animated-nav-header.tsx" -> "node_modules/framer-motion" [penwidth="1.0"]
+    "src/components/ui/animated-nav-header.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/ui/animated-nav-header.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/components/ui/animated-nav-header.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/api-key-dialog.tsx" [label=<api-key-dialog.tsx> tooltip="api-key-dialog.tsx" URL="src/components/ui/api-key-dialog.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/api-key-dialog.tsx" -> "src/components/ui/button.tsx"
+    "src/components/ui/api-key-dialog.tsx" -> "src/components/ui/dialog.tsx"
+    "src/components/ui/api-key-dialog.tsx" -> "src/components/ui/input.tsx"
+    "src/components/ui/api-key-dialog.tsx" -> "src/components/ui/label.tsx"
+    "src/components/ui/api-key-dialog.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/ui/api-key-dialog.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/aspect-ratio.tsx" [label=<aspect-ratio.tsx> tooltip="aspect-ratio.tsx" URL="src/components/ui/aspect-ratio.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/aspect-ratio.tsx" -> "node_modules/@radix-ui/react-aspect-ratio" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/avatar.tsx" [label=<avatar.tsx> tooltip="avatar.tsx" URL="src/components/ui/avatar.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/avatar.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/avatar.tsx" -> "node_modules/@radix-ui/react-avatar" [penwidth="1.0"]
+    "src/components/ui/avatar.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/badge-display.tsx" [label=<badge-display.tsx> tooltip="badge-display.tsx" URL="src/components/ui/badge-display.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/badge-display.tsx" -> "node_modules/framer-motion" [penwidth="1.0"]
+    "src/components/ui/badge-display.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/badge.tsx" [label=<badge.tsx> tooltip="badge.tsx" URL="src/components/ui/badge.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/badge.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/badge.tsx" -> "node_modules/class-variance-authority" [penwidth="1.0"]
+    "src/components/ui/badge.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/breadcrumb.tsx" [label=<breadcrumb.tsx> tooltip="breadcrumb.tsx" URL="src/components/ui/breadcrumb.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/breadcrumb.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/breadcrumb.tsx" -> "node_modules/@radix-ui/react-slot" [penwidth="1.0"]
+    "src/components/ui/breadcrumb.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/ui/breadcrumb.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/button.tsx" [label=<button.tsx> tooltip="button.tsx" URL="src/components/ui/button.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/button.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/button.tsx" -> "node_modules/@radix-ui/react-slot" [penwidth="1.0"]
+    "src/components/ui/button.tsx" -> "node_modules/class-variance-authority" [penwidth="1.0"]
+    "src/components/ui/button.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/calendar.tsx" [label=<calendar.tsx> tooltip="calendar.tsx" URL="src/components/ui/calendar.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/calendar.tsx" -> "src/components/ui/button.tsx"
+    "src/components/ui/calendar.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/calendar.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/ui/calendar.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/components/ui/calendar.tsx" -> "node_modules/react-day-picker" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/card.tsx" [label=<card.tsx> tooltip="card.tsx" URL="src/components/ui/card.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/card.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/card.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/carousel.tsx" [label=<carousel.tsx> tooltip="carousel.tsx" URL="src/components/ui/carousel.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/carousel.tsx" -> "src/components/ui/button.tsx"
+    "src/components/ui/carousel.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/carousel.tsx" -> "node_modules/embla-carousel-react" [penwidth="1.0" arrowhead="onormal"]
+    "src/components/ui/carousel.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/ui/carousel.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/chart.tsx" [label=<chart.tsx> tooltip="chart.tsx" URL="src/components/ui/chart.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/chart.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/chart.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/components/ui/chart.tsx" -> "node_modules/recharts" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/checkbox.tsx" [label=<checkbox.tsx> tooltip="checkbox.tsx" URL="src/components/ui/checkbox.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/checkbox.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/checkbox.tsx" -> "node_modules/@radix-ui/react-checkbox" [penwidth="1.0"]
+    "src/components/ui/checkbox.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/ui/checkbox.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/collapsible.tsx" [label=<collapsible.tsx> tooltip="collapsible.tsx" URL="src/components/ui/collapsible.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/collapsible.tsx" -> "node_modules/@radix-ui/react-collapsible" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/command.tsx" [label=<command.tsx> tooltip="command.tsx" URL="src/components/ui/command.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/command.tsx" -> "src/components/ui/dialog.tsx"
+    "src/components/ui/command.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/command.tsx" -> "node_modules/@radix-ui/react-dialog" [penwidth="1.0" arrowhead="onormal"]
+    "src/components/ui/command.tsx" -> "node_modules/cmdk" [penwidth="1.0"]
+    "src/components/ui/command.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/ui/command.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/context-menu.tsx" [label=<context-menu.tsx> tooltip="context-menu.tsx" URL="src/components/ui/context-menu.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/context-menu.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/context-menu.tsx" -> "node_modules/@radix-ui/react-context-menu" [penwidth="1.0"]
+    "src/components/ui/context-menu.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/ui/context-menu.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/cta-section.tsx" [label=<cta-section.tsx> tooltip="cta-section.tsx" URL="src/components/ui/cta-section.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/cta-section.tsx" -> "src/components/ui/button.tsx"
+    "src/components/ui/cta-section.tsx" -> "node_modules/framer-motion" [penwidth="1.0"]
+    "src/components/ui/cta-section.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/ui/cta-section.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/components/ui/cta-section.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/dialog.tsx" [label=<dialog.tsx> tooltip="dialog.tsx" URL="src/components/ui/dialog.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/dialog.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/dialog.tsx" -> "node_modules/@radix-ui/react-dialog" [penwidth="1.0"]
+    "src/components/ui/dialog.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/ui/dialog.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/drawer.tsx" [label=<drawer.tsx> tooltip="drawer.tsx" URL="src/components/ui/drawer.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/drawer.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/drawer.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/components/ui/drawer.tsx" -> "node_modules/vaul" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/dropdown-menu.tsx" [label=<dropdown-menu.tsx> tooltip="dropdown-menu.tsx" URL="src/components/ui/dropdown-menu.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/dropdown-menu.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/dropdown-menu.tsx" -> "node_modules/@radix-ui/react-dropdown-menu" [penwidth="1.0"]
+    "src/components/ui/dropdown-menu.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/ui/dropdown-menu.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/feature-section.tsx" [label=<feature-section.tsx> tooltip="feature-section.tsx" URL="src/components/ui/feature-section.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/feature-section.tsx" -> "src/components/ui/button.tsx"
+    "src/components/ui/feature-section.tsx" -> "node_modules/framer-motion" [penwidth="1.0"]
+    "src/components/ui/feature-section.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/ui/feature-section.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/components/ui/feature-section.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/features-carousel.tsx" [label=<features-carousel.tsx> tooltip="features-carousel.tsx" URL="src/components/ui/features-carousel.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/features-carousel.tsx" -> "node_modules/framer-motion" [penwidth="1.0"]
+    "src/components/ui/features-carousel.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/ui/features-carousel.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/file-uploader.tsx" [label=<file-uploader.tsx> tooltip="file-uploader.tsx" URL="src/components/ui/file-uploader.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/file-uploader.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/file-uploader.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/ui/file-uploader.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/components/ui/file-uploader.tsx" -> "node_modules/react-dropzone" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/form.tsx" [label=<form.tsx> tooltip="form.tsx" URL="src/components/ui/form.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/form.tsx" -> "src/components/ui/label.tsx"
+    "src/components/ui/form.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/form.tsx" -> "node_modules/@radix-ui/react-label" [penwidth="1.0"]
+    "src/components/ui/form.tsx" -> "node_modules/@radix-ui/react-slot" [penwidth="1.0"]
+    "src/components/ui/form.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/components/ui/form.tsx" -> "node_modules/react-hook-form" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/hero-section.tsx" [label=<hero-section.tsx> tooltip="hero-section.tsx" URL="src/components/ui/hero-section.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/hero-section.tsx" -> "src/components/ui/button.tsx"
+    "src/components/ui/hero-section.tsx" -> "node_modules/framer-motion" [penwidth="1.0"]
+    "src/components/ui/hero-section.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/ui/hero-section.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/components/ui/hero-section.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/hover-card.tsx" [label=<hover-card.tsx> tooltip="hover-card.tsx" URL="src/components/ui/hover-card.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/hover-card.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/hover-card.tsx" -> "node_modules/@radix-ui/react-hover-card" [penwidth="1.0"]
+    "src/components/ui/hover-card.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/input-otp.tsx" [label=<input-otp.tsx> tooltip="input-otp.tsx" URL="src/components/ui/input-otp.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/input-otp.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/input-otp.tsx" -> "node_modules/input-otp" [penwidth="1.0"]
+    "src/components/ui/input-otp.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/ui/input-otp.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/input.tsx" [label=<input.tsx> tooltip="input.tsx" URL="src/components/ui/input.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/input.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/input.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/interactive-device-mockup.tsx" [label=<interactive-device-mockup.tsx> tooltip="interactive-device-mockup.tsx" URL="src/components/ui/interactive-device-mockup.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/interactive-device-mockup.tsx" -> "node_modules/framer-motion" [penwidth="1.0"]
+    "src/components/ui/interactive-device-mockup.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/label.tsx" [label=<label.tsx> tooltip="label.tsx" URL="src/components/ui/label.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/label.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/label.tsx" -> "node_modules/@radix-ui/react-label" [penwidth="1.0"]
+    "src/components/ui/label.tsx" -> "node_modules/class-variance-authority" [penwidth="1.0"]
+    "src/components/ui/label.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/learning-path.tsx" [label=<learning-path.tsx> tooltip="learning-path.tsx" URL="src/components/ui/learning-path.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/learning-path.tsx" -> "node_modules/framer-motion" [penwidth="1.0"]
+    "src/components/ui/learning-path.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/ui/learning-path.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/components/ui/learning-path.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/menubar.tsx" [label=<menubar.tsx> tooltip="menubar.tsx" URL="src/components/ui/menubar.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/menubar.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/menubar.tsx" -> "node_modules/@radix-ui/react-menubar" [penwidth="1.0"]
+    "src/components/ui/menubar.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/ui/menubar.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/model-selector.tsx" [label=<model-selector.tsx> tooltip="model-selector.tsx" URL="src/components/ui/model-selector.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/model-selector.tsx" -> "src/components/ui/api-key-dialog.tsx"
+    "src/components/ui/model-selector.tsx" -> "src/components/ui/button.tsx"
+    "src/components/ui/model-selector.tsx" -> "src/components/ui/command.tsx"
+    "src/components/ui/model-selector.tsx" -> "src/components/ui/popover.tsx"
+    "src/components/ui/model-selector.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/model-selector.tsx" -> "src/services/apiKeyService.ts"
+    "src/components/ui/model-selector.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/ui/model-selector.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/multi-select.tsx" [label=<multi-select.tsx> tooltip="multi-select.tsx" URL="src/components/ui/multi-select.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/multi-select.tsx" -> "src/components/ui/badge.tsx"
+    "src/components/ui/multi-select.tsx" -> "src/components/ui/button.tsx"
+    "src/components/ui/multi-select.tsx" -> "src/components/ui/command.tsx"
+    "src/components/ui/multi-select.tsx" -> "src/components/ui/popover.tsx"
+    "src/components/ui/multi-select.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/multi-select.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/ui/multi-select.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/navigation-menu.tsx" [label=<navigation-menu.tsx> tooltip="navigation-menu.tsx" URL="src/components/ui/navigation-menu.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/navigation-menu.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/navigation-menu.tsx" -> "node_modules/@radix-ui/react-navigation-menu" [penwidth="1.0"]
+    "src/components/ui/navigation-menu.tsx" -> "node_modules/class-variance-authority" [penwidth="1.0"]
+    "src/components/ui/navigation-menu.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/ui/navigation-menu.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/pagination.tsx" [label=<pagination.tsx> tooltip="pagination.tsx" URL="src/components/ui/pagination.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/pagination.tsx" -> "src/components/ui/button.tsx"
+    "src/components/ui/pagination.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/pagination.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/ui/pagination.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/popover.tsx" [label=<popover.tsx> tooltip="popover.tsx" URL="src/components/ui/popover.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/popover.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/popover.tsx" -> "node_modules/@radix-ui/react-popover" [penwidth="1.0"]
+    "src/components/ui/popover.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/progress.tsx" [label=<progress.tsx> tooltip="progress.tsx" URL="src/components/ui/progress.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/progress.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/progress.tsx" -> "node_modules/@radix-ui/react-progress" [penwidth="1.0"]
+    "src/components/ui/progress.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/radio-group.tsx" [label=<radio-group.tsx> tooltip="radio-group.tsx" URL="src/components/ui/radio-group.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/radio-group.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/radio-group.tsx" -> "node_modules/@radix-ui/react-radio-group" [penwidth="1.0"]
+    "src/components/ui/radio-group.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/ui/radio-group.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/resizable.tsx" [label=<resizable.tsx> tooltip="resizable.tsx" URL="src/components/ui/resizable.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/resizable.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/resizable.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/ui/resizable.tsx" -> "node_modules/react-resizable-panels" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/scroll-area.tsx" [label=<scroll-area.tsx> tooltip="scroll-area.tsx" URL="src/components/ui/scroll-area.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/scroll-area.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/scroll-area.tsx" -> "node_modules/@radix-ui/react-scroll-area" [penwidth="1.0"]
+    "src/components/ui/scroll-area.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/select.tsx" [label=<select.tsx> tooltip="select.tsx" URL="src/components/ui/select.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/select.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/select.tsx" -> "node_modules/@radix-ui/react-select" [penwidth="1.0"]
+    "src/components/ui/select.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/ui/select.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/separator.tsx" [label=<separator.tsx> tooltip="separator.tsx" URL="src/components/ui/separator.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/separator.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/separator.tsx" -> "node_modules/@radix-ui/react-separator" [penwidth="1.0"]
+    "src/components/ui/separator.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/sheet.tsx" [label=<sheet.tsx> tooltip="sheet.tsx" URL="src/components/ui/sheet.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/sheet.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/sheet.tsx" -> "node_modules/@radix-ui/react-dialog" [penwidth="1.0"]
+    "src/components/ui/sheet.tsx" -> "node_modules/class-variance-authority" [penwidth="1.0"]
+    "src/components/ui/sheet.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/ui/sheet.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/sidebar.tsx" [label=<sidebar.tsx> tooltip="sidebar.tsx" URL="src/components/ui/sidebar.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/sidebar.tsx" -> "src/components/ui/button.tsx"
+    "src/components/ui/sidebar.tsx" -> "src/components/ui/input.tsx"
+    "src/components/ui/sidebar.tsx" -> "src/components/ui/separator.tsx"
+    "src/components/ui/sidebar.tsx" -> "src/components/ui/sheet.tsx"
+    "src/components/ui/sidebar.tsx" -> "src/components/ui/skeleton.tsx"
+    "src/components/ui/sidebar.tsx" -> "src/components/ui/tooltip.tsx"
+    "src/components/ui/sidebar.tsx" -> "src/hooks/use-mobile.tsx"
+    "src/components/ui/sidebar.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/sidebar.tsx" -> "node_modules/@radix-ui/react-slot" [penwidth="1.0"]
+    "src/components/ui/sidebar.tsx" -> "node_modules/class-variance-authority" [penwidth="1.0"]
+    "src/components/ui/sidebar.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/ui/sidebar.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/skeleton.tsx" [label=<skeleton.tsx> tooltip="skeleton.tsx" URL="src/components/ui/skeleton.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/skeleton.tsx" -> "src/lib/utils.ts"
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/slider.tsx" [label=<slider.tsx> tooltip="slider.tsx" URL="src/components/ui/slider.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/slider.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/slider.tsx" -> "node_modules/@radix-ui/react-slider" [penwidth="1.0"]
+    "src/components/ui/slider.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/sonner.tsx" [label=<sonner.tsx> tooltip="sonner.tsx" URL="src/components/ui/sonner.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/sonner.tsx" -> "node_modules/next-themes" [penwidth="1.0"]
+    "src/components/ui/sonner.tsx" -> "node_modules/sonner" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/switch.tsx" [label=<switch.tsx> tooltip="switch.tsx" URL="src/components/ui/switch.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/switch.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/switch.tsx" -> "node_modules/@radix-ui/react-switch" [penwidth="1.0"]
+    "src/components/ui/switch.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/table.tsx" [label=<table.tsx> tooltip="table.tsx" URL="src/components/ui/table.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/table.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/table.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/tabs.tsx" [label=<tabs.tsx> tooltip="tabs.tsx" URL="src/components/ui/tabs.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/tabs.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/tabs.tsx" -> "node_modules/@radix-ui/react-tabs" [penwidth="1.0"]
+    "src/components/ui/tabs.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/testimonial-section.tsx" [label=<testimonial-section.tsx> tooltip="testimonial-section.tsx" URL="src/components/ui/testimonial-section.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/testimonial-section.tsx" -> "node_modules/framer-motion" [penwidth="1.0"]
+    "src/components/ui/testimonial-section.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/ui/testimonial-section.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/textarea.tsx" [label=<textarea.tsx> tooltip="textarea.tsx" URL="src/components/ui/textarea.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/textarea.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/textarea.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/toast.tsx" [label=<toast.tsx> tooltip="toast.tsx" URL="src/components/ui/toast.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/toast.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/toast.tsx" -> "node_modules/@radix-ui/react-toast" [penwidth="1.0"]
+    "src/components/ui/toast.tsx" -> "node_modules/class-variance-authority" [penwidth="1.0"]
+    "src/components/ui/toast.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/components/ui/toast.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/toaster.tsx" [label=<toaster.tsx> tooltip="toaster.tsx" URL="src/components/ui/toaster.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/toaster.tsx" -> "src/components/ui/toast.tsx"
+    "src/components/ui/toaster.tsx" -> "src/hooks/use-toast.ts"
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/toggle-group.tsx" [label=<toggle-group.tsx> tooltip="toggle-group.tsx" URL="src/components/ui/toggle-group.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/toggle-group.tsx" -> "src/components/ui/toggle.tsx"
+    "src/components/ui/toggle-group.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/toggle-group.tsx" -> "node_modules/@radix-ui/react-toggle-group" [penwidth="1.0"]
+    "src/components/ui/toggle-group.tsx" -> "node_modules/class-variance-authority" [penwidth="1.0" arrowhead="onormal"]
+    "src/components/ui/toggle-group.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/toggle.tsx" [label=<toggle.tsx> tooltip="toggle.tsx" URL="src/components/ui/toggle.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/toggle.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/toggle.tsx" -> "node_modules/@radix-ui/react-toggle" [penwidth="1.0"]
+    "src/components/ui/toggle.tsx" -> "node_modules/class-variance-authority" [penwidth="1.0"]
+    "src/components/ui/toggle.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/tooltip.tsx" [label=<tooltip.tsx> tooltip="tooltip.tsx" URL="src/components/ui/tooltip.tsx" fillcolor="#bbfeff"] } } }
+    "src/components/ui/tooltip.tsx" -> "src/lib/utils.ts"
+    "src/components/ui/tooltip.tsx" -> "node_modules/@radix-ui/react-tooltip" [penwidth="1.0"]
+    "src/components/ui/tooltip.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" subgraph "cluster_src/components/ui" {label="ui" "src/components/ui/use-toast.ts" [label=<use-toast.ts> tooltip="use-toast.ts" URL="src/components/ui/use-toast.ts" fillcolor="#ddfeff"] } } }
+    "src/components/ui/use-toast.ts" -> "src/hooks/use-toast.ts"
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/contexts" {label="contexts" "src/contexts/AuthContext.tsx" [label=<AuthContext.tsx> tooltip="AuthContext.tsx" URL="src/contexts/AuthContext.tsx" fillcolor="#bbfeff"] } }
+    "src/contexts/AuthContext.tsx" -> "src/components/ui/sonner.tsx"
+    "src/contexts/AuthContext.tsx" -> "src/lib/api.ts"
+    "src/contexts/AuthContext.tsx" -> "src/types/index.ts"
+    "src/contexts/AuthContext.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/contexts" {label="contexts" "src/contexts/OnboardingContext.tsx" [label=<OnboardingContext.tsx> tooltip="OnboardingContext.tsx" URL="src/contexts/OnboardingContext.tsx" fillcolor="#bbfeff"] } }
+    "src/contexts/OnboardingContext.tsx" -> "src/types/onboarding.ts"
+    "src/contexts/OnboardingContext.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/hooks" {label="hooks" "src/hooks/use-mobile.tsx" [label=<use-mobile.tsx> tooltip="use-mobile.tsx" URL="src/hooks/use-mobile.tsx" fillcolor="#bbfeff"] } }
+    "src/hooks/use-mobile.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/hooks" {label="hooks" "src/hooks/use-toast.ts" [label=<use-toast.ts> tooltip="use-toast.ts" URL="src/hooks/use-toast.ts" fillcolor="#ddfeff"] } }
+    "src/hooks/use-toast.ts" -> "src/components/ui/toast.tsx" [arrowhead="onormal" penwidth="1.0"]
+    "src/hooks/use-toast.ts" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" "src/index.css" [label=<index.css> tooltip="index.css" URL="src/index.css" ] }
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/lib" {label="lib" "src/lib/api.ts" [label=<api.ts> tooltip="api.ts" URL="src/lib/api.ts" fillcolor="#ddfeff"] } }
+    "src/lib/api.ts" -> "node_modules/axios" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/lib" {label="lib" "src/lib/utils.ts" [label=<utils.ts> tooltip="utils.ts" URL="src/lib/utils.ts" fillcolor="#ddfeff"] } }
+    "src/lib/utils.ts" -> "node_modules/clsx" [penwidth="1.0"]
+    "src/lib/utils.ts" -> "node_modules/tailwind-merge" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" "src/main.tsx" [label=<main.tsx> tooltip="main.tsx" URL="src/main.tsx" fillcolor="#bbfeff"] }
+    "src/main.tsx" -> "src/App.tsx"
+    "src/main.tsx" -> "src/index.css"
+    "src/main.tsx" -> "node_modules/react-dom" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/modules" {label="modules" subgraph "cluster_src/modules/admissions" {label="admissions" "src/modules/admissions/index.ts" [label=<index.ts> tooltip="index.ts" URL="src/modules/admissions/index.ts" fillcolor="#ddfeff"] } } }
+    "src/modules/admissions/index.ts" -> "src/modules/admissions/types/index.ts" [arrowhead="inv"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/modules" {label="modules" subgraph "cluster_src/modules/admissions" {label="admissions" subgraph "cluster_src/modules/admissions/types" {label="types" "src/modules/admissions/types/index.ts" [label=<index.ts> tooltip="index.ts" URL="src/modules/admissions/types/index.ts" fillcolor="#ddfeff"] } } } }
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/modules" {label="modules" subgraph "cluster_src/modules/aiAssistant" {label="aiAssistant" "src/modules/aiAssistant/index.ts" [label=<index.ts> tooltip="index.ts" URL="src/modules/aiAssistant/index.ts" fillcolor="#ddfeff"] } } }
+    "src/modules/aiAssistant/index.ts" -> "src/modules/aiAssistant/types/index.ts" [arrowhead="inv"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/modules" {label="modules" subgraph "cluster_src/modules/aiAssistant" {label="aiAssistant" subgraph "cluster_src/modules/aiAssistant/types" {label="types" "src/modules/aiAssistant/types/index.ts" [label=<index.ts> tooltip="index.ts" URL="src/modules/aiAssistant/types/index.ts" fillcolor="#ddfeff"] } } } }
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/modules" {label="modules" subgraph "cluster_src/modules/analytics" {label="analytics" "src/modules/analytics/index.ts" [label=<index.ts> tooltip="index.ts" URL="src/modules/analytics/index.ts" fillcolor="#ddfeff"] } } }
+    "src/modules/analytics/index.ts" -> "src/modules/analytics/types/index.ts" [arrowhead="inv"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/modules" {label="modules" subgraph "cluster_src/modules/analytics" {label="analytics" subgraph "cluster_src/modules/analytics/types" {label="types" "src/modules/analytics/types/index.ts" [label=<index.ts> tooltip="index.ts" URL="src/modules/analytics/types/index.ts" fillcolor="#ddfeff"] } } } }
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/modules" {label="modules" subgraph "cluster_src/modules/attendance" {label="attendance" "src/modules/attendance/index.ts" [label=<index.ts> tooltip="index.ts" URL="src/modules/attendance/index.ts" fillcolor="#ddfeff"] } } }
+    "src/modules/attendance/index.ts" -> "src/modules/attendance/types/index.ts" [arrowhead="inv"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/modules" {label="modules" subgraph "cluster_src/modules/attendance" {label="attendance" subgraph "cluster_src/modules/attendance/types" {label="types" "src/modules/attendance/types/index.ts" [label=<index.ts> tooltip="index.ts" URL="src/modules/attendance/types/index.ts" fillcolor="#ddfeff"] } } } }
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/modules" {label="modules" subgraph "cluster_src/modules/courses" {label="courses" subgraph "cluster_src/modules/courses/components" {label="components" "src/modules/courses/components/CourseDetail.tsx" [label=<CourseDetail.tsx> tooltip="CourseDetail.tsx" URL="src/modules/courses/components/CourseDetail.tsx" fillcolor="#bbfeff"] } } } }
+    "src/modules/courses/components/CourseDetail.tsx" -> "src/modules/courses/types/index.ts"
+    "src/modules/courses/components/CourseDetail.tsx" -> "src/components/ui/badge.tsx"
+    "src/modules/courses/components/CourseDetail.tsx" -> "src/components/ui/button.tsx"
+    "src/modules/courses/components/CourseDetail.tsx" -> "src/components/ui/card.tsx"
+    "src/modules/courses/components/CourseDetail.tsx" -> "src/components/ui/tabs.tsx"
+    "src/modules/courses/components/CourseDetail.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/modules/courses/components/CourseDetail.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/modules" {label="modules" subgraph "cluster_src/modules/courses" {label="courses" subgraph "cluster_src/modules/courses/components" {label="components" "src/modules/courses/components/CourseList.tsx" [label=<CourseList.tsx> tooltip="CourseList.tsx" URL="src/modules/courses/components/CourseList.tsx" fillcolor="#bbfeff"] } } } }
+    "src/modules/courses/components/CourseList.tsx" -> "src/modules/courses/types/index.ts"
+    "src/modules/courses/components/CourseList.tsx" -> "src/components/ui/badge.tsx"
+    "src/modules/courses/components/CourseList.tsx" -> "src/components/ui/button.tsx"
+    "src/modules/courses/components/CourseList.tsx" -> "src/components/ui/card.tsx"
+    "src/modules/courses/components/CourseList.tsx" -> "src/components/ui/select.tsx"
+    "src/modules/courses/components/CourseList.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/modules/courses/components/CourseList.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/modules/courses/components/CourseList.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/modules" {label="modules" subgraph "cluster_src/modules/courses" {label="courses" subgraph "cluster_src/modules/courses/components" {label="components" "src/modules/courses/components/CourseProgress.tsx" [label=<CourseProgress.tsx> tooltip="CourseProgress.tsx" URL="src/modules/courses/components/CourseProgress.tsx" fillcolor="#bbfeff"] } } } }
+    "src/modules/courses/components/CourseProgress.tsx" -> "src/modules/courses/types/index.ts"
+    "src/modules/courses/components/CourseProgress.tsx" -> "src/components/ui/badge.tsx"
+    "src/modules/courses/components/CourseProgress.tsx" -> "src/components/ui/card.tsx"
+    "src/modules/courses/components/CourseProgress.tsx" -> "src/components/ui/progress.tsx"
+    "src/modules/courses/components/CourseProgress.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/modules/courses/components/CourseProgress.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/modules" {label="modules" subgraph "cluster_src/modules/courses" {label="courses" subgraph "cluster_src/modules/courses/components" {label="components" "src/modules/courses/components/CourseVideoPlayer.tsx" [label=<CourseVideoPlayer.tsx> tooltip="CourseVideoPlayer.tsx" URL="src/modules/courses/components/CourseVideoPlayer.tsx" fillcolor="#bbfeff"] } } } }
+    "src/modules/courses/components/CourseVideoPlayer.tsx" -> "src/modules/courses/types/index.ts"
+    "src/modules/courses/components/CourseVideoPlayer.tsx" -> "src/components/ui/button.tsx"
+    "src/modules/courses/components/CourseVideoPlayer.tsx" -> "src/components/ui/card.tsx"
+    "src/modules/courses/components/CourseVideoPlayer.tsx" -> "src/components/ui/slider.tsx"
+    "src/modules/courses/components/CourseVideoPlayer.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/modules/courses/components/CourseVideoPlayer.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/modules" {label="modules" subgraph "cluster_src/modules/courses" {label="courses" subgraph "cluster_src/modules/courses/hooks" {label="hooks" "src/modules/courses/hooks/useCourses.ts" [label=<useCourses.ts> tooltip="useCourses.ts" URL="src/modules/courses/hooks/useCourses.ts" fillcolor="#ddfeff"] } } } }
+    "src/modules/courses/hooks/useCourses.ts" -> "src/modules/courses/services/courseService.ts"
+    "src/modules/courses/hooks/useCourses.ts" -> "src/modules/courses/types/index.ts"
+    "src/modules/courses/hooks/useCourses.ts" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/modules" {label="modules" subgraph "cluster_src/modules/courses" {label="courses" "src/modules/courses/index.ts" [label=<index.ts> tooltip="index.ts" URL="src/modules/courses/index.ts" fillcolor="#ddfeff"] } } }
+    "src/modules/courses/index.ts" -> "src/modules/courses/components/CourseDetail.tsx" [arrowhead="inv"]
+    "src/modules/courses/index.ts" -> "src/modules/courses/components/CourseList.tsx" [arrowhead="inv"]
+    "src/modules/courses/index.ts" -> "src/modules/courses/components/CourseProgress.tsx" [arrowhead="inv"]
+    "src/modules/courses/index.ts" -> "src/modules/courses/components/CourseVideoPlayer.tsx" [arrowhead="inv"]
+    "src/modules/courses/index.ts" -> "src/modules/courses/hooks/useCourses.ts" [arrowhead="inv"]
+    "src/modules/courses/index.ts" -> "src/modules/courses/services/courseService.ts" [arrowhead="inv"]
+    "src/modules/courses/index.ts" -> "src/modules/courses/types/index.ts" [arrowhead="inv"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/modules" {label="modules" subgraph "cluster_src/modules/courses" {label="courses" subgraph "cluster_src/modules/courses/services" {label="services" "src/modules/courses/services/courseService.ts" [label=<courseService.ts> tooltip="courseService.ts" URL="src/modules/courses/services/courseService.ts" fillcolor="#ddfeff"] } } } }
+    "src/modules/courses/services/courseService.ts" -> "src/modules/courses/types/index.ts"
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/modules" {label="modules" subgraph "cluster_src/modules/courses" {label="courses" subgraph "cluster_src/modules/courses/types" {label="types" "src/modules/courses/types/index.ts" [label=<index.ts> tooltip="index.ts" URL="src/modules/courses/types/index.ts" fillcolor="#ddfeff"] } } } }
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/modules" {label="modules" subgraph "cluster_src/modules/exams" {label="exams" "src/modules/exams/index.ts" [label=<index.ts> tooltip="index.ts" URL="src/modules/exams/index.ts" fillcolor="#ddfeff"] } } }
+    "src/modules/exams/index.ts" -> "src/modules/exams/types/index.ts" [arrowhead="inv"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/modules" {label="modules" subgraph "cluster_src/modules/exams" {label="exams" subgraph "cluster_src/modules/exams/types" {label="types" "src/modules/exams/types/index.ts" [label=<index.ts> tooltip="index.ts" URL="src/modules/exams/types/index.ts" fillcolor="#ddfeff"] } } } }
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/modules" {label="modules" "src/modules/index.ts" [label=<index.ts> tooltip="index.ts" URL="src/modules/index.ts" fillcolor="#ddfeff"] } }
+    "src/modules/index.ts" -> "src/modules/admissions/index.ts" [arrowhead="inv"]
+    "src/modules/index.ts" -> "src/modules/aiAssistant/index.ts" [arrowhead="inv"]
+    "src/modules/index.ts" -> "src/modules/analytics/index.ts" [arrowhead="inv"]
+    "src/modules/index.ts" -> "src/modules/attendance/index.ts" [arrowhead="inv"]
+    "src/modules/index.ts" -> "src/modules/courses/index.ts" [arrowhead="inv"]
+    "src/modules/index.ts" -> "src/modules/exams/index.ts" [arrowhead="inv"]
+    "src/modules/index.ts" -> "src/modules/liveClasses/index.ts" [arrowhead="inv"]
+    "src/modules/index.ts" -> "src/modules/shared/index.ts" [arrowhead="inv"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/modules" {label="modules" subgraph "cluster_src/modules/liveClasses" {label="liveClasses" "src/modules/liveClasses/index.ts" [label=<index.ts> tooltip="index.ts" URL="src/modules/liveClasses/index.ts" fillcolor="#ddfeff"] } } }
+    "src/modules/liveClasses/index.ts" -> "src/modules/liveClasses/types/index.ts" [arrowhead="inv"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/modules" {label="modules" subgraph "cluster_src/modules/liveClasses" {label="liveClasses" subgraph "cluster_src/modules/liveClasses/types" {label="types" "src/modules/liveClasses/types/index.ts" [label=<index.ts> tooltip="index.ts" URL="src/modules/liveClasses/types/index.ts" fillcolor="#ddfeff"] } } } }
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/modules" {label="modules" subgraph "cluster_src/modules/shared" {label="shared" "src/modules/shared/index.ts" [label=<index.ts> tooltip="index.ts" URL="src/modules/shared/index.ts" fillcolor="#ddfeff"] } } }
+    "src/modules/shared/index.ts" -> "src/modules/shared/types/index.ts" [arrowhead="inv"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/modules" {label="modules" subgraph "cluster_src/modules/shared" {label="shared" subgraph "cluster_src/modules/shared/types" {label="types" "src/modules/shared/types/index.ts" [label=<index.ts> tooltip="index.ts" URL="src/modules/shared/types/index.ts" fillcolor="#ddfeff"] } } } }
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" "src/pages/Index.tsx" [label=<Index.tsx> tooltip="Index.tsx" URL="src/pages/Index.tsx" fillcolor="#bbfeff"] } }
+    "src/pages/Index.tsx" -> "src/components/ui/button.tsx"
+    "src/pages/Index.tsx" -> "node_modules/framer-motion" [penwidth="1.0"]
+    "src/pages/Index.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/pages/Index.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/pages/Index.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" "src/pages/LandingPage.tsx" [label=<LandingPage.tsx> tooltip="LandingPage.tsx" URL="src/pages/LandingPage.tsx" fillcolor="#bbfeff"] } }
+    "src/pages/LandingPage.tsx" -> "src/components/ui/animated-background.tsx"
+    "src/pages/LandingPage.tsx" -> "src/components/ui/animated-nav-header.tsx"
+    "src/pages/LandingPage.tsx" -> "src/components/ui/badge-display.tsx"
+    "src/pages/LandingPage.tsx" -> "src/components/ui/cta-section.tsx"
+    "src/pages/LandingPage.tsx" -> "src/components/ui/feature-section.tsx"
+    "src/pages/LandingPage.tsx" -> "src/components/ui/features-carousel.tsx"
+    "src/pages/LandingPage.tsx" -> "@/components/ui/footer" [xlabel="not-to-unresolvable" tooltip="not-to-unresolvable" fontcolor="red" color="red"]
+    "src/pages/LandingPage.tsx" -> "src/components/ui/hero-section.tsx"
+    "src/pages/LandingPage.tsx" -> "src/components/ui/interactive-device-mockup.tsx"
+    "src/pages/LandingPage.tsx" -> "src/components/ui/learning-path.tsx"
+    "src/pages/LandingPage.tsx" -> "src/components/ui/testimonial-section.tsx"
+    "src/pages/LandingPage.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/pages/LandingPage.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/pages/LandingPage.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" "src/pages/NotFound.tsx" [label=<NotFound.tsx> tooltip="NotFound.tsx" URL="src/pages/NotFound.tsx" fillcolor="#bbfeff"] } }
+    "src/pages/NotFound.tsx" -> "src/components/ui/button.tsx"
+    "src/pages/NotFound.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/pages/NotFound.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/pages/NotFound.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" "src/pages/VirtualClassroom.tsx" [label=<VirtualClassroom.tsx> tooltip="VirtualClassroom.tsx" URL="src/pages/VirtualClassroom.tsx" fillcolor="#bbfeff"] } }
+    "src/pages/VirtualClassroom.tsx" -> "src/components/classroom/AttendanceTracker.tsx"
+    "src/pages/VirtualClassroom.tsx" -> "src/components/classroom/BiometricAttendance.tsx"
+    "src/pages/VirtualClassroom.tsx" -> "src/components/classroom/BreakoutRooms.tsx"
+    "src/pages/VirtualClassroom.tsx" -> "src/components/classroom/EnhancedVideoConference.tsx"
+    "src/pages/VirtualClassroom.tsx" -> "src/components/classroom/FacialRecognitionAttendance.tsx"
+    "src/pages/VirtualClassroom.tsx" -> "src/components/classroom/InteractiveWhiteboard.tsx"
+    "src/pages/VirtualClassroom.tsx" -> "src/components/classroom/LivePoll.tsx"
+    "src/pages/VirtualClassroom.tsx" -> "src/components/classroom/ManualAttendance.tsx"
+    "src/pages/VirtualClassroom.tsx" -> "src/components/classroom/QRCodeAttendance.tsx"
+    "src/pages/VirtualClassroom.tsx" -> "src/components/ui/button.tsx"
+    "src/pages/VirtualClassroom.tsx" -> "src/components/ui/select.tsx"
+    "src/pages/VirtualClassroom.tsx" -> "src/components/ui/tabs.tsx"
+    "src/pages/VirtualClassroom.tsx" -> "src/components/ui/use-toast.ts"
+    "src/pages/VirtualClassroom.tsx" -> "src/contexts/AuthContext.tsx"
+    "src/pages/VirtualClassroom.tsx" -> "src/services/videoConference.ts"
+    "src/pages/VirtualClassroom.tsx" -> "src/types/index.ts"
+    "src/pages/VirtualClassroom.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/pages/VirtualClassroom.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/pages/VirtualClassroom.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/auth" {label="auth" "src/pages/auth/ForgotPasswordPage.tsx" [label=<ForgotPasswordPage.tsx> tooltip="ForgotPasswordPage.tsx" URL="src/pages/auth/ForgotPasswordPage.tsx" fillcolor="#bbfeff"] } } }
+    "src/pages/auth/ForgotPasswordPage.tsx" -> "src/components/ui/alert.tsx"
+    "src/pages/auth/ForgotPasswordPage.tsx" -> "src/components/ui/button.tsx"
+    "src/pages/auth/ForgotPasswordPage.tsx" -> "src/components/ui/card.tsx"
+    "src/pages/auth/ForgotPasswordPage.tsx" -> "src/components/ui/input.tsx"
+    "src/pages/auth/ForgotPasswordPage.tsx" -> "src/components/ui/label.tsx"
+    "src/pages/auth/ForgotPasswordPage.tsx" -> "src/components/ui/use-toast.ts"
+    "src/pages/auth/ForgotPasswordPage.tsx" -> "src/contexts/AuthContext.tsx"
+    "src/pages/auth/ForgotPasswordPage.tsx" -> "node_modules/framer-motion" [penwidth="1.0"]
+    "src/pages/auth/ForgotPasswordPage.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/pages/auth/ForgotPasswordPage.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/pages/auth/ForgotPasswordPage.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/auth" {label="auth" "src/pages/auth/LoginPage.tsx" [label=<LoginPage.tsx> tooltip="LoginPage.tsx" URL="src/pages/auth/LoginPage.tsx" fillcolor="#bbfeff"] } } }
+    "src/pages/auth/LoginPage.tsx" -> "src/components/ui/alert.tsx"
+    "src/pages/auth/LoginPage.tsx" -> "src/components/ui/button.tsx"
+    "src/pages/auth/LoginPage.tsx" -> "src/components/ui/card.tsx"
+    "src/pages/auth/LoginPage.tsx" -> "src/components/ui/input.tsx"
+    "src/pages/auth/LoginPage.tsx" -> "src/components/ui/label.tsx"
+    "src/pages/auth/LoginPage.tsx" -> "src/contexts/AuthContext.tsx"
+    "src/pages/auth/LoginPage.tsx" -> "src/types/index.ts"
+    "src/pages/auth/LoginPage.tsx" -> "node_modules/framer-motion" [penwidth="1.0"]
+    "src/pages/auth/LoginPage.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/pages/auth/LoginPage.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/pages/auth/LoginPage.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/auth" {label="auth" "src/pages/auth/RegisterPage.tsx" [label=<RegisterPage.tsx> tooltip="RegisterPage.tsx" URL="src/pages/auth/RegisterPage.tsx" fillcolor="#bbfeff"] } } }
+    "src/pages/auth/RegisterPage.tsx" -> "src/components/ui/button.tsx"
+    "src/pages/auth/RegisterPage.tsx" -> "src/components/ui/form.tsx"
+    "src/pages/auth/RegisterPage.tsx" -> "src/components/ui/input.tsx"
+    "src/pages/auth/RegisterPage.tsx" -> "src/components/ui/select.tsx"
+    "src/pages/auth/RegisterPage.tsx" -> "src/components/ui/use-toast.ts"
+    "src/pages/auth/RegisterPage.tsx" -> "src/contexts/AuthContext.tsx"
+    "src/pages/auth/RegisterPage.tsx" -> "src/types/index.ts"
+    "src/pages/auth/RegisterPage.tsx" -> "node_modules/@hookform/resolvers" [penwidth="1.0"]
+    "src/pages/auth/RegisterPage.tsx" -> "node_modules/framer-motion" [penwidth="1.0"]
+    "src/pages/auth/RegisterPage.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/pages/auth/RegisterPage.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/pages/auth/RegisterPage.tsx" -> "node_modules/react-hook-form" [penwidth="1.0"]
+    "src/pages/auth/RegisterPage.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    "src/pages/auth/RegisterPage.tsx" -> "node_modules/zod" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/auth" {label="auth" "src/pages/auth/ResetPasswordPage.tsx" [label=<ResetPasswordPage.tsx> tooltip="ResetPasswordPage.tsx" URL="src/pages/auth/ResetPasswordPage.tsx" fillcolor="#bbfeff"] } } }
+    "src/pages/auth/ResetPasswordPage.tsx" -> "src/components/ui/alert.tsx"
+    "src/pages/auth/ResetPasswordPage.tsx" -> "src/components/ui/button.tsx"
+    "src/pages/auth/ResetPasswordPage.tsx" -> "src/components/ui/card.tsx"
+    "src/pages/auth/ResetPasswordPage.tsx" -> "src/components/ui/input.tsx"
+    "src/pages/auth/ResetPasswordPage.tsx" -> "src/components/ui/label.tsx"
+    "src/pages/auth/ResetPasswordPage.tsx" -> "src/components/ui/use-toast.ts"
+    "src/pages/auth/ResetPasswordPage.tsx" -> "src/contexts/AuthContext.tsx"
+    "src/pages/auth/ResetPasswordPage.tsx" -> "node_modules/framer-motion" [penwidth="1.0"]
+    "src/pages/auth/ResetPasswordPage.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/pages/auth/ResetPasswordPage.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/pages/auth/ResetPasswordPage.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/auth" {label="auth" "src/pages/auth/UnauthorizedPage.tsx" [label=<UnauthorizedPage.tsx> tooltip="UnauthorizedPage.tsx" URL="src/pages/auth/UnauthorizedPage.tsx" fillcolor="#bbfeff"] } } }
+    "src/pages/auth/UnauthorizedPage.tsx" -> "src/components/ui/button.tsx"
+    "src/pages/auth/UnauthorizedPage.tsx" -> "src/components/ui/card.tsx"
+    "src/pages/auth/UnauthorizedPage.tsx" -> "src/contexts/AuthContext.tsx"
+    "src/pages/auth/UnauthorizedPage.tsx" -> "src/types/index.ts"
+    "src/pages/auth/UnauthorizedPage.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/pages/auth/UnauthorizedPage.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/pages/auth/UnauthorizedPage.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/onboarding" {label="onboarding" "src/pages/onboarding/CompletionPage.tsx" [label=<CompletionPage.tsx> tooltip="CompletionPage.tsx" URL="src/pages/onboarding/CompletionPage.tsx" fillcolor="#bbfeff"] } } }
+    "src/pages/onboarding/CompletionPage.tsx" -> "src/components/layout/OnboardingLayout.tsx"
+    "src/pages/onboarding/CompletionPage.tsx" -> "src/components/ui/badge.tsx"
+    "src/pages/onboarding/CompletionPage.tsx" -> "src/components/ui/button.tsx"
+    "src/pages/onboarding/CompletionPage.tsx" -> "src/components/ui/card.tsx"
+    "src/pages/onboarding/CompletionPage.tsx" -> "src/components/ui/use-toast.ts"
+    "src/pages/onboarding/CompletionPage.tsx" -> "src/contexts/AuthContext.tsx"
+    "src/pages/onboarding/CompletionPage.tsx" -> "src/contexts/OnboardingContext.tsx"
+    "src/pages/onboarding/CompletionPage.tsx" -> "src/services/tenantService.ts"
+    "src/pages/onboarding/CompletionPage.tsx" -> "src/types/index.ts"
+    "src/pages/onboarding/CompletionPage.tsx" -> "src/types/onboarding.ts"
+    "src/pages/onboarding/CompletionPage.tsx" -> "node_modules/canvas-confetti" [penwidth="1.0"]
+    "src/pages/onboarding/CompletionPage.tsx" -> "node_modules/framer-motion" [penwidth="1.0"]
+    "src/pages/onboarding/CompletionPage.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/pages/onboarding/CompletionPage.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/pages/onboarding/CompletionPage.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/onboarding" {label="onboarding" "src/pages/onboarding/ModuleSelectionPage.tsx" [label=<ModuleSelectionPage.tsx> tooltip="ModuleSelectionPage.tsx" URL="src/pages/onboarding/ModuleSelectionPage.tsx" fillcolor="#bbfeff"] } } }
+    "src/pages/onboarding/ModuleSelectionPage.tsx" -> "src/components/layout/OnboardingLayout.tsx"
+    "src/pages/onboarding/ModuleSelectionPage.tsx" -> "src/components/ui/badge.tsx"
+    "src/pages/onboarding/ModuleSelectionPage.tsx" -> "src/components/ui/button.tsx"
+    "src/pages/onboarding/ModuleSelectionPage.tsx" -> "src/components/ui/card.tsx"
+    "src/pages/onboarding/ModuleSelectionPage.tsx" -> "src/components/ui/checkbox.tsx"
+    "src/pages/onboarding/ModuleSelectionPage.tsx" -> "src/components/ui/tabs.tsx"
+    "src/pages/onboarding/ModuleSelectionPage.tsx" -> "src/contexts/AuthContext.tsx"
+    "src/pages/onboarding/ModuleSelectionPage.tsx" -> "src/contexts/OnboardingContext.tsx"
+    "src/pages/onboarding/ModuleSelectionPage.tsx" -> "src/types/onboarding.ts"
+    "src/pages/onboarding/ModuleSelectionPage.tsx" -> "node_modules/framer-motion" [penwidth="1.0"]
+    "src/pages/onboarding/ModuleSelectionPage.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/pages/onboarding/ModuleSelectionPage.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/pages/onboarding/ModuleSelectionPage.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/onboarding" {label="onboarding" "src/pages/onboarding/TenantInfoPage.tsx" [label=<TenantInfoPage.tsx> tooltip="TenantInfoPage.tsx" URL="src/pages/onboarding/TenantInfoPage.tsx" fillcolor="#bbfeff"] } } }
+    "src/pages/onboarding/TenantInfoPage.tsx" -> "src/components/layout/OnboardingLayout.tsx"
+    "src/pages/onboarding/TenantInfoPage.tsx" -> "src/components/ui/button.tsx"
+    "src/pages/onboarding/TenantInfoPage.tsx" -> "src/components/ui/card.tsx"
+    "src/pages/onboarding/TenantInfoPage.tsx" -> "src/components/ui/checkbox.tsx"
+    "src/pages/onboarding/TenantInfoPage.tsx" -> "src/components/ui/form.tsx"
+    "src/pages/onboarding/TenantInfoPage.tsx" -> "src/components/ui/input.tsx"
+    "src/pages/onboarding/TenantInfoPage.tsx" -> "src/components/ui/select.tsx"
+    "src/pages/onboarding/TenantInfoPage.tsx" -> "src/components/ui/textarea.tsx"
+    "src/pages/onboarding/TenantInfoPage.tsx" -> "src/contexts/AuthContext.tsx"
+    "src/pages/onboarding/TenantInfoPage.tsx" -> "src/contexts/OnboardingContext.tsx"
+    "src/pages/onboarding/TenantInfoPage.tsx" -> "src/types/onboarding.ts"
+    "src/pages/onboarding/TenantInfoPage.tsx" -> "node_modules/@hookform/resolvers" [penwidth="1.0"]
+    "src/pages/onboarding/TenantInfoPage.tsx" -> "node_modules/framer-motion" [penwidth="1.0"]
+    "src/pages/onboarding/TenantInfoPage.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/pages/onboarding/TenantInfoPage.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/pages/onboarding/TenantInfoPage.tsx" -> "node_modules/react-hook-form" [penwidth="1.0"]
+    "src/pages/onboarding/TenantInfoPage.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    "src/pages/onboarding/TenantInfoPage.tsx" -> "node_modules/zod" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/onboarding" {label="onboarding" "src/pages/onboarding/TenantTypePage.tsx" [label=<TenantTypePage.tsx> tooltip="TenantTypePage.tsx" URL="src/pages/onboarding/TenantTypePage.tsx" fillcolor="#bbfeff"] } } }
+    "src/pages/onboarding/TenantTypePage.tsx" -> "src/components/layout/OnboardingLayout.tsx"
+    "src/pages/onboarding/TenantTypePage.tsx" -> "src/components/ui/badge.tsx"
+    "src/pages/onboarding/TenantTypePage.tsx" -> "src/components/ui/button.tsx"
+    "src/pages/onboarding/TenantTypePage.tsx" -> "src/components/ui/card.tsx"
+    "src/pages/onboarding/TenantTypePage.tsx" -> "src/contexts/AuthContext.tsx"
+    "src/pages/onboarding/TenantTypePage.tsx" -> "src/contexts/OnboardingContext.tsx"
+    "src/pages/onboarding/TenantTypePage.tsx" -> "src/types/onboarding.ts"
+    "src/pages/onboarding/TenantTypePage.tsx" -> "node_modules/framer-motion" [penwidth="1.0"]
+    "src/pages/onboarding/TenantTypePage.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/pages/onboarding/TenantTypePage.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/pages/onboarding/TenantTypePage.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/onboarding" {label="onboarding" "src/pages/onboarding/index.ts" [label=<index.ts> tooltip="index.ts" URL="src/pages/onboarding/index.ts" fillcolor="#ddfeff"] } } }
+    "src/pages/onboarding/index.ts" -> "src/pages/onboarding/CompletionPage.tsx" [arrowhead="inv"]
+    "src/pages/onboarding/index.ts" -> "src/pages/onboarding/ModuleSelectionPage.tsx" [arrowhead="inv"]
+    "src/pages/onboarding/index.ts" -> "src/pages/onboarding/TenantInfoPage.tsx" [arrowhead="inv"]
+    "src/pages/onboarding/index.ts" -> "src/pages/onboarding/TenantTypePage.tsx" [arrowhead="inv"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/principal" {label="principal" "src/pages/principal/Dashboard.tsx" [label=<Dashboard.tsx> tooltip="Dashboard.tsx" URL="src/pages/principal/Dashboard.tsx" fillcolor="#bbfeff"] } } }
+    "src/pages/principal/Dashboard.tsx" -> "src/components/ui/button.tsx"
+    "src/pages/principal/Dashboard.tsx" -> "src/components/ui/card.tsx"
+    "src/pages/principal/Dashboard.tsx" -> "src/components/ui/chart.tsx"
+    "src/pages/principal/Dashboard.tsx" -> "src/components/ui/separator.tsx"
+    "src/pages/principal/Dashboard.tsx" -> "src/components/ui/tabs.tsx"
+    "src/pages/principal/Dashboard.tsx" -> "node_modules/framer-motion" [penwidth="1.0"]
+    "src/pages/principal/Dashboard.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/pages/principal/Dashboard.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/pages/principal/Dashboard.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/principal" {label="principal" "src/pages/principal/Departments.tsx" [label=<Departments.tsx> tooltip="Departments.tsx" URL="src/pages/principal/Departments.tsx" fillcolor="#bbfeff"] } } }
+    "src/pages/principal/Departments.tsx" -> "src/components/ui/button.tsx"
+    "src/pages/principal/Departments.tsx" -> "src/components/ui/card.tsx"
+    "src/pages/principal/Departments.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/pages/principal/Departments.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/principal" {label="principal" "src/pages/principal/ModuleManagement.tsx" [label=<ModuleManagement.tsx> tooltip="ModuleManagement.tsx" URL="src/pages/principal/ModuleManagement.tsx" fillcolor="#bbfeff"] } } }
+    "src/pages/principal/ModuleManagement.tsx" -> "src/components/ui/button.tsx"
+    "src/pages/principal/ModuleManagement.tsx" -> "src/components/ui/card.tsx"
+    "src/pages/principal/ModuleManagement.tsx" -> "src/components/ui/label.tsx"
+    "src/pages/principal/ModuleManagement.tsx" -> "src/components/ui/separator.tsx"
+    "src/pages/principal/ModuleManagement.tsx" -> "src/components/ui/switch.tsx"
+    "src/pages/principal/ModuleManagement.tsx" -> "src/components/ui/use-toast.ts"
+    "src/pages/principal/ModuleManagement.tsx" -> "src/contexts/AuthContext.tsx"
+    "src/pages/principal/ModuleManagement.tsx" -> "src/services/tenantService.ts"
+    "src/pages/principal/ModuleManagement.tsx" -> "src/types/onboarding.ts"
+    "src/pages/principal/ModuleManagement.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/pages/principal/ModuleManagement.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/principal" {label="principal" "src/pages/principal/SchoolAnalytics.tsx" [label=<SchoolAnalytics.tsx> tooltip="SchoolAnalytics.tsx" URL="src/pages/principal/SchoolAnalytics.tsx" fillcolor="#bbfeff"] } } }
+    "src/pages/principal/SchoolAnalytics.tsx" -> "src/components/ui/card.tsx"
+    "src/pages/principal/SchoolAnalytics.tsx" -> "src/components/ui/tabs.tsx"
+    "src/pages/principal/SchoolAnalytics.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/principal" {label="principal" "src/pages/principal/Settings.tsx" [label=<Settings.tsx> tooltip="Settings.tsx" URL="src/pages/principal/Settings.tsx" fillcolor="#bbfeff"] } } }
+    "src/pages/principal/Settings.tsx" -> "src/components/ui/button.tsx"
+    "src/pages/principal/Settings.tsx" -> "src/components/ui/card.tsx"
+    "src/pages/principal/Settings.tsx" -> "src/components/ui/input.tsx"
+    "src/pages/principal/Settings.tsx" -> "src/components/ui/label.tsx"
+    "src/pages/principal/Settings.tsx" -> "src/components/ui/switch.tsx"
+    "src/pages/principal/Settings.tsx" -> "src/components/ui/tabs.tsx"
+    "src/pages/principal/Settings.tsx" -> "src/contexts/AuthContext.tsx"
+    "src/pages/principal/Settings.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/pages/principal/Settings.tsx" -> "node_modules/sonner" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/principal" {label="principal" "src/pages/principal/Students.tsx" [label=<Students.tsx> tooltip="Students.tsx" URL="src/pages/principal/Students.tsx" fillcolor="#bbfeff"] } } }
+    "src/pages/principal/Students.tsx" -> "src/components/ui/avatar.tsx"
+    "src/pages/principal/Students.tsx" -> "src/components/ui/badge.tsx"
+    "src/pages/principal/Students.tsx" -> "src/components/ui/button.tsx"
+    "src/pages/principal/Students.tsx" -> "src/components/ui/card.tsx"
+    "src/pages/principal/Students.tsx" -> "src/components/ui/dropdown-menu.tsx"
+    "src/pages/principal/Students.tsx" -> "src/components/ui/input.tsx"
+    "src/pages/principal/Students.tsx" -> "src/components/ui/table.tsx"
+    "src/pages/principal/Students.tsx" -> "src/components/ui/tabs.tsx"
+    "src/pages/principal/Students.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/pages/principal/Students.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/principal" {label="principal" "src/pages/principal/Teachers.tsx" [label=<Teachers.tsx> tooltip="Teachers.tsx" URL="src/pages/principal/Teachers.tsx" fillcolor="#bbfeff"] } } }
+    "src/pages/principal/Teachers.tsx" -> "src/components/ui/button.tsx"
+    "src/pages/principal/Teachers.tsx" -> "src/components/ui/card.tsx"
+    "src/pages/principal/Teachers.tsx" -> "src/components/ui/dialog.tsx"
+    "src/pages/principal/Teachers.tsx" -> "src/components/ui/dropdown-menu.tsx"
+    "src/pages/principal/Teachers.tsx" -> "src/components/ui/input.tsx"
+    "src/pages/principal/Teachers.tsx" -> "src/hooks/use-toast.ts"
+    "src/pages/principal/Teachers.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/pages/principal/Teachers.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/shared" {label="shared" "src/pages/shared/Calendar.tsx" [label=<Calendar.tsx> tooltip="Calendar.tsx" URL="src/pages/shared/Calendar.tsx" fillcolor="#bbfeff"] } } }
+    "src/pages/shared/Calendar.tsx" -> "src/components/ui/badge.tsx"
+    "src/pages/shared/Calendar.tsx" -> "src/components/ui/button.tsx"
+    "src/pages/shared/Calendar.tsx" -> "src/components/ui/card.tsx"
+    "src/pages/shared/Calendar.tsx" -> "src/components/ui/dialog.tsx"
+    "src/pages/shared/Calendar.tsx" -> "src/components/ui/input.tsx"
+    "src/pages/shared/Calendar.tsx" -> "src/components/ui/label.tsx"
+    "src/pages/shared/Calendar.tsx" -> "src/components/ui/select.tsx"
+    "src/pages/shared/Calendar.tsx" -> "src/components/ui/textarea.tsx"
+    "src/pages/shared/Calendar.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/pages/shared/Calendar.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/shared" {label="shared" "src/pages/shared/CourseDetail.tsx" [label=<CourseDetail.tsx> tooltip="CourseDetail.tsx" URL="src/pages/shared/CourseDetail.tsx" fillcolor="#bbfeff"] } } }
+    "src/pages/shared/CourseDetail.tsx" -> "src/components/ui/button.tsx"
+    "src/pages/shared/CourseDetail.tsx" -> "src/components/ui/tabs.tsx"
+    "src/pages/shared/CourseDetail.tsx" -> "src/hooks/use-toast.ts"
+    "src/pages/shared/CourseDetail.tsx" -> "src/modules/courses/components/CourseDetail.tsx"
+    "src/pages/shared/CourseDetail.tsx" -> "src/modules/courses/components/CourseProgress.tsx"
+    "src/pages/shared/CourseDetail.tsx" -> "src/modules/courses/components/CourseVideoPlayer.tsx"
+    "src/pages/shared/CourseDetail.tsx" -> "src/modules/courses/hooks/useCourses.ts"
+    "src/pages/shared/CourseDetail.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/pages/shared/CourseDetail.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/pages/shared/CourseDetail.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/shared" {label="shared" "src/pages/shared/CoursesList.tsx" [label=<CoursesList.tsx> tooltip="CoursesList.tsx" URL="src/pages/shared/CoursesList.tsx" fillcolor="#bbfeff"] } } }
+    "src/pages/shared/CoursesList.tsx" -> "src/modules/courses/components/CourseList.tsx"
+    "src/pages/shared/CoursesList.tsx" -> "src/modules/courses/hooks/useCourses.ts"
+    "src/pages/shared/CoursesList.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/student" {label="student" "src/pages/student/AIStudyTools.tsx" [label=<AIStudyTools.tsx> tooltip="AIStudyTools.tsx" URL="src/pages/student/AIStudyTools.tsx" fillcolor="#bbfeff"] } } }
+    "src/pages/student/AIStudyTools.tsx" -> "src/components/ui/button.tsx"
+    "src/pages/student/AIStudyTools.tsx" -> "src/components/ui/card.tsx"
+    "src/pages/student/AIStudyTools.tsx" -> "src/components/ui/dropdown-menu.tsx"
+    "src/pages/student/AIStudyTools.tsx" -> "src/components/ui/input.tsx"
+    "src/pages/student/AIStudyTools.tsx" -> "src/components/ui/label.tsx"
+    "src/pages/student/AIStudyTools.tsx" -> "src/components/ui/multi-select.tsx"
+    "src/pages/student/AIStudyTools.tsx" -> "src/components/ui/select.tsx"
+    "src/pages/student/AIStudyTools.tsx" -> "src/components/ui/tabs.tsx"
+    "src/pages/student/AIStudyTools.tsx" -> "src/components/ui/textarea.tsx"
+    "src/pages/student/AIStudyTools.tsx" -> "node_modules/framer-motion" [penwidth="1.0"]
+    "src/pages/student/AIStudyTools.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/pages/student/AIStudyTools.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/student" {label="student" "src/pages/student/Dashboard.tsx" [label=<Dashboard.tsx> tooltip="Dashboard.tsx" URL="src/pages/student/Dashboard.tsx" fillcolor="#bbfeff"] } } }
+    "src/pages/student/Dashboard.tsx" -> "src/components/ui/button.tsx"
+    "src/pages/student/Dashboard.tsx" -> "src/components/ui/card.tsx"
+    "src/pages/student/Dashboard.tsx" -> "src/contexts/AuthContext.tsx"
+    "src/pages/student/Dashboard.tsx" -> "src/services/videoConference.ts"
+    "src/pages/student/Dashboard.tsx" -> "src/types/index.ts"
+    "src/pages/student/Dashboard.tsx" -> "node_modules/date-fns" [penwidth="1.0"]
+    "src/pages/student/Dashboard.tsx" -> "node_modules/framer-motion" [penwidth="1.0"]
+    "src/pages/student/Dashboard.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/pages/student/Dashboard.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/pages/student/Dashboard.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/student" {label="student" "src/pages/student/Performance.tsx" [label=<Performance.tsx> tooltip="Performance.tsx" URL="src/pages/student/Performance.tsx" fillcolor="#bbfeff"] } } }
+    "src/pages/student/Performance.tsx" -> "src/components/ui/card.tsx"
+    "src/pages/student/Performance.tsx" -> "src/components/ui/tabs.tsx"
+    "src/pages/student/Performance.tsx" -> "src/types/index.ts"
+    "src/pages/student/Performance.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/pages/student/Performance.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/student" {label="student" "src/pages/student/TestResult.tsx" [label=<TestResult.tsx> tooltip="TestResult.tsx" URL="src/pages/student/TestResult.tsx" fillcolor="#bbfeff"] } } }
+    "src/pages/student/TestResult.tsx" -> "src/components/ui/button.tsx"
+    "src/pages/student/TestResult.tsx" -> "src/components/ui/card.tsx"
+    "src/pages/student/TestResult.tsx" -> "src/types/index.ts"
+    "src/pages/student/TestResult.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/pages/student/TestResult.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/pages/student/TestResult.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/student" {label="student" "src/pages/student/TestTaking.tsx" [label=<TestTaking.tsx> tooltip="TestTaking.tsx" URL="src/pages/student/TestTaking.tsx" fillcolor="#bbfeff"] } } }
+    "src/pages/student/TestTaking.tsx" -> "src/components/ui/button.tsx"
+    "src/pages/student/TestTaking.tsx" -> "src/components/ui/card.tsx"
+    "src/pages/student/TestTaking.tsx" -> "src/components/ui/dialog.tsx"
+    "src/pages/student/TestTaking.tsx" -> "src/components/ui/label.tsx"
+    "src/pages/student/TestTaking.tsx" -> "src/components/ui/radio-group.tsx"
+    "src/pages/student/TestTaking.tsx" -> "src/types/index.ts"
+    "src/pages/student/TestTaking.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/pages/student/TestTaking.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/pages/student/TestTaking.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/student" {label="student" "src/pages/student/Tests.tsx" [label=<Tests.tsx> tooltip="Tests.tsx" URL="src/pages/student/Tests.tsx" fillcolor="#bbfeff"] } } }
+    "src/pages/student/Tests.tsx" -> "src/components/ui/button.tsx"
+    "src/pages/student/Tests.tsx" -> "src/components/ui/card.tsx"
+    "src/pages/student/Tests.tsx" -> "src/components/ui/tabs.tsx"
+    "src/pages/student/Tests.tsx" -> "src/types/index.ts"
+    "src/pages/student/Tests.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/pages/student/Tests.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/pages/student/Tests.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/teacher" {label="teacher" "src/pages/teacher/AIAssistant.tsx" [label=<AIAssistant.tsx> tooltip="AIAssistant.tsx" URL="src/pages/teacher/AIAssistant.tsx" fillcolor="#bbfeff"] } } }
+    "src/pages/teacher/AIAssistant.tsx" -> "src/components/ui/button.tsx"
+    "src/pages/teacher/AIAssistant.tsx" -> "src/components/ui/card.tsx"
+    "src/pages/teacher/AIAssistant.tsx" -> "src/components/ui/dropdown-menu.tsx"
+    "src/pages/teacher/AIAssistant.tsx" -> "src/components/ui/file-uploader.tsx"
+    "src/pages/teacher/AIAssistant.tsx" -> "src/components/ui/input.tsx"
+    "src/pages/teacher/AIAssistant.tsx" -> "src/components/ui/label.tsx"
+    "src/pages/teacher/AIAssistant.tsx" -> "src/components/ui/model-selector.tsx"
+    "src/pages/teacher/AIAssistant.tsx" -> "src/components/ui/multi-select.tsx"
+    "src/pages/teacher/AIAssistant.tsx" -> "src/components/ui/select.tsx"
+    "src/pages/teacher/AIAssistant.tsx" -> "src/components/ui/separator.tsx"
+    "src/pages/teacher/AIAssistant.tsx" -> "src/components/ui/tabs.tsx"
+    "src/pages/teacher/AIAssistant.tsx" -> "src/components/ui/textarea.tsx"
+    "src/pages/teacher/AIAssistant.tsx" -> "src/components/ui/use-toast.ts"
+    "src/pages/teacher/AIAssistant.tsx" -> "src/lib/utils.ts"
+    "src/pages/teacher/AIAssistant.tsx" -> "src/services/apiKeyService.ts"
+    "src/pages/teacher/AIAssistant.tsx" -> "src/services/llmService.ts"
+    "src/pages/teacher/AIAssistant.tsx" -> "node_modules/framer-motion" [penwidth="1.0"]
+    "src/pages/teacher/AIAssistant.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/pages/teacher/AIAssistant.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/teacher" {label="teacher" "src/pages/teacher/Analytics.tsx" [label=<Analytics.tsx> tooltip="Analytics.tsx" URL="src/pages/teacher/Analytics.tsx" fillcolor="#bbfeff"] } } }
+    "src/pages/teacher/Analytics.tsx" -> "src/components/ui/button.tsx"
+    "src/pages/teacher/Analytics.tsx" -> "src/components/ui/card.tsx"
+    "src/pages/teacher/Analytics.tsx" -> "src/components/ui/chart.tsx"
+    "src/pages/teacher/Analytics.tsx" -> "src/components/ui/select.tsx"
+    "src/pages/teacher/Analytics.tsx" -> "src/components/ui/tabs.tsx"
+    "src/pages/teacher/Analytics.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/pages/teacher/Analytics.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/teacher" {label="teacher" "src/pages/teacher/CreateTest.tsx" [label=<CreateTest.tsx> tooltip="CreateTest.tsx" URL="src/pages/teacher/CreateTest.tsx" fillcolor="#bbfeff"] } } }
+    "src/pages/teacher/CreateTest.tsx" -> "src/components/ui/button.tsx"
+    "src/pages/teacher/CreateTest.tsx" -> "src/components/ui/card.tsx"
+    "src/pages/teacher/CreateTest.tsx" -> "src/components/ui/form.tsx"
+    "src/pages/teacher/CreateTest.tsx" -> "src/components/ui/input.tsx"
+    "src/pages/teacher/CreateTest.tsx" -> "src/types/index.ts"
+    "src/pages/teacher/CreateTest.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/pages/teacher/CreateTest.tsx" -> "node_modules/react-hook-form" [penwidth="1.0"]
+    "src/pages/teacher/CreateTest.tsx" -> "node_modules/sonner" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/teacher" {label="teacher" "src/pages/teacher/CreateVideoConference.tsx" [label=<CreateVideoConference.tsx> tooltip="CreateVideoConference.tsx" URL="src/pages/teacher/CreateVideoConference.tsx" fillcolor="#bbfeff"] } } }
+    "src/pages/teacher/CreateVideoConference.tsx" -> "src/components/ui/button.tsx"
+    "src/pages/teacher/CreateVideoConference.tsx" -> "src/components/ui/calendar.tsx"
+    "src/pages/teacher/CreateVideoConference.tsx" -> "src/components/ui/card.tsx"
+    "src/pages/teacher/CreateVideoConference.tsx" -> "src/components/ui/checkbox.tsx"
+    "src/pages/teacher/CreateVideoConference.tsx" -> "src/components/ui/input.tsx"
+    "src/pages/teacher/CreateVideoConference.tsx" -> "src/components/ui/label.tsx"
+    "src/pages/teacher/CreateVideoConference.tsx" -> "src/components/ui/popover.tsx"
+    "src/pages/teacher/CreateVideoConference.tsx" -> "src/components/ui/select.tsx"
+    "src/pages/teacher/CreateVideoConference.tsx" -> "src/components/ui/switch.tsx"
+    "src/pages/teacher/CreateVideoConference.tsx" -> "src/components/ui/tabs.tsx"
+    "src/pages/teacher/CreateVideoConference.tsx" -> "src/components/ui/textarea.tsx"
+    "src/pages/teacher/CreateVideoConference.tsx" -> "src/components/ui/use-toast.ts"
+    "src/pages/teacher/CreateVideoConference.tsx" -> "src/contexts/AuthContext.tsx"
+    "src/pages/teacher/CreateVideoConference.tsx" -> "src/lib/utils.ts"
+    "src/pages/teacher/CreateVideoConference.tsx" -> "src/services/calendar.ts"
+    "src/pages/teacher/CreateVideoConference.tsx" -> "src/services/videoConference.ts"
+    "src/pages/teacher/CreateVideoConference.tsx" -> "node_modules/date-fns" [penwidth="1.0"]
+    "src/pages/teacher/CreateVideoConference.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/pages/teacher/CreateVideoConference.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/pages/teacher/CreateVideoConference.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/teacher" {label="teacher" "src/pages/teacher/Dashboard.tsx" [label=<Dashboard.tsx> tooltip="Dashboard.tsx" URL="src/pages/teacher/Dashboard.tsx" fillcolor="#bbfeff"] } } }
+    "src/pages/teacher/Dashboard.tsx" -> "src/components/ui/button.tsx"
+    "src/pages/teacher/Dashboard.tsx" -> "src/components/ui/card.tsx"
+    "src/pages/teacher/Dashboard.tsx" -> "src/components/ui/tabs.tsx"
+    "src/pages/teacher/Dashboard.tsx" -> "src/contexts/AuthContext.tsx"
+    "src/pages/teacher/Dashboard.tsx" -> "src/services/videoConference.ts"
+    "src/pages/teacher/Dashboard.tsx" -> "node_modules/date-fns" [penwidth="1.0"]
+    "src/pages/teacher/Dashboard.tsx" -> "node_modules/framer-motion" [penwidth="1.0"]
+    "src/pages/teacher/Dashboard.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/pages/teacher/Dashboard.tsx" -> "node_modules/react" [penwidth="1.0"]
+    "src/pages/teacher/Dashboard.tsx" -> "node_modules/react-router-dom" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/teacher" {label="teacher" "src/pages/teacher/QuestionBank.tsx" [label=<QuestionBank.tsx> tooltip="QuestionBank.tsx" URL="src/pages/teacher/QuestionBank.tsx" fillcolor="#bbfeff"] } } }
+    "src/pages/teacher/QuestionBank.tsx" -> "src/components/ui/badge.tsx"
+    "src/pages/teacher/QuestionBank.tsx" -> "src/components/ui/button.tsx"
+    "src/pages/teacher/QuestionBank.tsx" -> "src/components/ui/card.tsx"
+    "src/pages/teacher/QuestionBank.tsx" -> "src/components/ui/checkbox.tsx"
+    "src/pages/teacher/QuestionBank.tsx" -> "src/components/ui/dialog.tsx"
+    "src/pages/teacher/QuestionBank.tsx" -> "src/components/ui/dropdown-menu.tsx"
+    "src/pages/teacher/QuestionBank.tsx" -> "src/components/ui/input.tsx"
+    "src/pages/teacher/QuestionBank.tsx" -> "src/components/ui/label.tsx"
+    "src/pages/teacher/QuestionBank.tsx" -> "src/components/ui/select.tsx"
+    "src/pages/teacher/QuestionBank.tsx" -> "src/components/ui/table.tsx"
+    "src/pages/teacher/QuestionBank.tsx" -> "src/components/ui/tabs.tsx"
+    "src/pages/teacher/QuestionBank.tsx" -> "src/components/ui/textarea.tsx"
+    "src/pages/teacher/QuestionBank.tsx" -> "src/types/index.ts"
+    "src/pages/teacher/QuestionBank.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/pages/teacher/QuestionBank.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/teacher" {label="teacher" "src/pages/teacher/Students.tsx" [label=<Students.tsx> tooltip="Students.tsx" URL="src/pages/teacher/Students.tsx" fillcolor="#bbfeff"] } } }
+    "src/pages/teacher/Students.tsx" -> "src/components/ui/avatar.tsx"
+    "src/pages/teacher/Students.tsx" -> "src/components/ui/badge.tsx"
+    "src/pages/teacher/Students.tsx" -> "src/components/ui/button.tsx"
+    "src/pages/teacher/Students.tsx" -> "src/components/ui/card.tsx"
+    "src/pages/teacher/Students.tsx" -> "src/components/ui/dropdown-menu.tsx"
+    "src/pages/teacher/Students.tsx" -> "src/components/ui/input.tsx"
+    "src/pages/teacher/Students.tsx" -> "src/components/ui/table.tsx"
+    "src/pages/teacher/Students.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/pages/teacher/Students.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/teacher" {label="teacher" "src/pages/teacher/TestManagement.tsx" [label=<TestManagement.tsx> tooltip="TestManagement.tsx" URL="src/pages/teacher/TestManagement.tsx" fillcolor="#bbfeff"] } } }
+    "src/pages/teacher/TestManagement.tsx" -> "src/components/ui/badge.tsx"
+    "src/pages/teacher/TestManagement.tsx" -> "src/components/ui/button.tsx"
+    "src/pages/teacher/TestManagement.tsx" -> "src/components/ui/card.tsx"
+    "src/pages/teacher/TestManagement.tsx" -> "src/components/ui/dialog.tsx"
+    "src/pages/teacher/TestManagement.tsx" -> "src/components/ui/dropdown-menu.tsx"
+    "src/pages/teacher/TestManagement.tsx" -> "src/components/ui/input.tsx"
+    "src/pages/teacher/TestManagement.tsx" -> "src/components/ui/label.tsx"
+    "src/pages/teacher/TestManagement.tsx" -> "src/components/ui/progress.tsx"
+    "src/pages/teacher/TestManagement.tsx" -> "src/components/ui/select.tsx"
+    "src/pages/teacher/TestManagement.tsx" -> "src/components/ui/switch.tsx"
+    "src/pages/teacher/TestManagement.tsx" -> "src/components/ui/table.tsx"
+    "src/pages/teacher/TestManagement.tsx" -> "src/components/ui/tabs.tsx"
+    "src/pages/teacher/TestManagement.tsx" -> "src/types/index.ts"
+    "src/pages/teacher/TestManagement.tsx" -> "node_modules/lucide-react" [penwidth="1.0"]
+    "src/pages/teacher/TestManagement.tsx" -> "node_modules/react" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/services" {label="services" "src/services/apiKeyService.ts" [label=<apiKeyService.ts> tooltip="apiKeyService.ts" URL="src/services/apiKeyService.ts" fillcolor="#ddfeff"] } }
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/services" {label="services" "src/services/calendar.ts" [label=<calendar.ts> tooltip="calendar.ts" URL="src/services/calendar.ts" fillcolor="#ddfeff"] } }
+    "src/services/calendar.ts" -> "src/services/videoConference.ts"
+    "src/services/calendar.ts" -> "node_modules/nanoid" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/services" {label="services" "src/services/llmService.ts" [label=<llmService.ts> tooltip="llmService.ts" URL="src/services/llmService.ts" fillcolor="#ddfeff"] } }
+    "src/services/llmService.ts" -> "node_modules/axios" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/services" {label="services" "src/services/tenantService.ts" [label=<tenantService.ts> tooltip="tenantService.ts" URL="src/services/tenantService.ts" fillcolor="#ddfeff"] } }
+    "src/services/tenantService.ts" -> "src/types/index.ts"
+    "src/services/tenantService.ts" -> "src/types/onboarding.ts"
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/services" {label="services" "src/services/videoConference.ts" [label=<videoConference.ts> tooltip="videoConference.ts" URL="src/services/videoConference.ts" fillcolor="#ddfeff"] } }
+    "src/services/videoConference.ts" -> "node_modules/axios" [penwidth="1.0"]
+    "src/services/videoConference.ts" -> "node_modules/nanoid" [penwidth="1.0"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/services" {label="services" "src/services/voiceCommandService.ts" [label=<voiceCommandService.ts> tooltip="voiceCommandService.ts" URL="src/services/voiceCommandService.ts" fillcolor="#ddfeff"] } }
+    "src/services/voiceCommandService.ts" -> "src/services/apiKeyService.ts"
+    "src/services/voiceCommandService.ts" -> "src/services/llmService.ts"
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/types" {label="types" "src/types/course.ts" [label=<course.ts> tooltip="course.ts" URL="src/types/course.ts" fillcolor="#ddfeff"] } }
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/types" {label="types" "src/types/index.ts" [label=<index.ts> tooltip="index.ts" URL="src/types/index.ts" fillcolor="#ddfeff"] } }
+    "src/types/index.ts" -> "src/types/course.ts" [arrowhead="inv"]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/types" {label="types" "src/types/onboarding.ts" [label=<onboarding.ts> tooltip="onboarding.ts" URL="src/types/onboarding.ts" fillcolor="#ddfeff"] } }
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/utilities" {label="utilities" subgraph "cluster_src/utilities/gcp-documentAI-processor-module" {label="gcp-documentAI-processor-module" subgraph "cluster_src/utilities/gcp-documentAI-processor-module/docai-env" {label="docai-env" subgraph "cluster_src/utilities/gcp-documentAI-processor-module/docai-env/lib" {label="lib" subgraph "cluster_src/utilities/gcp-documentAI-processor-module/docai-env/lib/python3.8" {label="python3.8" subgraph "cluster_src/utilities/gcp-documentAI-processor-module/docai-env/lib/python3.8/site-packages" {label="site-packages" subgraph "cluster_src/utilities/gcp-documentAI-processor-module/docai-env/lib/python3.8/site-packages/urllib3" {label="urllib3" subgraph "cluster_src/utilities/gcp-documentAI-processor-module/docai-env/lib/python3.8/site-packages/urllib3/contrib" {label="contrib" subgraph "cluster_src/utilities/gcp-documentAI-processor-module/docai-env/lib/python3.8/site-packages/urllib3/contrib/emscripten" {label="emscripten" "src/utilities/gcp-documentAI-processor-module/docai-env/lib/python3.8/site-packages/urllib3/contrib/emscripten/emscripten_fetch_worker.js" [label=<emscripten_fetch_worker.js> tooltip="no-orphans" URL="src/utilities/gcp-documentAI-processor-module/docai-env/lib/python3.8/site-packages/urllib3/contrib/emscripten/emscripten_fetch_worker.js" fillcolor="#ccffcc" fontcolor="orange" color="orange"] } } } } } } } } } }
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/utilities" {label="utilities" subgraph "cluster_src/utilities/gcp-documentAI-processor-module" {label="gcp-documentAI-processor-module" "src/utilities/gcp-documentAI-processor-module/example.ts" [label=<example.ts> tooltip="example.ts" URL="src/utilities/gcp-documentAI-processor-module/example.ts" fillcolor="#ddfeff"] } } }
+    "src/utilities/gcp-documentAI-processor-module/example.ts" -> "src/utilities/gcp-documentAI-processor-module/index.ts"
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/utilities" {label="utilities" subgraph "cluster_src/utilities/gcp-documentAI-processor-module" {label="gcp-documentAI-processor-module" "src/utilities/gcp-documentAI-processor-module/index.ts" [label=<index.ts> tooltip="index.ts" URL="src/utilities/gcp-documentAI-processor-module/index.ts" fillcolor="#ddfeff"] } } }
+    "src/utilities/gcp-documentAI-processor-module/index.ts" -> "src/utilities/gcp-documentAI-processor-module/node_integration.js"
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/utilities" {label="utilities" subgraph "cluster_src/utilities/gcp-documentAI-processor-module" {label="gcp-documentAI-processor-module" "src/utilities/gcp-documentAI-processor-module/node_integration.d.ts" [label=<node_integration.d.ts> tooltip="node_integration.d.ts" URL="src/utilities/gcp-documentAI-processor-module/node_integration.d.ts" fillcolor="#ccffcc"] } } }
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/utilities" {label="utilities" subgraph "cluster_src/utilities/gcp-documentAI-processor-module" {label="gcp-documentAI-processor-module" "src/utilities/gcp-documentAI-processor-module/node_integration.js" [label=<node_integration.js> tooltip="node_integration.js" URL="src/utilities/gcp-documentAI-processor-module/node_integration.js" ] } } }
+    "src/utilities/gcp-documentAI-processor-module/node_integration.js" -> "child_process" [style="dashed" penwidth="1.0"]
+    "src/utilities/gcp-documentAI-processor-module/node_integration.js" -> "fs" [style="dashed" penwidth="1.0"]
+    "src/utilities/gcp-documentAI-processor-module/node_integration.js" -> "path" [style="dashed" penwidth="1.0"]
+    subgraph "cluster_src" {label="src" "src/vite-env.d.ts" [label=<vite-env.d.ts> tooltip="vite-env.d.ts" URL="src/vite-env.d.ts" fillcolor="#ddfeff"] }
+    "src/vite-env.d.ts" -> "node_modules/vite" [xlabel="not-to-dev-dep" tooltip="not-to-dev-dep" penwidth="1.0" arrowhead="onormal" fontcolor="red" color="red"]
+    "tailwind.config.ts" [label=<tailwind.config.ts> tooltip="tailwind.config.ts" URL="tailwind.config.ts" fillcolor="#ddfeff"]
+    "tailwind.config.ts" -> "node_modules/tailwindcss" [penwidth="1.0" arrowhead="onormal"]
+    "tailwind.config.ts" -> "node_modules/tailwindcss-animate" [penwidth="1.0"]
+    "vite.config.ts" [label=<vite.config.ts> tooltip="vite.config.ts" URL="vite.config.ts" fillcolor="#ddfeff"]
+    "vite.config.ts" -> "node_modules/@vitejs/plugin-react-swc" [penwidth="1.0"]
+    "vite.config.ts" -> "node_modules/lovable-tagger" [penwidth="1.0"]
+    "vite.config.ts" -> "path" [style="dashed" penwidth="1.0"]
+    "vite.config.ts" -> "node_modules/vite" [penwidth="1.0"]
+}

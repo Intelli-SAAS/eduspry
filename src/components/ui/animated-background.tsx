@@ -1,51 +1,56 @@
-
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { motion } from 'framer-motion';
 
-export const AnimatedBackground: React.FC = () => {
-  return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden">
-      {/* Neural network pattern */}
-      <svg className="absolute inset-0 w-full h-full opacity-[0.04]" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-        <pattern id="neural-network" width="50" height="50" patternUnits="userSpaceOnUse">
-          <circle cx="10" cy="10" r="1.5" fill="#1a4480" />
-          <circle cx="40" cy="40" r="1.5" fill="#1a4480" />
-          <circle cx="40" cy="10" r="1.5" fill="#1a4480" />
-          <circle cx="10" cy="40" r="1.5" fill="#1a4480" />
-          <line x1="10" y1="10" x2="40" y2="40" stroke="#1a4480" strokeWidth="0.5" />
-          <line x1="40" y1="10" x2="10" y2="40" stroke="#1a4480" strokeWidth="0.5" />
-          <line x1="10" y1="10" x2="40" y2="10" stroke="#1a4480" strokeWidth="0.5" />
-          <line x1="10" y1="40" x2="40" y2="40" stroke="#1a4480" strokeWidth="0.5" />
-          <line x1="10" y1="10" x2="10" y2="40" stroke="#1a4480" strokeWidth="0.5" />
-          <line x1="40" y1="10" x2="40" y2="40" stroke="#1a4480" strokeWidth="0.5" />
-        </pattern>
-        <rect width="100%" height="100%" fill="url(#neural-network)" />
-      </svg>
+interface AnimatedBackgroundProps {
+  children: ReactNode;
+}
 
-      {/* Digital circuit pattern at the bottom */}
-      <svg className="absolute bottom-0 left-0 w-full h-[30%] opacity-[0.07]" viewBox="0 0 1440 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,160 L40,160 L40,140 L80,140 L80,180 L120,180 L120,140 L200,140 L200,160 L280,160 L280,120 L360,120 L360,180 L440,180 L440,120 L520,120 L520,160 L600,160 L600,140 L680,140 L680,180 L760,180 L760,140 L840,140 L840,160 L920,160 L920,120 L1000,120 L1000,180 L1080,180 L1080,120 L1160,120 L1160,160 L1240,160 L1240,140 L1320,140 L1320,180 L1400,180 L1400,140 L1440,140 L1440,320 L0,320 Z"
-          fill="none" stroke="#1a4480" strokeWidth="2" />
-        <circle cx="40" cy="160" r="4" fill="#2c5aa0" />
-        <circle cx="80" cy="140" r="4" fill="#2c5aa0" />
-        <circle cx="120" cy="180" r="4" fill="#2c5aa0" />
-        <circle cx="200" cy="140" r="4" fill="#2c5aa0" />
-        <circle cx="280" cy="160" r="4" fill="#2c5aa0" />
-        <circle cx="360" cy="120" r="4" fill="#2c5aa0" />
-        <circle cx="440" cy="180" r="4" fill="#2c5aa0" />
-        <circle cx="520" cy="120" r="4" fill="#2c5aa0" />
-        <circle cx="600" cy="160" r="4" fill="#2c5aa0" />
-        <circle cx="680" cy="140" r="4" fill="#2c5aa0" />
-        <circle cx="760" cy="180" r="4" fill="#2c5aa0" />
-        <circle cx="840" cy="140" r="4" fill="#2c5aa0" />
-        <circle cx="920" cy="160" r="4" fill="#2c5aa0" />
-        <circle cx="1000" cy="120" r="4" fill="#2c5aa0" />
-        <circle cx="1080" cy="180" r="4" fill="#2c5aa0" />
-        <circle cx="1160" cy="120" r="4" fill="#2c5aa0" />
-        <circle cx="1240" cy="160" r="4" fill="#2c5aa0" />
-        <circle cx="1320" cy="140" r="4" fill="#2c5aa0" />
-        <circle cx="1400" cy="180" r="4" fill="#2c5aa0" />
-      </svg>
+export const AnimatedBackground: React.FC<AnimatedBackgroundProps> = ({ children }) => {
+  return (
+    <div className="relative">
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {/* Neural network pattern */}
+        <svg className="absolute inset-0 w-full h-full opacity-[0.04]" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <pattern id="neural-network" width="50" height="50" patternUnits="userSpaceOnUse">
+            <circle cx="10" cy="10" r="1.5" fill="#1a4480" />
+            <circle cx="40" cy="40" r="1.5" fill="#1a4480" />
+            <circle cx="40" cy="10" r="1.5" fill="#1a4480" />
+            <circle cx="10" cy="40" r="1.5" fill="#1a4480" />
+            <line x1="10" y1="10" x2="40" y2="40" stroke="#1a4480" strokeWidth="0.5" />
+            <line x1="40" y1="10" x2="10" y2="40" stroke="#1a4480" strokeWidth="0.5" />
+            <line x1="10" y1="10" x2="40" y2="10" stroke="#1a4480" strokeWidth="0.5" />
+            <line x1="10" y1="40" x2="40" y2="40" stroke="#1a4480" strokeWidth="0.5" />
+            <line x1="10" y1="10" x2="10" y2="40" stroke="#1a4480" strokeWidth="0.5" />
+            <line x1="40" y1="10" x2="40" y2="40" stroke="#1a4480" strokeWidth="0.5" />
+          </pattern>
+          <rect width="100%" height="100%" fill="url(#neural-network)" />
+        </svg>
+
+        {/* Digital circuit pattern at the bottom */}
+        <svg className="absolute bottom-0 left-0 w-full h-[30%] opacity-[0.07]" viewBox="0 0 1440 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0,160 L40,160 L40,140 L80,140 L80,180 L120,180 L120,140 L200,140 L200,160 L280,160 L280,120 L360,120 L360,180 L440,180 L440,120 L520,120 L520,160 L600,160 L600,140 L680,140 L680,180 L760,180 L760,140 L840,140 L840,160 L920,160 L920,120 L1000,120 L1000,180 L1080,180 L1080,120 L1160,120 L1160,160 L1240,160 L1240,140 L1320,140 L1320,180 L1400,180 L1400,140 L1440,140 L1440,320 L0,320 Z"
+            fill="none" stroke="#1a4480" strokeWidth="2" />
+          <circle cx="40" cy="160" r="4" fill="#2c5aa0" />
+          <circle cx="80" cy="140" r="4" fill="#2c5aa0" />
+          <circle cx="120" cy="180" r="4" fill="#2c5aa0" />
+          <circle cx="200" cy="140" r="4" fill="#2c5aa0" />
+          <circle cx="280" cy="160" r="4" fill="#2c5aa0" />
+          <circle cx="360" cy="120" r="4" fill="#2c5aa0" />
+          <circle cx="440" cy="180" r="4" fill="#2c5aa0" />
+          <circle cx="520" cy="120" r="4" fill="#2c5aa0" />
+          <circle cx="600" cy="160" r="4" fill="#2c5aa0" />
+          <circle cx="680" cy="140" r="4" fill="#2c5aa0" />
+          <circle cx="760" cy="180" r="4" fill="#2c5aa0" />
+          <circle cx="840" cy="140" r="4" fill="#2c5aa0" />
+          <circle cx="920" cy="160" r="4" fill="#2c5aa0" />
+          <circle cx="1000" cy="120" r="4" fill="#2c5aa0" />
+          <circle cx="1080" cy="180" r="4" fill="#2c5aa0" />
+          <circle cx="1160" cy="120" r="4" fill="#2c5aa0" />
+          <circle cx="1240" cy="160" r="4" fill="#2c5aa0" />
+          <circle cx="1320" cy="140" r="4" fill="#2c5aa0" />
+          <circle cx="1400" cy="180" r="4" fill="#2c5aa0" />
+        </svg>
+      </div>
 
       {/* Educational symbols */}
       <div className="absolute top-[10%] right-[10%] w-[180px] h-[180px] opacity-[0.06]">
@@ -58,10 +63,11 @@ export const AnimatedBackground: React.FC = () => {
       {/* Lightbulb - representing ideas and learning */}
       <div className="absolute bottom-[20%] left-[15%] w-[150px] h-[150px] opacity-[0.06]">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M9 21C9 21.55 9.45 22 10 22H14C14.55 22 15 21.55 15 21V20H9V21ZM12 2C8.14 2 5 5.14 5 9C5 11.38 6.19 13.47 8 14.74V17C8 17.55 8.45 18 9 18H15C15.55 18 16 17.55 16 17V14.74C17.81 13.47 19 11.38 19 9C19 5.14 15.86 2 12 2ZM14.85 13.1L14 13.7V16H10V13.7L9.15 13.1C7.8 12.16 7 10.63 7 9C7 6.24 9.24 4 12 4C14.76 4 17 6.24 17 9C17 10.63 16.2 12.16 14.85 13.1Z" fill="#3c71c7" />
+          <path d="M9 21C9 21.55 9.45 22 10 22H14C14.55 22 15 21.55 15 21V20H9V21ZM12 2C8.14 2 5 5.14 5 9C5 11.38 6.19 13.47 8 14.74V17C8 17.55 8.45 18 9 18H15C15.55 18 16 17.55 16 17V14.74C17.81 13.47 19 11.38 19 9C19 5.14 15.86 2 12 2Z" fill="#1a4480" />
         </svg>
       </div>
 
+      {/* Code symbols */}
       <div className="absolute top-[40%] left-[10%] w-[100px] h-[100px] opacity-[0.05]">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M9.4 16.6L4.8 12L9.4 7.4L8 6L2 12L8 18L9.4 16.6ZM14.6 16.6L19.2 12L14.6 7.4L16 6L22 12L16 18L14.6 16.6Z" fill="#2c5aa0" />
@@ -79,11 +85,10 @@ export const AnimatedBackground: React.FC = () => {
       <div className="absolute top-[30%] right-[30%] w-[250px] h-[250px] opacity-[0.04]">
         <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
           <path fill="#1a4480" d="M208 348.5c0 38.5 13.3 67.2 32 85.1V256c-18.7 17.9-32 46.5-32 92.5zm96 85.1c18.7-17.9 32-46.5 32-85.1 0-38.5-13.3-67.2-32-85.1v170.2z" />
-          <path fill="#1a4480" d="M442 303.5c0-89.1-83.3-132.5-166-132.5-88.7 0-158-43.4-158-132.5H78c0 118.1 85.3 182.5 198 182.5 30.7 0 61.3 4.2 89.2 14.5 28.7 10.6 53.3 27 68.2 50.4 8.3 13 12.5 27.1 12.5 42.1 0 42.1-32.3 76.5-74.5 76.5h-10.3c-6.9 24.6-26.8 43.6-52.6 47L303 488c47.5 16 112.2-16 138.2-47 24.2-28.8 30.6-53.9 30.6-82 0-21.1-5.8-40-14.4-55.8-3.4 2.9-6.9 5.6-10.3 8.3-6.1 19.4-16 41.7-38.9 41.7H387c-14.8 0-26.8-12-26.8-26.8 0-14.8 12-26.8 26.8-26.8h21.1c22.9 0 32.8 22.3 38.9 41.7 13.3-10.2 24.2-22.5 33.2-37.6H387c-32.2 0-58.3 26.1-58.3 58.3s26.1 58.3 58.3 58.3h21.1c27 0 46.8-9.3 61.3-22.5-7.4 27.4-27.6 55.2-67.4 55.2-29.2 0-61.3-14.8-61.3 26.8 0 32.2-26.1 58.3-58.3 58.3s-58.3-26.1-58.3-58.3c0-25.4 16.1-47 38.9-55.3l5.5-31.4c-45 8.1-79.3 47.7-79.3 94.9 0 53 43 96 96 96s96-43 96-96c0-10.3-1.6-20.2-4.6-29.5 88.4-4.9 126.7-63.3 126.7-138.1 0-32.8-12.8-57.3-22.4-77.1z" />
         </svg>
       </div>
 
-      {/* Digital matrix rain effect */}
+      {/* Matrix rain effect */}
       <div className="absolute inset-0">
         {Array.from({ length: 25 }).map((_, index) => (
           <motion.div
@@ -107,6 +112,9 @@ export const AnimatedBackground: React.FC = () => {
           />
         ))}
       </div>
+
+      {/* Render children */}
+      {children}
     </div>
   );
 };

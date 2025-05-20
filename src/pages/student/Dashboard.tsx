@@ -8,6 +8,7 @@ import { SubjectType } from '@/types';
 import { ArrowRight, BookOpen, Calendar, Clock, FileText, TrendingUp, AlertTriangle, VideoIcon, PlayCircle } from 'lucide-react';
 import { format } from 'date-fns';
 import VideoConferenceService from '@/services/videoConference';
+import { Badge } from '@/components/ui/badge';
 
 // Fade in animation variants
 const fadeIn = {
@@ -123,11 +124,15 @@ const StudentDashboard: React.FC = () => {
 
   return (
     <motion.div
+      className="container mx-auto py-8"
       initial="hidden"
       animate="visible"
-      className="space-y-8"
+      variants={{
+        hidden: { opacity: 0 },
+        visible: { opacity: 1 }
+      }}
     >
-      <motion.div
+      <motion.div 
         className="flex flex-col md:flex-row md:items-center md:justify-between gap-4"
         variants={fadeIn}
         custom={0}
@@ -146,190 +151,148 @@ const StudentDashboard: React.FC = () => {
             </Link>
           </Button>
         </motion.div>
-        <div className="flex space-x-2 mt-4 md:mt-0">
-          <Button onClick={() => navigate('/onboarding/type')}>
-            Test Onboarding Flow
-          </Button>
-        </div>
       </motion.div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-6 md:grid-cols-4 mt-8">
         {[
           {
             title: "Upcoming Tests",
             value: upcomingTests.length,
             subtitle: "Next test in 3 days",
-            icon: <Calendar className="h-3 w-3 mr-1" />,
-            color: "[#1a4480]",
-            bgColor: "from-[#1a4480]/5 to-[#1a4480]/10"
+            icon: <Calendar className="h-4 w-4 mr-2" />,
+            improvement: "+16%",
+            progress: 92
           },
           {
             title: "Tests Completed",
             value: recentTests.length,
             subtitle: "Last test 3 days ago",
-            icon: <Clock className="h-3 w-3 mr-1" />,
-            color: "[#1a4480]",
-            bgColor: "from-[#1a4480]/10 to-[#1a4480]/20"
+            icon: <FileText className="h-4 w-4 mr-2" />,
+            improvement: "+8%",
+            progress: 86
           },
           {
-            title: "Average Score",
-            value: `${Math.round(subjectPerformance.reduce((acc, curr) => acc + curr.score, 0) / subjectPerformance.length)}%`,
-            subtitle: "Across all subjects",
-            icon: <TrendingUp className="h-3 w-3 mr-1" />,
-            color: "[#1a4480]",
-            bgColor: "from-[#1a4480]/15 to-[#1a4480]/25"
+            title: "Current Average",
+            value: "85%",
+            subtitle: "Up from last month",
+            icon: <TrendingUp className="h-4 w-4 mr-2" />,
+            improvement: "+12%",
+            progress: 94
           },
           {
-            title: "Total Study Time",
-            value: "42h",
-            subtitle: "This month",
-            icon: <Clock className="h-3 w-3 mr-1" />,
-            color: "[#1a4480]",
-            bgColor: "from-[#1a4480]/20 to-[#1a4480]/30"
+            title: "Study Hours",
+            value: "28h",
+            subtitle: "This week",
+            icon: <Clock className="h-4 w-4 mr-2" />,
+            improvement: "+20%",
+            progress: 88
           }
         ].map((stat, index) => (
           <motion.div
             key={stat.title}
             variants={fadeIn}
             custom={index + 1}
-            whileHover={{ y: -5, transition: { duration: 0.2 } }}
           >
-            <Card className={`overflow-hidden border-none bg-gradient-to-br ${stat.bgColor} shadow-md hover:shadow-lg transition-all duration-300`}>
+            <Card className="bg-gradient-to-br from-[#e6ebf2] to-[#d0dff5] border-none shadow-md hover:shadow-lg transition-all duration-300">
               <CardHeader className="pb-2">
-                <CardTitle className={`text-sm font-medium text-${stat.color}`}>
+                <CardTitle className="text-sm font-medium text-[#1a4480] flex items-center">
+                  {stat.icon}
                   {stat.title}
                 </CardTitle>
-                <CardDescription className="text-2xl font-bold text-gray-900">
-                  {stat.value}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className={`text-xs text-${stat.color} flex items-center`}>
-                  {stat.icon}
-                  {stat.subtitle}
+                <div className="flex items-center justify-between">
+                  <CardDescription className="text-2xl font-bold text-gray-900">
+                    {stat.value}
+                  </CardDescription>
+                  <div className="flex items-center gap-2">
+                    <Badge variant="default" className="bg-green-100 text-green-800 hover:bg-green-100">
+                      {stat.improvement}
+                    </Badge>
+                    <div className="w-16 h-16 rounded-full bg-[#1a4480] flex items-center justify-center text-white font-bold">
+                      {stat.progress}%
+                    </div>
+                  </div>
                 </div>
-              </CardContent>
+              </CardHeader>
             </Card>
           </motion.div>
         ))}
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
-        <motion.div
-          variants={fadeIn}
-          custom={5}
-          whileHover={{ y: -5, transition: { duration: 0.2 } }}
-        >
-          <Card className="shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden">
-            <CardHeader className="border-b bg-[#1a4480]/5">
-              <CardTitle className="flex items-center text-gray-800">
-                <Calendar className="mr-2 h-5 w-5 text-[#1a4480]" />
-                Upcoming Tests
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="p-0">
-              {upcomingTests.length > 0 ? (
-                <div>
-                  {upcomingTests.map((test, index) => (
-                    <motion.div
-                      key={test.id}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.6 + (index * 0.1) }}
-                      className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors border-b last:border-0"
-                    >
-                      <div className="flex items-center">
-                        <div className={`mr-3 h-3 w-3 rounded-full ${getSubjectColor(test.subject)}`}></div>
-                        <div>
-                          <div className="font-medium text-gray-800">{test.title}</div>
-                          <div className="text-sm text-gray-500">
-                            {new Date(test.date).toLocaleDateString()} at {new Date(test.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                          </div>
-                        </div>
-                      </div>
-                      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                        <Button size="sm" className="rounded-full shadow-sm bg-[#1a4480] hover:bg-[#0f2b50]" asChild>
-                          <Link to={`/tests/${test.id}`}>Details</Link>
-                        </Button>
-                      </motion.div>
-                    </motion.div>
-                  ))}
-                </div>
-              ) : (
-                <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
-                  <Calendar className="h-12 w-12 text-gray-300 mb-3" />
-                  <p className="text-gray-500">No upcoming tests scheduled</p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </motion.div>
+      <div className="grid gap-6 md:grid-cols-3 mt-8">
+        <Card className="md:col-span-2 shadow-md hover:shadow-lg transition-all duration-300">
+          <CardHeader className="border-b bg-[#f0f4f9]">
+            <CardTitle className="text-[#1a4480] flex items-center justify-between">
+              <span>Learning Path Progress</span>
+              <Button variant="ghost" size="sm" className="text-[#1a4480]">
+                View Details
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="p-6">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium">Math & Science</span>
+                <span className="text-sm text-gray-500">60%</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="bg-[#1a4480] h-2 rounded-full" style={{ width: "60%" }}></div>
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium">Humanities</span>
+                <span className="text-sm text-gray-500">25%</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="bg-[#1a4480] h-2 rounded-full" style={{ width: "25%" }}></div>
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium">Arts</span>
+                <span className="text-sm text-gray-500">15%</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="bg-[#1a4480] h-2 rounded-full" style={{ width: "15%" }}></div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
-        <motion.div
-          variants={fadeIn}
-          custom={6}
-          whileHover={{ y: -5, transition: { duration: 0.2 } }}
-        >
-          <Card className="shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden">
-            <CardHeader className="border-b bg-[#1a4480]/5">
-              <CardTitle className="flex items-center text-gray-800">
-                <FileText className="mr-2 h-5 w-5 text-[#1a4480]" />
-                Recent Test Results
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="p-0">
-              {recentTests.length > 0 ? (
+        <Card className="shadow-md hover:shadow-lg transition-all duration-300">
+          <CardHeader className="border-b bg-[#f0f4f9]">
+            <CardTitle className="text-[#1a4480]">AI Study Recommendations</CardTitle>
+          </CardHeader>
+          <CardContent className="p-6">
+            <div className="space-y-4">
+              <div className="flex items-start space-x-3">
+                <div className="min-w-[2rem] h-8 rounded-lg bg-[#1a4480]/10 flex items-center justify-center">
+                  <AlertTriangle className="h-4 w-4 text-[#1a4480]" />
+                </div>
                 <div>
-                  {recentTests.map((test, index) => (
-                    <motion.div
-                      key={test.id}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.7 + (index * 0.1) }}
-                      className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors border-b last:border-0"
-                    >
-                      <div className="flex items-center">
-                        <div className={`mr-3 h-3 w-3 rounded-full ${getSubjectColor(test.subject)}`}></div>
-                        <div>
-                          <div className="font-medium text-gray-800">{test.title}</div>
-                          <div className="text-sm text-gray-500">
-                            {new Date(test.date).toLocaleDateString()}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex items-center">
-                        <span className={`mr-4 font-medium ${test.score >= 75 ? 'text-green-600' : test.score >= 60 ? 'text-yellow-600' : 'text-red-600'}`}>
-                          {test.score}%
-                        </span>
-                        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                          <Button size="sm" variant="outline" className="rounded-full border-[#1a4480] text-[#1a4480] hover:bg-[#1a4480]/10" asChild>
-                            <Link to={`/tests/${test.id}/result`}>View</Link>
-                          </Button>
-                        </motion.div>
-                      </div>
-                    </motion.div>
-                  ))}
+                  <p className="text-sm font-medium">Focus Areas</p>
+                  <p className="text-xs text-gray-500 mt-1">Physics concepts need more attention</p>
                 </div>
-              ) : (
-                <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
-                  <FileText className="h-12 w-12 text-gray-300 mb-3" />
-                  <p className="text-gray-500">No recent test results</p>
+              </div>
+              
+              <div className="flex items-start space-x-3">
+                <div className="min-w-[2rem] h-8 rounded-lg bg-[#1a4480]/10 flex items-center justify-center">
+                  <TrendingUp className="h-4 w-4 text-[#1a4480]" />
                 </div>
-              )}
-            </CardContent>
-          </Card>
-        </motion.div>
+                <div>
+                  <p className="text-sm font-medium">Strong Subjects</p>
+                  <p className="text-xs text-gray-500 mt-1">Excellent progress in Mathematics</p>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
-      <motion.div
-        variants={fadeIn}
-        custom={7}
-        whileHover={{ y: -5, transition: { duration: 0.2 } }}
-      >
+      <motion.div className="mt-8" variants={fadeIn} custom={7}>
         <Card className="shadow-md hover:shadow-lg transition-all duration-300">
-          <CardHeader className="border-b bg-[#1a4480]/5">
-            <CardTitle className="flex items-center text-gray-800">
-              <BookOpen className="mr-2 h-5 w-5 text-[#1a4480]" />
+          <CardHeader className="border-b bg-[#f0f4f9]">
+            <CardTitle className="text-[#1a4480] flex items-center">
+              <BookOpen className="mr-2 h-5 w-5" />
               Subject Performance
             </CardTitle>
           </CardHeader>
@@ -357,7 +320,7 @@ const StudentDashboard: React.FC = () => {
         </Card>
       </motion.div>
 
-      {/* Add this section for upcoming video conferences */}
+      {/* Upcoming Classes section remains unchanged */}
       <div className="space-y-4">
         <h2 className="text-2xl font-bold">Upcoming Classes</h2>
 
