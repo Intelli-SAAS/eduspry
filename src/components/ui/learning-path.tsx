@@ -1,10 +1,9 @@
 
-import React, { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Check } from 'lucide-react';
+import { motion } from 'framer-motion';
 
-export interface LearningStep {
+interface Step {
   id: string;
   title: string;
   description: string;
@@ -15,85 +14,48 @@ export interface LearningStep {
 interface LearningPathProps {
   title: string;
   subtitle: string;
-  steps: LearningStep[];
+  steps: Step[];
 }
 
 export const LearningPath: React.FC<LearningPathProps> = ({ title, subtitle, steps }) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
-
   return (
-    <section ref={ref} className="py-20 bg-white">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-12">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-block mb-4 px-4 py-1 bg-[#1a4480]/10 rounded-full"
-          >
-            <span className="text-sm font-semibold text-[#1a4480]">
-              {subtitle}
-            </span>
-          </motion.div>
-          
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.6 }}
-            className="text-4xl font-bold text-gray-900 mb-3 bg-clip-text text-transparent bg-gradient-to-r from-[#1a4480] to-[#2c5aa0]"
-          >
-            {title}
-          </motion.h2>
-          
-          <motion.div 
-            initial={{ width: "0%" }}
-            animate={isInView ? { width: "150px" } : { width: "0%" }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="h-1 bg-gradient-to-r from-[#1a4480] to-[#3c71c7] rounded-full mx-auto mt-4 mb-10"
-          />
+    <section className="py-16 sm:py-24 bg-gray-50">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <p className="text-sm font-semibold tracking-wider text-blue-600 mb-2">{subtitle}</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900">{title}</h2>
         </div>
         
-        <div className="relative max-w-3xl mx-auto">
-          {/* Connector line */}
-          <div className="absolute h-full top-0 left-[15px] lg:left-[50%] lg:-ml-[1px] w-[2px] bg-gray-200" />
+        <div className="relative max-w-4xl mx-auto">
+          {/* Timeline connector */}
+          <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-blue-200 transform md:-translate-x-1/2"></div>
           
+          {/* Steps */}
           {steps.map((step, index) => (
             <motion.div 
               key={step.id}
-              initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
-              animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
-              transition={{ duration: 0.6, delay: 0.2 * index }}
-              className={`relative mb-12 lg:mb-16 ${index % 2 === 0 ? 'lg:pr-[50%]' : 'lg:pl-[50%] lg:ml-auto'}`}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              viewport={{ once: true }}
+              className={`relative mb-12 ${index % 2 === 0 ? 'md:pr-1/2' : 'md:pl-1/2 md:ml-auto'}`}
             >
-              <div className={`flex ${index % 2 === 0 ? 'lg:justify-end' : 'lg:justify-start'}`}>
-                <div 
-                  className={`relative z-10 bg-white border-2 max-w-md ${
-                    step.completed 
-                      ? 'border-green-500 text-green-700' 
-                      : 'border-[#1a4480] text-[#1a4480]'
-                  } p-4 lg:p-6 rounded-lg shadow-md`}
-                >
-                  <div className="absolute top-[15px] left-[-35px] lg:left-auto lg:top-[21px] lg:translate-y-0 lg:translate-x-1/2
-                    w-8 h-8 rounded-full flex items-center justify-center
-                    bg-white border-2 z-20
-                    ${index % 2 === 0 ? 'lg:right-[-35px]' : 'lg:left-[-35px]'}
-                    ${step.completed ? 'border-green-500 text-green-500' : 'border-[#1a4480] text-[#1a4480]'}">
-                    {step.completed ? <Check className="w-4 h-4" /> : (index + 1)}
-                  </div>
-                  
-                  <h3 className={`text-xl font-bold mb-2 ${step.completed ? 'text-gray-900' : 'text-gray-900'}`}>
-                    {step.title}
-                  </h3>
+              <div className="flex md:block">
+                <div className="flex items-center">
+                  {/* Timeline dot */}
+                  <div className="absolute left-4 md:left-1/2 w-8 h-8 rounded-full bg-white border-4 border-blue-500 transform md:-translate-x-1/2 z-10"></div>
+                </div>
+                
+                {/* Content card */}
+                <div className={`ml-12 md:ml-0 bg-white rounded-lg shadow-md p-6 md:w-full ${
+                  index % 2 === 0 ? 'md:pr-8' : 'md:pl-8'
+                }`}>
+                  <h3 className="text-xl font-bold mb-2 text-gray-900">{step.title}</h3>
                   <p className="text-gray-600 mb-4">{step.description}</p>
-                  <Link 
-                    to={step.link}
-                    className={`inline-flex items-center text-sm font-medium ${
-                      step.completed ? 'text-green-600' : 'text-[#1a4480]'
-                    } hover:underline`}
-                  >
-                    {step.completed ? 'Review Path' : 'Continue Learning'}
-                    <ArrowRight className="ml-1 w-4 h-4" />
+                  <Link to={step.link}>
+                    <button className="px-4 py-2 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition">
+                      Learn More
+                    </button>
                   </Link>
                 </div>
               </div>

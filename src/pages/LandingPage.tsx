@@ -6,7 +6,6 @@ import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 
 // UI Components
 import { AnimatedNavHeader } from '@/components/ui/animated-nav-header';
-import { HeroSection } from '@/components/ui/hero-section';
 import { FeatureSection } from '@/components/ui/feature-section';
 import { FeaturesCarousel } from '@/components/ui/features-carousel';
 import { TestimonialSection } from '@/components/ui/testimonial-section';

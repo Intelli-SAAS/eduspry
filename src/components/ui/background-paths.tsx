@@ -1,53 +1,50 @@
 
-import React, { useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+import React from 'react';
 
-export const BackgroundPaths: React.FC<{ className?: string }> = ({ className = '' }) => {
+interface BackgroundPathsProps {
+  className?: string;
+}
+
+export const BackgroundPaths: React.FC<BackgroundPathsProps> = ({ className = "" }) => {
   return (
     <div className={`absolute inset-0 overflow-hidden pointer-events-none ${className}`}>
       <svg
         className="absolute w-full h-full"
-        viewBox="0 0 1000 1000"
+        width="100%"
+        height="100%"
+        viewBox="0 0 1200 800"
         xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="none"
       >
-        <g opacity="0.3">
-          <motion.path
-            d="M0,500 Q250,400 500,500 T1000,500"
-            fill="none"
-            stroke="rgba(59, 130, 246, 0.3)"
-            strokeWidth="2"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{ duration: 5, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
-          />
-          <motion.path
-            d="M0,600 Q250,500 500,600 T1000,600" 
-            fill="none" 
-            stroke="rgba(99, 102, 241, 0.2)"
-            strokeWidth="2"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{ duration: 7, repeat: Infinity, repeatType: "reverse", ease: "easeInOut", delay: 0.5 }}
-          />
-          <motion.path
-            d="M0,400 Q250,300 500,400 T1000,400" 
-            fill="none" 
-            stroke="rgba(79, 70, 229, 0.25)"
-            strokeWidth="2"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{ duration: 9, repeat: Infinity, repeatType: "reverse", ease: "easeInOut", delay: 1 }}
-          />
-        </g>
+        <path
+          d="M0,100 C150,200 350,0 500,100 C650,200 700,0 900,100 C1050,180 1150,100 1200,120 L1200,800 L0,800 Z"
+          className="fill-blue-100/40 opacity-30"
+        />
+        <path
+          d="M0,200 C150,280 350,180 500,200 C650,220 700,180 900,200 C1050,220 1150,200 1200,200 L1200,800 L0,800 Z"
+          className="fill-indigo-100/30 opacity-30"
+          style={{ animationDelay: "0.2s" }}
+        />
+        <path
+          d="M0,280 C150,300 350,250 500,280 C650,300 700,250 900,280 C1050,300 1150,280 1200,280 L1200,800 L0,800 Z"
+          className="fill-blue-50/50 opacity-30"
+          style={{ animationDelay: "0.4s" }}
+        />
+        <path
+          className="animate-pulse-slow"
+          d="M0,0 C150,300 350,200 500,300 C650,400 700,300 900,400 C1050,480 1150,400 1200,420 L1200,800 L0,800 Z"
+          fill="none"
+          stroke="rgba(96, 165, 250, 0.05)"
+          strokeWidth="2"
+        />
+        <path
+          className="animate-pulse-slow animation-delay-2000"
+          d="M0,100 C150,400 350,300 500,400 C650,500 700,400 900,500 C1050,580 1150,500 1200,520 L1200,800 L0,800 Z"
+          fill="none"
+          stroke="rgba(79, 70, 229, 0.05)"
+          strokeWidth="2"
+        />
       </svg>
-      
-      {/* Grid pattern overlay */}
-      <div className="absolute inset-0 bg-[url('/images/grid-pattern.svg')] opacity-5"></div>
-      
-      {/* Animated gradient blobs */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-blue-500/10 blur-3xl animate-blob"></div>
-      <div className="absolute top-2/3 right-1/4 w-80 h-80 rounded-full bg-indigo-500/10 blur-3xl animate-blob animation-delay-2000"></div>
-      <div className="absolute bottom-1/4 right-1/3 w-72 h-72 rounded-full bg-blue-300/10 blur-3xl animate-blob animation-delay-4000"></div>
     </div>
   );
 };
