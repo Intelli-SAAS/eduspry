@@ -1,11 +1,12 @@
 
-import React, { useState, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
+import { ChevronRight } from 'lucide-react';
 
-interface CarouselFeature {
+interface Feature {
   title: string;
   description: string;
-  image?: string;
+  image: string;
   color: string;
   icon: React.ReactNode;
 }
@@ -13,116 +14,124 @@ interface CarouselFeature {
 interface FeaturesCarouselProps {
   title: string;
   subtitle: string;
-  features: CarouselFeature[];
+  features: Feature[];
+  ctaText?: string;
+  ctaLink?: string;
 }
 
-export const FeaturesCarousel: React.FC<FeaturesCarouselProps> = ({ title, subtitle, features }) => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [direction, setDirection] = useState<'next' | 'prev'>('next');
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [containerWidth, setContainerWidth] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
-  
-  useEffect(() => {
-    const updateWidth = () => {
-      if (containerRef.current) {
-        setContainerWidth(containerRef.current.offsetWidth);
-        setIsMobile(window.innerWidth < 768);
-      }
-    };
-
-    updateWidth();
-    window.addEventListener('resize', updateWidth);
-    return () => window.removeEventListener('resize', updateWidth);
-  }, []);
-
-  const nextSlide = () => {
-    setDirection('next');
-    setActiveIndex((current) => (current + 1) % features.length);
-  };
-
-  const prevSlide = () => {
-    setDirection('prev');
-    setActiveIndex((current) => (current - 1 + features.length) % features.length);
-  };
+export const FeaturesCarousel: React.FC<FeaturesCarouselProps> = ({
+  title,
+  subtitle,
+  features,
+  ctaText,
+  ctaLink
+}) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <div className="py-16 sm:py-24">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <p className="text-sm font-semibold tracking-wider text-blue-600 mb-2">{subtitle}</p>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900">{title}</h2>
-        </div>
-        
-        <div className="relative" ref={containerRef}>
-          {!isMobile ? (
-            // Desktop view - show all slides in a row
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              {features.map((feature, idx) => (
-                <motion.div
-                  key={feature.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: idx * 0.1 }}
-                  viewport={{ once: true }}
-                  className={`bg-gradient-to-b ${feature.color} rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 flex flex-col h-full`}
+    <section ref={ref} className="py-20 bg-gradient-to-b from-white via-blue-50/20 to-white relative overflow-hidden">
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMxYTQ0ODAiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djZoNnYtNmgtNnptMC0xMnY2aDZ2LTZoLTZ6bTEyIDEydjZoNnYtNmgtNnptMC0xMnY2aDZ2LTZoLTZ6bS0yNCAwdjZoNnYtNmgtNnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-50 -z-10"></div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 relative z-10">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="inline-block mb-4 px-4 py-1 bg-[#1a4480]/10 rounded-full"
+          >
+            <span className="text-sm font-semibold text-[#1a4480]">
+              {subtitle}
+            </span>
+          </motion.div>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-4xl font-bold text-gray-900 bg-clip-text text-transparent bg-gradient-to-r from-[#1a4480] to-[#2c5aa0]"
+          >
+            {title}
+          </motion.h2>
+
+          <motion.div 
+            initial={{ width: "0%" }}
+            animate={isInView ? { width: "150px" } : { width: "0%" }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="h-1 bg-gradient-to-r from-[#1a4480] to-[#3c71c7] rounded-full mx-auto mt-4"
+          />
+        </motion.div>
+      </div>
+
+      {/* Custom horizontal scroll section */}
+      <div className="relative w-full overflow-hidden">
+        <div className="absolute left-0 top-0 bottom-0 w-20 z-10 bg-gradient-to-r from-white to-transparent pointer-events-none"></div>
+        <div className="absolute right-0 top-0 bottom-0 w-20 z-10 bg-gradient-to-l from-white to-transparent pointer-events-none"></div>
+
+        {/* Scroll container */}
+        <div
+          className="flex gap-6 py-8 px-10 overflow-x-auto hide-scrollbar"
+          style={{ paddingLeft: 'calc(50% - 500px)', paddingRight: '120px' }}
+        >
+          {/* Feature cards */}
+          {features.map((feature, index) => (
+            <motion.div
+              key={feature.title}
+              className={`flex-shrink-0 w-[340px] bg-gradient-to-br ${feature.color} rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow`}
+              initial={{ opacity: 0, y: 50 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+              transition={{ duration: 0.6, delay: 0.1 * index }}
+              whileHover={{ y: -8, scale: 1.02 }}
+            >
+              <div className="h-[200px] w-full bg-white relative overflow-hidden">
+                <img
+                  src={feature.image}
+                  alt={feature.title}
+                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                />
+                <motion.div 
+                  className="absolute top-3 right-3 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-sm"
+                  whileHover={{ rotate: 15 }}
+                  transition={{ type: "spring", stiffness: 300 }}
                 >
-                  <div className="flex items-center justify-center mb-6">
-                    {feature.icon}
-                  </div>
-                  <h3 className="text-lg font-semibold mb-2 text-gray-900">{feature.title}</h3>
-                  <p className="text-gray-700 flex-grow">{feature.description}</p>
-                </motion.div>
-              ))}
-            </div>
-          ) : (
-            // Mobile view - carousel
-            <>
-              <div className="flex overflow-hidden">
-                <motion.div
-                  initial={false}
-                  animate={{ x: -activeIndex * containerWidth }}
-                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                  className="flex"
-                >
-                  {features.map((feature, idx) => (
-                    <motion.div
-                      key={feature.title}
-                      className={`min-w-[${containerWidth}px] p-4`}
-                    >
-                      <div className={`bg-gradient-to-b ${feature.color} rounded-xl p-6 shadow-md`}>
-                        <div className="flex items-center justify-center mb-6">
-                          {feature.icon}
-                        </div>
-                        <h3 className="text-lg font-semibold mb-2 text-gray-900">{feature.title}</h3>
-                        <p className="text-gray-700">{feature.description}</p>
-                      </div>
-                    </motion.div>
-                  ))}
+                  {feature.icon}
                 </motion.div>
               </div>
-              <div className="flex justify-center mt-6 gap-2">
-                {features.map((_, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setActiveIndex(idx)}
-                    className={`w-2 h-2 rounded-full ${idx === activeIndex ? 'bg-blue-600' : 'bg-gray-300'}`}
-                    aria-label={`Go to slide ${idx + 1}`}
-                  />
-                ))}
+              <div className="p-5">
+                <h3 className="font-bold text-gray-900 text-lg mb-2">{feature.title}</h3>
+                <p className="text-gray-600 text-sm">{feature.description}</p>
               </div>
-              <div className="flex justify-between mt-4">
-                <button onClick={prevSlide} className="p-2 rounded-full bg-gray-100 hover:bg-gray-200">
-                  &larr;
-                </button>
-                <button onClick={nextSlide} className="p-2 rounded-full bg-gray-100 hover:bg-gray-200">
-                  &rarr;
-                </button>
-              </div>
-            </>
-          )}
+            </motion.div>
+          ))}
         </div>
       </div>
-    </div>
+
+      {ctaText && ctaLink && (
+        <div className="flex justify-center mt-12">
+          <motion.div
+            whileHover={{ scale: 1.05, y: -5 }}
+            whileTap={{ scale: 0.98 }}
+            className="inline-block"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+          >
+            <motion.a
+              href={ctaLink}
+              className="rounded-full px-8 py-6 bg-gradient-to-r from-[#1a4480] to-[#2c5aa0] hover:from-[#0f2b50] hover:to-[#1a4480] text-white shadow-xl inline-flex items-center gap-2"
+            >
+              {ctaText}
+              <ChevronRight className="h-5 w-5" />
+            </motion.a>
+          </motion.div>
+        </div>
+      )}
+    </section>
   );
 };

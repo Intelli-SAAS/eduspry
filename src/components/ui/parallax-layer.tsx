@@ -1,20 +1,20 @@
 
-import React, { ReactNode } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import React from 'react';
+import { motion, useScroll, useTransform, MotionValue } from 'framer-motion';
 
 interface ParallaxLayerProps {
-  children: ReactNode;
-  speed?: number;
+  speed: number;
   className?: string;
+  children?: React.ReactNode;
 }
 
 export const ParallaxLayer: React.FC<ParallaxLayerProps> = ({ 
-  children, 
-  speed = 0.5, 
-  className = "" 
+  speed, 
+  className = "", 
+  children 
 }) => {
   const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 1000], [0, 1000 * speed]);
+  const y = useTransform(scrollY, [0, 1000], [0, speed * 300]);
   
   return (
     <motion.div

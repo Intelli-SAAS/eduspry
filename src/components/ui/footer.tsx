@@ -1,127 +1,97 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { BookOpen, Twitter, Linkedin, Facebook, Instagram, Mail, Phone, MapPin } from 'lucide-react';
 
 export const Footer: React.FC = () => {
-  const footerItems = [
-    {
-      title: 'Company',
-      links: [
-        { text: 'About Us', href: '/about' },
-        { text: 'Careers', href: '/careers' },
-        { text: 'Blog', href: '/blog' },
-        { text: 'Press', href: '/press' },
-      ]
-    },
-    {
-      title: 'Product',
-      links: [
-        { text: 'Features', href: '/features' },
-        { text: 'Pricing', href: '/pricing' },
-        { text: 'Integrations', href: '/integrations' },
-        { text: 'Roadmap', href: '/roadmap' },
-      ]
-    },
-    {
-      title: 'Resources',
-      links: [
-        { text: 'Documentation', href: '/docs' },
-        { text: 'Guides', href: '/guides' },
-        { text: 'Webinars', href: '/webinars' },
-        { text: 'Support', href: '/support' },
-      ]
-    },
-    {
-      title: 'Legal',
-      links: [
-        { text: 'Terms of Service', href: '/terms' },
-        { text: 'Privacy Policy', href: '/privacy' },
-        { text: 'Security', href: '/security' },
-        { text: 'Compliance', href: '/compliance' },
-      ]
-    }
-  ];
-
-  const socialLinks = [
-    { name: 'Twitter', icon: 'X', href: 'https://twitter.com' },
-    { name: 'LinkedIn', icon: 'in', href: 'https://linkedin.com' },
-    { name: 'Facebook', icon: 'f', href: 'https://facebook.com' },
-    { name: 'Instagram', icon: 'Ig', href: 'https://instagram.com' },
-  ];
-
-  // Animation variants
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut"
-      }
-    }
-  };
-
   return (
-    <footer className="bg-gray-50 border-t border-gray-200 pt-16 pb-8">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
-          {footerItems.map((item, index) => (
-            <motion.div 
-              key={item.title}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeInUp}
-              custom={index}
-              transition={{ delay: index * 0.1 }}
-            >
-              <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">
-                {item.title}
-              </h3>
-              <ul className="space-y-3">
-                {item.links.map((link) => (
-                  <li key={link.text}>
-                    <Link 
-                      to={link.href} 
-                      className="text-base text-gray-600 hover:text-[#1a4480] transition-colors"
-                    >
-                      {link.text}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          ))}
-        </div>
-
-        <div className="pt-8 border-t border-gray-200">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-6 md:mb-0">
-              <Link to="/" className="flex items-center">
-                <span className="text-xl font-bold text-[#1a4480]">EduSpry</span>
-              </Link>
-              <p className="mt-2 text-sm text-gray-500">
-                &copy; {new Date().getFullYear()} EduSpry. All rights reserved.
-              </p>
+    <footer className="bg-[#1a4480] text-white pt-16 pb-8 relative overflow-hidden">
+      {/* Background patterns */}
+      <div className="absolute inset-0 bg-[url('/images/circuit-pattern.svg')] opacity-5"></div>
+      <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-[#0f2a50] to-transparent"></div>
+      
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+          <div>
+            <div className="flex items-center mb-6">
+              <BookOpen className="h-8 w-8 text-white" />
+              <span className="ml-2 text-xl font-bold text-white">EduSpry</span>
             </div>
-
-            <div className="flex space-x-6">
-              {socialLinks.map((social) => (
-                <a 
-                  key={social.name}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer" 
-                  className="text-gray-500 hover:text-[#1a4480]"
-                >
-                  <span className="sr-only">{social.name}</span>
-                  <div className="w-6 h-6 flex items-center justify-center rounded-full border border-gray-300 hover:border-[#1a4480]">
-                    {social.icon}
-                  </div>
-                </a>
+            <p className="text-blue-100 text-base mb-8 opacity-80">
+              Transforming education through intelligent analytics, AI-powered insights, and comprehensive management tools for educational institutions worldwide.
+            </p>
+            <div className="flex space-x-4">
+              <a href="#" className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/20 transition-colors">
+                <Twitter className="h-5 w-5" />
+              </a>
+              <a href="#" className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/20 transition-colors">
+                <Linkedin className="h-5 w-5" />
+              </a>
+              <a href="#" className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/20 transition-colors">
+                <Facebook className="h-5 w-5" />
+              </a>
+              <a href="#" className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/20 transition-colors">
+                <Instagram className="h-5 w-5" />
+              </a>
+            </div>
+          </div>
+          
+          <div>
+            <h3 className="text-lg font-bold text-white mb-6 border-l-4 border-blue-400 pl-3">Solutions</h3>
+            <ul className="space-y-3">
+              {['For Schools', 'For Universities', 'For Teachers', 'For Students', 'For Administrators'].map((item) => (
+                <li key={item}>
+                  <Link to="#" className="text-blue-100 hover:text-white transition-colors flex items-center">
+                    <span className="w-1.5 h-1.5 rounded-full bg-blue-400 mr-2"></span>
+                    {item}
+                  </Link>
+                </li>
               ))}
+            </ul>
+          </div>
+          
+          <div>
+            <h3 className="text-lg font-bold text-white mb-6 border-l-4 border-blue-400 pl-3">Resources</h3>
+            <ul className="space-y-3">
+              {['Documentation', 'API References', 'Case Studies', 'Blog', 'Knowledge Base', 'Community Forum'].map((item) => (
+                <li key={item}>
+                  <Link to="#" className="text-blue-100 hover:text-white transition-colors flex items-center">
+                    <span className="w-1.5 h-1.5 rounded-full bg-blue-400 mr-2"></span>
+                    {item}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          
+          <div>
+            <h3 className="text-lg font-bold text-white mb-6 border-l-4 border-blue-400 pl-3">Contact Us</h3>
+            <ul className="space-y-4">
+              <li className="flex items-start">
+                <Mail className="h-5 w-5 text-blue-300 mr-3 mt-0.5" />
+                <span className="text-blue-100">support@eduspry.com</span>
+              </li>
+              <li className="flex items-start">
+                <Phone className="h-5 w-5 text-blue-300 mr-3 mt-0.5" />
+                <span className="text-blue-100">+1 (800) 123-4567</span>
+              </li>
+              <li className="flex items-start">
+                <MapPin className="h-5 w-5 text-blue-300 mr-3 mt-0.5" />
+                <span className="text-blue-100">123 Education Blvd, San Francisco, CA 94107</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <div className="border-t border-white/10 pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <p className="text-blue-200 text-sm mb-4 md:mb-0">
+              © {new Date().getFullYear()} EduSpry. All rights reserved.
+            </p>
+            <div className="flex space-x-6">
+              <Link to="#" className="text-blue-200 hover:text-white text-sm">Privacy Policy</Link>
+              <Link to="#" className="text-blue-200 hover:text-white text-sm">Terms of Service</Link>
+              <Link to="#" className="text-blue-200 hover:text-white text-sm">Cookie Policy</Link>
             </div>
           </div>
         </div>

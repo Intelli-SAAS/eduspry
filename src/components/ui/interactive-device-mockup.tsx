@@ -1,87 +1,97 @@
 
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
 export const InteractiveDeviceMockup: React.FC = () => {
-  const [isHovered, setIsHovered] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"]
+  });
   
+  const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.8, 1, 1, 0.8]);
+
   return (
-    <div className="py-16">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Experience the Platform</h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Modern interface designed for educators and students alike, accessible on any device
-          </p>
-        </div>
-        
-        <div className="relative max-w-4xl mx-auto">
-          <motion.div
-            className="relative z-20"
-            initial={{ y: 20, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            onHoverStart={() => setIsHovered(true)}
-            onHoverEnd={() => setIsHovered(false)}
-          >
-            {/* Device frame */}
-            <div className="bg-gray-800 rounded-[2.5rem] p-3 shadow-xl transform perspective-1200 rotate-y-0 hover:rotate-y-10 transition-transform duration-700">
-              {/* Screen */}
-              <div className="relative bg-blue-50 aspect-[16/10] rounded-[2rem] overflow-hidden">
-                {/* Screen content */}
-                <div className="absolute inset-0 p-4">
-                  <div className="bg-white h-full rounded-lg shadow-md overflow-hidden">
-                    {/* Fake header */}
-                    <div className="h-16 bg-[#1a4480] flex items-center px-6">
-                      <div className="text-white font-semibold">EduSpry Dashboard</div>
-                      <div className="ml-auto flex space-x-3">
-                        <div className="w-8 h-8 bg-white/20 rounded-full"></div>
-                        <div className="w-8 h-8 bg-white/20 rounded-full"></div>
-                      </div>
-                    </div>
-                    
-                    {/* Fake content */}
-                    <div className="grid grid-cols-3 gap-4 p-6">
-                      <div className="col-span-2 space-y-4">
-                        <div className="h-24 bg-blue-50 rounded-lg"></div>
-                        <div className="h-48 bg-gray-50 rounded-lg"></div>
-                        <div className="h-12 bg-blue-50 rounded-lg"></div>
-                      </div>
-                      <div className="space-y-4">
-                        <div className="h-32 bg-blue-50 rounded-lg"></div>
-                        <div className="h-56 bg-gray-50 rounded-lg"></div>
-                      </div>
-                    </div>
+    <motion.div
+      ref={ref}
+      className="relative mt-16 max-w-4xl mx-auto w-full"
+      style={{ y, opacity, scale }}
+      initial={{ y: 100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ delay: 0.6, duration: 0.8 }}
+    >
+      <div className="relative">
+        {/* Laptop */}
+        <div className="relative z-10 shadow-2xl rounded-lg mx-auto max-w-3xl overflow-hidden">
+          <div className="bg-gray-800 p-1.5 rounded-t-lg">
+            <div className="flex space-x-1.5">
+              <div className="w-3 h-3 rounded-full bg-red-500"></div>
+              <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+              <div className="w-3 h-3 rounded-full bg-green-500"></div>
+            </div>
+          </div>
+          <div className="bg-gradient-to-br from-gray-100 to-gray-200 h-[240px] sm:h-[320px] flex items-center justify-center p-4">
+            <div className="rounded-lg overflow-hidden shadow-inner w-full h-full bg-white">
+              <div className="h-12 bg-[#1a4480] flex items-center px-4">
+                <div className="w-24 h-4 bg-white/20 rounded"></div>
+              </div>
+              <div className="p-4 grid grid-cols-2 gap-4 h-[calc(100%-48px)]">
+                <div className="col-span-1 bg-gray-50 rounded-lg p-2 h-full">
+                  <div className="w-full h-5 bg-gray-200 rounded mb-3"></div>
+                  <div className="w-3/4 h-4 bg-gray-200 rounded mb-2"></div>
+                  <div className="w-5/6 h-4 bg-gray-200 rounded mb-4"></div>
+                  <div className="w-1/2 h-8 bg-blue-500 rounded"></div>
+                </div>
+                <div className="col-span-1 bg-gray-50 rounded-lg flex items-center justify-center h-full">
+                  <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-full bg-[#1a4480]"></div>
                   </div>
                 </div>
               </div>
             </div>
-            
-            {/* Reflection */}
-            <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-gray-200 to-transparent opacity-30"></div>
-          </motion.div>
-          
-          {/* Floating elements */}
-          <motion.div 
-            className="absolute top-10 right-10 w-24 h-24 bg-blue-500 rounded-xl z-10"
-            animate={{
-              y: isHovered ? [-10, 10] : 0,
-              rotate: isHovered ? [0, 5, -5, 0] : 0
-            }}
-            transition={{ duration: 2, repeat: isHovered ? Infinity : 0, repeatType: "reverse" }}
-          />
-          
-          <motion.div 
-            className="absolute bottom-20 left-10 w-16 h-16 bg-indigo-500 rounded-full z-10"
-            animate={{
-              y: isHovered ? [10, -10] : 0,
-              rotate: isHovered ? [0, -5, 5, 0] : 0
-            }}
-            transition={{ duration: 2.5, repeat: isHovered ? Infinity : 0, repeatType: "reverse" }}
-          />
+          </div>
         </div>
+        
+        {/* Tablet floating on the left */}
+        <motion.div
+          className="absolute left-0 -ml-16 top-1/2 transform -translate-y-1/2 hidden md:block"
+          animate={{ y: [0, -10, 0] }}
+          transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+        >
+          <div className="bg-gray-800 p-1 rounded-xl shadow-xl">
+            <div className="bg-gradient-to-br from-gray-100 to-gray-200 h-[160px] w-[120px] rounded-lg p-2">
+              <div className="bg-white h-full rounded overflow-hidden">
+                <div className="h-4 bg-[#1a4480] w-full"></div>
+                <div className="p-1">
+                  <div className="w-full h-3 bg-gray-200 rounded mb-1"></div>
+                  <div className="w-3/4 h-3 bg-gray-200 rounded"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+        
+        {/* Phone floating on the right */}
+        <motion.div
+          className="absolute right-0 -mr-12 top-1/4 hidden md:block"
+          animate={{ y: [0, 10, 0] }}
+          transition={{ repeat: Infinity, duration: 3, ease: "easeInOut", delay: 1 }}
+        >
+          <div className="bg-gray-800 p-1 rounded-xl shadow-xl">
+            <div className="bg-gradient-to-br from-gray-100 to-gray-200 h-[120px] w-[60px] rounded-lg p-1">
+              <div className="bg-white h-full rounded overflow-hidden">
+                <div className="h-3 bg-[#1a4480] w-full"></div>
+                <div className="p-1">
+                  <div className="w-full h-2 bg-gray-200 rounded mb-1"></div>
+                  <div className="w-2/3 h-2 bg-gray-200 rounded"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 };
