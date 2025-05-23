@@ -1,62 +1,50 @@
 
-import React from 'react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { cn } from "@/lib/utils";
 
-export const CurvesBackground: React.FC<{ className?: string }> = ({ className = '' }) => {
+interface CurvesBackgroundProps {
+  className?: string;
+}
+
+export const CurvesBackground: React.FC<CurvesBackgroundProps> = ({ className }) => {
   return (
-    <div className={`absolute inset-0 overflow-hidden pointer-events-none ${className}`}>
-      <svg 
-        className="absolute top-0 left-0 w-full h-full"
-        viewBox="0 0 1440 800" 
-        fill="none" 
+    <div className={cn("absolute inset-0 overflow-hidden", className)}>
+      <svg
+        className="absolute w-full h-full opacity-10"
+        viewBox="0 0 1000 1000"
         xmlns="http://www.w3.org/2000/svg"
-        preserveAspectRatio="none"
       >
-        <motion.path
-          d="M0,100 C320,300 420,0 720,100 C1020,200 1120,0 1440,100 V800 H0 V100Z"
-          fill="url(#gradient1)"
-          opacity="0.05"
-          initial={{ d: "M0,100 C320,300 420,0 720,100 C1020,200 1120,0 1440,100 V800 H0 V100Z" }}
-          animate={{ 
-            d: [
-              "M0,100 C320,300 420,0 720,100 C1020,200 1120,0 1440,100 V800 H0 V100Z",
-              "M0,150 C320,250 420,50 720,150 C1020,250 1120,50 1440,150 V800 H0 V150Z",
-              "M0,100 C320,300 420,0 720,100 C1020,200 1120,0 1440,100 V800 H0 V100Z"
-            ]
-          }}
-          transition={{ 
-            duration: 20,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
+        <path
+          d="M0,1000 C300,800 700,900 1000,1000 V1000 H0 V0 Z"
+          fill="url(#curve1)"
+          className="animate-blob"
         />
-        <motion.path
-          d="M0,120 C320,220 420,20 720,120 C1020,220 1120,20 1440,120 V800 H0 V120Z"
-          fill="url(#gradient2)"
-          opacity="0.05"
-          initial={{ d: "M0,120 C320,220 420,20 720,120 C1020,220 1120,20 1440,120 V800 H0 V120Z" }}
-          animate={{ 
-            d: [
-              "M0,120 C320,220 420,20 720,120 C1020,220 1120,20 1440,120 V800 H0 V120Z",
-              "M0,170 C320,270 420,70 720,170 C1020,270 1120,70 1440,170 V800 H0 V170Z",
-              "M0,120 C320,220 420,20 720,120 C1020,220 1120,20 1440,120 V800 H0 V120Z"
-            ]
-          }}
-          transition={{ 
-            duration: 15,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 1
-          }}
+        <path
+          d="M0,1000 C150,900 800,950 1000,1000 V1000 H0 V0 Z"
+          fill="url(#curve2)"
+          className="animate-blob animation-delay-2000"
         />
+        <path
+          d="M0,1000 C500,950 700,800 1000,1000 V1000 H0 V0 Z"
+          fill="url(#curve3)"
+          className="animate-blob animation-delay-4000"
+        />
+
         <defs>
-          <linearGradient id="gradient1" x1="720" y1="0" x2="720" y2="800" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#1a4480" />
-            <stop offset="1" stopColor="#1a4480" stopOpacity="0" />
+          <linearGradient id="curve1" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#1a4480" stopOpacity="0.05" />
+            <stop offset="50%" stopColor="#4d7cc7" stopOpacity="0.1" />
+            <stop offset="100%" stopColor="#1a4480" stopOpacity="0.05" />
           </linearGradient>
-          <linearGradient id="gradient2" x1="720" y1="0" x2="720" y2="800" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#4d7cc7" />
-            <stop offset="1" stopColor="#4d7cc7" stopOpacity="0" />
+          <linearGradient id="curve2" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#4d7cc7" stopOpacity="0.05" />
+            <stop offset="50%" stopColor="#1a4480" stopOpacity="0.1" />
+            <stop offset="100%" stopColor="#4d7cc7" stopOpacity="0.05" />
+          </linearGradient>
+          <linearGradient id="curve3" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#1a4480" stopOpacity="0.03" />
+            <stop offset="50%" stopColor="#4d7cc7" stopOpacity="0.08" />
+            <stop offset="100%" stopColor="#1a4480" stopOpacity="0.03" />
           </linearGradient>
         </defs>
       </svg>

@@ -1,40 +1,28 @@
 
-import React from 'react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { cn } from "@/lib/utils";
 
-export const FloatingDots: React.FC<{ className?: string }> = ({ className = '' }) => {
-  // Generate random positions for dots
-  const dots = Array.from({ length: 20 }).map((_, i) => ({
-    id: i,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    size: Math.random() * 3 + 1,
-    duration: Math.random() * 20 + 10,
-    delay: Math.random() * 5,
-  }));
+interface FloatingDotsProps {
+  className?: string;
+}
 
+export const FloatingDots: React.FC<FloatingDotsProps> = ({ className }) => {
   return (
-    <div className={`absolute inset-0 overflow-hidden pointer-events-none ${className}`}>
-      {dots.map((dot) => (
-        <motion.div
-          key={dot.id}
-          className="absolute rounded-full bg-blue-400 opacity-30"
+    <div className={cn("absolute inset-0 overflow-hidden", className)}>
+      {[...Array(50)].map((_, i) => (
+        <div
+          key={i}
+          className={cn(
+            "absolute rounded-full",
+            i % 3 === 0 ? "bg-blue-500" : i % 3 === 1 ? "bg-indigo-500" : "bg-blue-300",
+            "opacity-10"
+          )}
           style={{
-            left: `${dot.x}%`,
-            top: `${dot.y}%`,
-            width: `${dot.size}px`,
-            height: `${dot.size}px`,
-          }}
-          animate={{
-            y: [0, -15, 0, 15, 0],
-            x: [0, 10, 0, -10, 0],
-            opacity: [0.2, 0.5, 0.2, 0.5, 0.2],
-          }}
-          transition={{
-            duration: dot.duration,
-            repeat: Infinity,
-            delay: dot.delay,
-            ease: "easeInOut",
+            width: `${Math.random() * 12 + 2}px`,
+            height: `${Math.random() * 12 + 2}px`,
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+            animation: `floatingUp ${Math.random() * 5 + 5}s ease-in-out ${Math.random() * 5}s infinite alternate`
           }}
         />
       ))}
