@@ -19,6 +19,9 @@ import { Footer } from '@/components/ui/footer';
 import { CardSkeleton, MetricSkeleton, FeatureCardSkeleton, LoadingSpinner, LearningPathSkeleton } from '@/components/ui/loading-states';
 import { ParallaxLayer } from '@/components/ui/parallax-layer';
 import { GlassmorphicCard } from '@/components/ui/glassmorphic-card';
+import { BackgroundPaths } from '@/components/ui/background-paths';
+import { FloatingDots } from '@/components/ui/floating-dots';
+import { CurvesBackground } from '@/components/ui/curves-background';
 
 const LandingPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);  
@@ -89,7 +92,7 @@ const LandingPage: React.FC = () => {
 
   // Hero section configuration
   const heroProps = {
-    title: "Transform Education|With AI-Powered Learning",
+    title: "Transform Education With AI-Powered Learning",
     subtitle: "Empower your educational institution with cutting-edge AI technology, interactive learning tools, and comprehensive analytics to deliver an exceptional learning experience.",
     primaryCta: {
       text: "Start Free Trial",
@@ -182,8 +185,11 @@ const LandingPage: React.FC = () => {
 
   return (
     <div ref={containerRef} className="min-h-screen overflow-hidden relative">
-      {/* Dynamic gradient background with animation */}
-      <div className="fixed inset-0 w-full h-full bg-gradient-to-b from-blue-50 via-white to-blue-50 animated-gradient -z-10" />
+      {/* Enhanced background with modern components */}
+      <div className="fixed inset-0 w-full h-full bg-gradient-to-b from-blue-50 via-white to-blue-50 -z-10" />
+      <BackgroundPaths className="fixed inset-0 -z-5" />
+      <FloatingDots className="fixed inset-0 -z-5" />
+      <CurvesBackground className="fixed inset-0 -z-5" />
       
       <AnimatedNavHeader links={navLinks} ctaButtons={ctaButtons} />
       
@@ -363,6 +369,7 @@ const LandingPage: React.FC = () => {
         {/* Success Metrics with Animation */}
         <section className="py-16 sm:py-20 md:py-24 bg-gradient-to-r from-[#1a4480] to-[#2c5aa0] text-white relative overflow-hidden">
           <div className="absolute inset-0 bg-[url('/images/circuit-pattern.svg')] bg-no-repeat bg-cover opacity-10"></div>
+          <BackgroundPaths className="opacity-20" />
           
           <div className="container mx-auto px-4 z-10 relative">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 lg:gap-10">
