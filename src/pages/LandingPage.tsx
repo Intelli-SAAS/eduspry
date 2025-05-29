@@ -357,7 +357,7 @@ const LandingPage: React.FC = () => {
         {/* Success Metrics with Animation */}
         <section className="py-16 sm:py-20 md:py-24 bg-gradient-to-r from-[#1a4480] to-[#2c5aa0] text-white relative overflow-hidden">
           <div className="absolute inset-0 bg-[url('/images/circuit-pattern.svg')] bg-no-repeat bg-cover opacity-10"></div>
-          <BackgroundPaths className="opacity-20" />
+          <BackgroundPaths />
           
           <div className="container mx-auto px-4 z-10 relative">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 lg:gap-10">
