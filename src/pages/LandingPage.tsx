@@ -22,6 +22,7 @@ import { GlassmorphicCard } from '@/components/ui/glassmorphic-card';
 import { BackgroundPaths } from '@/components/ui/background-paths';
 import { FloatingDots } from '@/components/ui/floating-dots';
 import { CurvesBackground } from '@/components/ui/curves-background';
+import { EduSpryHeroBackground } from '@/components/ui/eduspry-hero-background';
 
 const LandingPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);  
@@ -183,100 +184,87 @@ const LandingPage: React.FC = () => {
     }
   };
 
+  const heroWords = "Transform Education with EduSpry".split(" ");
+
   return (
     <div ref={containerRef} className="min-h-screen overflow-hidden relative">
       {/* Enhanced background with modern components */}
       <div className="fixed inset-0 w-full h-full bg-gradient-to-b from-blue-50 via-white to-blue-50 -z-10" />
-      <BackgroundPaths className="fixed inset-0 -z-5" />
       <FloatingDots className="fixed inset-0 -z-5" />
       <CurvesBackground className="fixed inset-0 -z-5" />
       
       <AnimatedNavHeader links={navLinks} ctaButtons={ctaButtons} />
       
       <main className="relative">
-        {/* Parallax Hero Section with 3D effect */}
+        {/* Hero Section with BackgroundPaths Integration */}
         <section className="relative h-screen flex items-center overflow-hidden">
-          <ParallaxLayer speed={-0.2} className="absolute inset-0 z-0">
-            <div className="absolute inset-0 bg-[url('/images/grid-pattern.svg')] opacity-5" />
-          </ParallaxLayer>
-          
-          <ParallaxLayer speed={0.3} className="absolute top-[15%] right-[5%] z-10 hidden lg:block">
-            <motion.div 
-              initial={{ opacity: 0, y: 100, rotateY: -30 }}
-              animate={{ opacity: 1, y: 0, rotateY: 0 }}
-              transition={{ duration: 1.2, ease: "easeOut", delay: 0.5 }}
-              className="w-96 h-96"
-            >
-              <div className="relative w-full h-full">
-                <div className="absolute inset-0 bg-blue-600 rounded-2xl opacity-10 blur-2xl transform rotate-12" />
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-blue-700 rounded-2xl opacity-30 transform -rotate-3" />
-              </div>
-            </motion.div>
-          </ParallaxLayer>
-          
-          <ParallaxLayer speed={0.1} className="absolute top-[60%] left-[8%] z-10 hidden lg:block">
-            <motion.div 
-              initial={{ opacity: 0, y: 100, rotateY: 30 }}
-              animate={{ opacity: 1, y: 0, rotateY: 0 }}
-              transition={{ duration: 1.2, ease: "easeOut", delay: 0.8 }}
-              className="w-72 h-72"
-            >
-              <div className="relative w-full h-full">
-                <div className="absolute inset-0 bg-indigo-600 rounded-2xl opacity-10 blur-2xl transform rotate-45" />
-                <div className="absolute inset-0 bg-gradient-to-br from-indigo-400 to-indigo-700 rounded-2xl opacity-20 transform rotate-12" />
-              </div>
-            </motion.div>
-          </ParallaxLayer>
-
-          <div className="container mx-auto px-6 relative z-20">
-            <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="max-w-3xl"
-            >
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
-                <span className="text-[#1a4480] inline-block relative">
-                  Transform Education
-                  <span className="absolute -bottom-2 left-0 w-full h-1 bg-blue-400 transform scale-x-0 origin-left transition-transform group-hover:scale-x-100 animate-pulse"></span>
-                </span>
-                <br />
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#1a4480] to-[#4d7cc7]">
-                  With AI-Powered Learning
-                </span>
-              </h1>
-              
-              <motion.p 
-                className="text-xl text-gray-600 mb-8 max-w-2xl"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3, duration: 0.8 }}
-              >
-                Empower your educational institution with cutting-edge AI technology, interactive learning tools, and comprehensive analytics to deliver an exceptional learning experience.
-              </motion.p>
-              
+          <EduSpryHeroBackground>
+            <div className="container mx-auto px-6 relative z-20">
               <motion.div 
-                className="flex flex-wrap gap-4"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.6, duration: 0.8 }}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="max-w-3xl"
               >
-                <Link to="/register" className="group">
-                  <button className="px-8 py-4 bg-[#1a4480] text-white rounded-lg font-medium text-lg flex items-center shadow-lg shadow-blue-500/20 hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-300 transform hover:-translate-y-1 relative overflow-hidden">
-                    <span className="relative z-10">Start Free Trial</span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-800 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  </button>
-                </Link>
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
+                  {heroWords.map((word, wordIndex) => (
+                    <span
+                      key={wordIndex}
+                      className="inline-block mr-4 last:mr-0"
+                    >
+                      {word.split("").map((letter, letterIndex) => (
+                        <motion.span
+                          key={`${wordIndex}-${letterIndex}`}
+                          initial={{ y: 100, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          transition={{
+                            delay: wordIndex * 0.15 + letterIndex * 0.05,
+                            type: "spring",
+                            stiffness: 120,
+                            damping: 25,
+                          }}
+                          className="inline-block text-transparent bg-clip-text 
+                          bg-gradient-to-r from-[#1a4480] to-[#4d7cc7]"
+                        >
+                          {letter}
+                        </motion.span>
+                      ))}
+                    </span>
+                  ))}
+                </h1>
                 
-                <Link to="#demo">
-                  <button className="px-8 py-4 bg-white text-[#1a4480] border border-[#1a4480] rounded-lg font-medium text-lg flex items-center hover:bg-blue-50 transition-all duration-300 transform hover:-translate-y-1">
-                    <span>Watch Demo</span>
-                    <span className="ml-2">▶</span>
-                  </button>
-                </Link>
+                <motion.p 
+                  className="text-xl text-gray-600 mb-8 max-w-2xl"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 1.5, duration: 0.8 }}
+                >
+                  Empower your educational institution with cutting-edge AI technology, interactive learning tools, and comprehensive analytics to deliver an exceptional learning experience.
+                </motion.p>
+                
+                <motion.div 
+                  className="flex flex-wrap gap-4"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 2, duration: 0.8 }}
+                >
+                  <Link to="/register" className="group">
+                    <button className="px-8 py-4 bg-[#1a4480] text-white rounded-lg font-medium text-lg flex items-center shadow-lg shadow-blue-500/20 hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-300 transform hover:-translate-y-1 relative overflow-hidden">
+                      <span className="relative z-10">Start Free Trial</span>
+                      <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-800 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </button>
+                  </Link>
+                  
+                  <Link to="#demo">
+                    <button className="px-8 py-4 bg-white text-[#1a4480] border border-[#1a4480] rounded-lg font-medium text-lg flex items-center hover:bg-blue-50 transition-all duration-300 transform hover:-translate-y-1">
+                      <span>Watch Demo</span>
+                      <span className="ml-2">▶</span>
+                    </button>
+                  </Link>
+                </motion.div>
               </motion.div>
-            </motion.div>
-          </div>
+            </div>
+          </EduSpryHeroBackground>
 
           <motion.div
             style={{ y: bgY }}
@@ -349,7 +337,7 @@ const LandingPage: React.FC = () => {
           <InteractiveDeviceMockup />
         </div>
 
-        {/* Features Carousel with Touch Support */}
+        {/* Features Carousel with Touch support */}
         <div className="touch-pan-x overflow-hidden py-24 bg-gradient-to-b from-white to-blue-50">
           {!contentLoaded.carousel ? (
             <div className="flex gap-6 py-8 px-10 overflow-x-auto hide-scrollbar">
